@@ -1,12 +1,9 @@
 import { fail } from "@sveltejs/kit";
 import type { Actions } from "./$types";
-import Pocketbase from "pocketbase";
-import { POCKETBASE_URL } from "$lib/pocketbase/url";
 import { UsersRoleOptions } from "$lib/pocketbase-types";
 
 export const actions: Actions = {
-	createUser: async ({ request }) => {
-		const pb = new Pocketbase(POCKETBASE_URL);
+	createUser: async ({ request, locals }) => {
 		const data = await request.formData();
 
 		const username = data.get("username") as string;
@@ -19,8 +16,12 @@ export const actions: Actions = {
 			return fail(400, { error: "Some data is missing" });
 		}
 
+		if (locals.user != null) {
+			throw "You are already logged in";
+		}
+
 		// Write to the db
-		const record = await pb.collection("users").create({
+		await locals.pb.collection("users").create({
 			email: email,
 			username: username,
 			password: password,
@@ -28,6 +29,6 @@ export const actions: Actions = {
 			role: UsersRoleOptions.user
 		});
 
-		return { success: true, record: record };
+		return { success: true };
 	}
 }
