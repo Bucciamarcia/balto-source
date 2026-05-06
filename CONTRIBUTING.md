@@ -16,8 +16,6 @@ The first step is to join the Animation Source discord, if you haven't yet: [lin
 
 Contribution discussions happen in the [tbd] channel.
 
-To see what we need right now and if you can help, check out the list of missing features, designs and website copy here: [link].
-
 If you see something that you want to contribute on, you can start right away! The first step is to read the wiki and any sections regarding the type of contribution you want to make: https://github.com/Bucciamarcia/balto-source/wiki
 
 ### Moderation
