@@ -1,6 +1,6 @@
 import PocketBase from 'pocketbase';
 import type { Handle } from '@sveltejs/kit';
-import { POCKETBASE_URL } from '$lib/pocketbase/url';
+import { POCKETBASE_URL } from '$lib/server/pocketbase/url';
 
 export const handle: Handle = async ({ event, resolve }) => {
 	event.locals.pb = new PocketBase(POCKETBASE_URL);
