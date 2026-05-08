@@ -2,7 +2,7 @@
   {
     "id": "_pb_users_auth_",
     "listRule": "id = @request.auth.id",
-    "viewRule": "id = @request.auth.id",
+    "viewRule": "",
     "createRule": "",
     "updateRule": "id = @request.auth.id",
     "deleteRule": "id = @request.auth.id",
@@ -122,19 +122,20 @@
         "type": "file"
       },
       {
-        "autogeneratePattern": "",
         "help": "",
         "hidden": false,
-        "id": "text1466534506",
-        "max": 0,
-        "min": 0,
+        "id": "select1466534506",
+        "maxSelect": 0,
         "name": "role",
-        "pattern": "",
         "presentable": false,
-        "primaryKey": false,
-        "required": true,
+        "required": false,
         "system": false,
-        "type": "text"
+        "type": "select",
+        "values": [
+          "user",
+          "moderator",
+          "admin"
+        ]
       },
       {
         "hidden": false,
