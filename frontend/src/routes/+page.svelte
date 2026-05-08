@@ -11,8 +11,8 @@
 <p><a href="/login">login</a></p>
 
 {#each data.resultList as news}
-	<p>title: {news['title']}</p>
-	<p>body: {news['body']}</p>
-	<p>author: {news['author']}</p>
-	<p>created: {news['created']}</p>
+	<p>title: {news.title}</p>
+	<p>body: {news.body}</p>
+	<p>author: {news.expand?.author.username}</p>
+	<p>created: {news.created}</p>
 {/each}
