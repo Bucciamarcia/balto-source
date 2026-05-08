@@ -27,12 +27,12 @@ func main() {
 			}{}
 			err := e.BindBody(&data)
 			if err != nil {
-				return e.String(http.StatusInternalServerError, "Couldn't parse the request body")
+				return e.InternalServerError("Couldn't parse the request body", err)
 			}
 			author := e.Auth
 			err = chat.InsertChatMessage(data.Message, author.Id, app)
 			if err != nil {
-				return e.String(http.StatusInternalServerError, err.Error())
+				return e.InternalServerError("Couldn't add chat message", err)
 			}
 			return e.String(http.StatusOK, "OK")
 		}).Bind(apis.RequireAuth("users"))

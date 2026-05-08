@@ -6,7 +6,6 @@ import (
 )
 
 func InsertChatMessage(content string, author string, app *pocketbase.PocketBase) error {
-	// TODO: Add chat message
 	collection, err := app.FindCollectionByNameOrId("chat_messages")
 	if err != nil {
 		return err
