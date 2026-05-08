@@ -10,6 +10,7 @@
 <br />
 <p><a href="/signup">sign up</a></p>
 <p><a href="/login">login</a></p>
+<p><a href="/chat">chat</a></p>
 
 {#each data.resultList as news}
 	<p>title: {news.title}</p>
