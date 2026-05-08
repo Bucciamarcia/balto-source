@@ -9,7 +9,6 @@ export const load: PageServerLoad = async ({ locals }) => {
 
 export const actions: Actions = {
 	logout: async ({ locals }) => {
-		console.log("Logging out");
 		locals.pb.authStore.clear();
 	}
 }

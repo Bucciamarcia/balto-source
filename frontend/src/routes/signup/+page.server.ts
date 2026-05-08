@@ -32,7 +32,7 @@ export const actions: Actions = {
 		} catch (e) {
 			const err = e as Error;
 			console.log(err.message);
-			return fail(400, err.message);
+			return fail(400, { message: err.message });
 		}
 
 		return { success: true };
