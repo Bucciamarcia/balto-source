@@ -21,13 +21,19 @@ export const actions: Actions = {
 		}
 
 		// Write to the db
-		await locals.pb.collection("users").create({
-			email: email,
-			username: username,
-			password: password,
-			passwordConfirm: passwordConfirm,
-			role: UsersRoleOptions.user
-		});
+		try {
+			await locals.pb.collection("users").create({
+				email: email,
+				username: username,
+				password: password,
+				passwordConfirm: passwordConfirm,
+				role: UsersRoleOptions.user
+			});
+		} catch (e) {
+			const err = e as Error;
+			console.log(err.message);
+			throw err.message;
+		}
 
 		return { success: true };
 	}
