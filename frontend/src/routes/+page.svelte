@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { enhance } from '$app/forms';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
@@ -16,3 +17,7 @@
 	<p>author: {news.expand?.author.username}</p>
 	<p>created: {news.created}</p>
 {/each}
+
+<form method="POST" action="?/logout" use:enhance>
+	<button type="submit">Logout</button>
+</form>

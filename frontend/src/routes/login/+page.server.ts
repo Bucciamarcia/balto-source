@@ -1,3 +1,4 @@
+import { fail } from "@sveltejs/kit";
 import type { Actions, PageServerLoad } from "./$types";
 
 export const actions: Actions = {
@@ -6,7 +7,7 @@ export const actions: Actions = {
 		const email = data.get("email");
 		const password = data.get("password");
 		if (email == null || password == null) {
-			throw "Email or password not filled";
+			return fail(400, "Email or password empty");
 		}
 		await locals.pb.collection("users").authWithPassword(email.toString(), password.toString());
 	}
