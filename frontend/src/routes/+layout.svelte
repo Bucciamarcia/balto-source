@@ -3,6 +3,7 @@
 	import favicon from '$lib/assets/favicon.svg';
 	import SideMenu from '$lib/components/layout/side-menu.svelte';
 	import HeadBanner from '$lib/components/layout/head-banner.svelte';
+	import Footer from '$lib/components/layout/footer.svelte';
 
 	let { children } = $props();
 </script>
@@ -27,5 +28,8 @@
 		<div class="flex-1 p-4">
 			{@render children()}
 		</div>
+	</div>
+	<div class="flex flex-1">
+		<Footer />
 	</div>
 </div>
