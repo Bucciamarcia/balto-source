@@ -1,0 +1,71 @@
+name: Deploy Balto source Backend
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - "backend/**"
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.25.1"
+          cache-dependency-path: ./backend/go.sum
+      
+      - name: Download dependencies
+        run: go mod download
+      
+      - name: Build binary
+        env:
+          GOOS: linux
+          GOARCH: amd64
+          CGO_ENABLED: 0
+        run: go build -ldflags="-s -w" -o baltosource .
+      
+      - name: Deploy to Landing Zone
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{secrets.SERVER_HOST}}
+          username: ${{secrets.SERVER_USER}}
+          key: ${{secrets.SSH_PRIVATE_KEY}}
+          source: "backend/baltosource"
+          target: "/home/ghactions/deploy_backend_temp"
+          strip_components: 1
+      
+      - name: Install binary and Restart
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{secrets.SERVER_HOST}}
+          username: ${{secrets.SERVER_USER}}
+          key: ${{secrets.SSH_PRIVATE_KEY}}
+          script: |
+            set -euo pipefail
+            
+            TARGET_DIR="/srv/baltosource/backend"
+            TEMP_DIR="/home/ghactions/deploy_backend_temp"
+            
+            # Atomic binary swap: write new file, then rename
+            sudo /usr/bin/mv "$TEMP_DIR/baltosource" "$TARGET_DIR/baltosource.new"
+            sudo /usr/bin/chown baltosource:baltosource "$TARGET_DIR/baltosource.new"
+            sudo /usr/bin/chmod +x "$TARGET_DIR/baltosource.new"
+            sudo /usr/bin/mv "$TARGET_DIR/baltosource.new" "$TARGET_DIR/baltosource"
+            
+            # Clear any failed state, then restart
+            sudo /usr/bin/systemctl reset-failed baltosource-backend || true
+            sudo /usr/bin/systemctl restart baltosource-backend
+            
+            # Verify it actually came up
+            sleep 2
+            /usr/bin/systemctl is-active baltosource-backend
+            
+            # Cleanup
+            rm -rf "$TEMP_DIR"
