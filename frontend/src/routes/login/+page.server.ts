@@ -1,4 +1,4 @@
-import { fail } from "@sveltejs/kit";
+import { fail, redirect } from "@sveltejs/kit";
 import type { Actions, PageServerLoad } from "./$types";
 
 export const actions: Actions = {
@@ -9,7 +9,12 @@ export const actions: Actions = {
 		if (email == null || password == null) {
 			return fail(400, "Email or password empty");
 		}
-		await locals.pb.collection("users").authWithPassword(email.toString(), password.toString());
+		try {
+			await locals.pb.collection("users").authWithPassword(email.toString(), password.toString());
+		} catch (e) {
+			return fail(400, { message: "Username or password is wrong" });
+		}
+		throw redirect(303, "/");
 	}
 }
 
