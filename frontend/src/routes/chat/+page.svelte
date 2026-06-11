@@ -60,6 +60,18 @@
 		};
 	}}
 >
-	<input name="message" type="text" bind:value={text} placeholder="Message..." />
-	<button type="submit">Submit</button>
+	{#if data.authenticated}
+		<input name="message" type="text" bind:value={text} placeholder="Message..." />
+	{:else}
+		<input
+			name="message"
+			type="text"
+			bind:value={text}
+			placeholder="Log in or register to chat"
+			disabled={true}
+		/>
+	{/if}
+	{#if data.authenticated}
+		<button type="submit">Submit</button>
+	{/if}
 </form>

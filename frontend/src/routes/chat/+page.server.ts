@@ -1,12 +1,14 @@
 import type { ChatMessagesResponse, UsersResponse } from "$lib/pocketbase-types";
 import { fail } from "@sveltejs/kit";
 import type { PageServerLoad, Actions } from "./$types";
+import { isAuthenticated } from "$lib/server/pocketbase/auth";
 
 export const load: PageServerLoad = async ({ locals }) => {
+	const authenticated = isAuthenticated(locals.pb);
 	const resultList = await locals.pb.collection("chat_messages")
 		.getList<ChatMessagesResponse<{ author: UsersResponse }>>(1, 20, { expand: "author", sort: "created" });
 
-	return { messages: resultList.items }
+	return { messages: resultList.items, authenticated: authenticated }
 }
 
 export const actions: Actions = {
