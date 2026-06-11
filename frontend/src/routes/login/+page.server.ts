@@ -21,6 +21,6 @@ export const actions: Actions = {
 
 export const load: PageServerLoad = async ({ locals }) => {
 	return {
-		loggedUser: locals.user?.id ?? "noep"
+		loggedUser: locals.user?.id ?? null
 	}
 }
