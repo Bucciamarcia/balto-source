@@ -4,6 +4,8 @@
 	let username: string = $state('');
 	let password: string = $state('');
 	let passwordConfirm: string = $state('');
+	let { form } = $props();
+	import FormError from '$lib/components/formError.svelte';
 </script>
 
 <form method="POST" action="?/createUser" use:enhance>
@@ -18,3 +20,6 @@
 	/>
 	<button type="submit">Submit</button>
 </form>
+{#if form?.message}
+	<FormError message={form.message} />
+{/if}
