@@ -4,7 +4,7 @@ import type { PageServerLoad, Actions } from "./$types";
 
 export const load: PageServerLoad = async ({ locals }) => {
 	const resultList = await locals.pb.collection("chat_messages")
-		.getList<ChatMessagesResponse<{ author: UsersResponse }>>(1, 20, { expand: "author", sort: "-created" });
+		.getList<ChatMessagesResponse<{ author: UsersResponse }>>(1, 20, { expand: "author", sort: "created" });
 
 	return { messages: resultList.items }
 }
