@@ -1,5 +1,5 @@
 import { fail } from "@sveltejs/kit";
-import type { Actions } from "./$types";
+import type { Actions, PageServerLoad } from "./$types";
 import { UsersRoleOptions } from "$lib/pocketbase-types";
 import { ClientResponseError } from "pocketbase";
 
@@ -38,7 +38,10 @@ export const actions: Actions = {
 			}
 			return fail(400, { message: "An unexpected error has occurred" });
 		}
-
-		return { success: true };
+	}
+}
+export const load: PageServerLoad = async ({ locals }) => {
+	return {
+		loggedUser: locals.user?.id ?? null
 	}
 }
