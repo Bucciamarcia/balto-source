@@ -4,7 +4,6 @@
 	import SideMenu from '$lib/components/layout/side-menu.svelte';
 	import HeadBanner from '$lib/components/layout/head-banner.svelte';
 	import Footer from '$lib/components/layout/footer.svelte';
-	import BackgroundImage from '$lib/assets/main-background-image.avif';
 
 	let { children } = $props();
 </script>
@@ -37,6 +36,6 @@
 
 <style>
 	div {
-		background-image: url("$lib/assets/main-background-image.avif");
+		background-image: url('$lib/assets/main-background-image.avif');
 	}
 </style>
