@@ -5,7 +5,9 @@
     let {data}: { data: PageData } = $props();
 </script>
 
-<title>Balto Source - Reach For The Light</title>
+<head>
+    <title>Balto Source - Reach For The Light</title>
+</head>
 
 <h1>Balto Source: We are so back!!!!!</h1>
 <br/>
