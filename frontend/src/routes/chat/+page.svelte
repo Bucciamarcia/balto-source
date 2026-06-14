@@ -5,15 +5,16 @@
 	import PocketBase from 'pocketbase';
 	import type { PageData } from './$types';
 	import type { ChatMessagesResponse, UsersResponse } from '$lib/pocketbase-types';
+	import { PUBLIC_POCKETBASE_URL } from '$lib/pocketbase/url';
 
 	let { data }: { data: PageData } = $props();
 
 	type Message = ChatMessagesResponse<{ author: UsersResponse }>;
 
-	let messages = $state<Message[]>(untrack(() => [...data.messages]));
+	let messages: Message[] = $state<Message[]>(untrack(() => [...data.messages]));
 	let text = $state('');
 
-	const pb = new PocketBase('http://127.0.0.1:8090');
+	const pb = new PocketBase(PUBLIC_POCKETBASE_URL);
 
 	onMount(() => {
 		let unsubscribe: (() => void) | undefined;
@@ -23,7 +24,7 @@
 				'*',
 				(e) => {
 					if (e.action === 'create') {
-						messages = [...messages, e.record];
+						messages = pruneMessages([...messages, e.record]);
 					} else if (e.action === 'update') {
 						messages = messages.map((m) => (m.id === e.record.id ? e.record : m));
 					} else if (e.action === 'delete') {
@@ -40,6 +41,14 @@
 			unsubscribe?.();
 		};
 	});
+
+	function pruneMessages(messages: Message[]): Message[] {
+		if (messages.length <= 20) {
+			return messages;
+		} else {
+			return messages.slice(-20);
+		}
+	}
 </script>
 
 {#each messages as message}
