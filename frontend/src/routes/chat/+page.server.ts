@@ -15,6 +15,9 @@ export const actions: Actions = {
 	sendMessage: async ({ request, locals }) => {
 		const data = await request.formData();
 		const message = data.get("message")
+		if (message?.valueOf() === "") {
+			return;
+		}
 		try {
 			await locals.pb.send("/add_chat_message", {
 				method: "POST", body: { "message": message }
