@@ -1,6 +1,7 @@
 <script lang="ts">
-    import {enhance} from '$app/forms';
-    import type {PageData} from './$types';
+	import { enhance } from '$app/forms';
+	import ConfirmationSnackbar from '$lib/components/layout/confirmation-snackbar.svelte';
+	import type { PageData } from './$types';
 
     let {data}: { data: PageData } = $props();
 </script>
@@ -28,6 +29,13 @@
     <p>created: {news.created}</p>
 {/each}
 
+<form method="POST" action="?/logout" use:enhance>
+	<button type="submit">Logout</button>
+</form>
+
+{#if data.flash}
+	<ConfirmationSnackbar message={data.flash} />
+{/if}
 <div class="logout">
     <form action="?/logout" method="POST" use:enhance>
         <button type="submit">Logout</button>

@@ -40,7 +40,7 @@
 </div>
 
 <style>
-    div {
-        background-image: url("$lib/assets/main-background-image.avif");
-    }
+	div {
+		background-image: url('$lib/assets/main-background-image.avif');
+	}
 </style>
