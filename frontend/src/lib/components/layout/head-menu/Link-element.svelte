@@ -22,12 +22,6 @@
 			};
 		}}
 	>
-		<button type="submit" class="btn">{label}</button>
+		<button type="submit" class="btn cursor-pointer">{label}</button>
 	</form>
 {/if}
-
-<style>
-	button {
-		cursor: pointer;
-	}
-</style>
