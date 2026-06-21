@@ -2,7 +2,7 @@
 	import './layout.css';
 	import SideMenu from '$lib/components/layout/side-menu.svelte';
 	import HeadBanner from '$lib/components/layout/head-banner.svelte';
-	import HeadMenu from '$lib/components/layout/head-menu.svelte';
+	import HeadMenu from '$lib/components/layout/head-menu/Head-menu.svelte';
 	import Footer from '$lib/components/layout/footer.svelte';
 	import titleIcon from '$lib/assets/placeholderTitleIcon.png';
 
