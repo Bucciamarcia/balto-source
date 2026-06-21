@@ -2,3 +2,46 @@
 @plugin '@tailwindcss/forms';
 @plugin '@tailwindcss/typography';
 @plugin 'daisyui';
+
+@plugin "daisyui/theme" {
+	name: "glacialblue";
+	default: true;
+	prefersdark: false;
+	color-scheme: light;
+
+	--color-base-100: oklch(98% 0.01 220);
+	--color-base-200: oklch(95% 0.015 220);
+	--color-base-300: oklch(90% 0.02 220);
+	--color-base-content: oklch(25% 0.03 230);
+
+	--color-primary: oklch(55% 0.15 230);
+	--color-primary-content: oklch(98% 0.01 230);
+
+	--color-secondary: oklch(80% 0.08 210);
+	--color-secondary-content: oklch(20% 0.04 210);
+
+	--color-accent: oklch(70% 0.12 195);
+	--color-accent-content: oklch(15% 0.03 195);
+
+	--color-neutral: oklch(35% 0.03 235);
+	--color-neutral-content: oklch(95% 0.01 235);
+
+	--color-info: oklch(70% 0.13 220);
+	--color-info-content: oklch(98% 0.01 220);
+
+	--color-success: oklch(65% 0.15 165);
+	--color-success-content: oklch(98% 0.01 165);
+
+	--color-warning: oklch(80% 0.15 80);
+	--color-warning-content: oklch(20% 0.05 80);
+
+	--color-error: oklch(60% 0.22 25);
+	--color-error-content: oklch(98% 0.01 25);
+
+	--radius-selector: 0.5rem;
+	--radius-field: 0.5rem;
+	--radius-box: 0.75rem;
+	--border: 1px;
+	--depth: 1;
+	--noise: 0;
+}

@@ -11,7 +11,7 @@
 </script>
 
 {#if !logOut}
-	<a href={destination} class="btn">{label}</a>
+	<a href={destination} class="btn btn-primary">{label}</a>
 {:else}
 	<form
 		method="POST"
@@ -22,6 +22,6 @@
 			};
 		}}
 	>
-		<button type="submit" class="btn cursor-pointer">{label}</button>
+		<button type="submit" class="btn cursor-pointer btn-primary">{label}</button>
 	</form>
 {/if}
