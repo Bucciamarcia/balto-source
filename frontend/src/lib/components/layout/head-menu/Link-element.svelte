@@ -11,7 +11,7 @@
 </script>
 
 {#if !logOut}
-	<a href={destination} class="btn btn-primary">{label}</a>
+	<a href={destination} class="btn no-underline btn-primary">{label}</a>
 {:else}
 	<form
 		method="POST"

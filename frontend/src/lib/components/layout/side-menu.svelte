@@ -1,7 +1,4 @@
-<script>
-</script>
-
-<div class="sideMenu">
+<div class="sideMenu p-10">
 	<div>
 		<h2 class="menuTitle">Search</h2>
 
@@ -139,19 +136,3 @@
 		<p>Partners go here</p>
 	</div>
 </div>
-
-<style>
-	.sideMenu {
-		color: lightblue;
-		padding: 15px 10px;
-		font-size: 15px;
-	}
-
-	li {
-		padding-top: 2px;
-	}
-
-	ul {
-		padding-top: 10px;
-	}
-</style>

@@ -25,9 +25,7 @@
 	<!-- Bottom Section: Holds the columns side-by-side -->
 	<div class="flex flex-1 flex-nowrap items-start">
 		<!-- Left Column (Stays as small as SideMenu allows) -->
-		<div class="flex-none p-4">
-			<SideMenu />
-		</div>
+		<SideMenu />
 
 		<!-- Right Column (Fills the rest) -->
 		<main
