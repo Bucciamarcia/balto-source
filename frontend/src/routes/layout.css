@@ -1,7 +1,12 @@
 @import 'tailwindcss';
 @plugin '@tailwindcss/forms';
 @plugin '@tailwindcss/typography';
-@plugin 'daisyui';
+
+@plugin 'daisyui' {
+	themes: glacialblue --default
+}
+
+;
 
 @plugin "daisyui/theme" {
 	name: "glacialblue";
@@ -15,7 +20,7 @@
 	--color-base-content: oklch(25% 0.03 230);
 
 	--color-primary: oklch(55% 0.15 230);
-	--color-primary-content: oklch(98% 0.01 230);
+	--color-primary-content: oklch(99% 0.005 230);
 
 	--color-secondary: oklch(80% 0.08 210);
 	--color-secondary-content: oklch(20% 0.04 210);
@@ -27,16 +32,16 @@
 	--color-neutral-content: oklch(95% 0.01 235);
 
 	--color-info: oklch(70% 0.13 220);
-	--color-info-content: oklch(98% 0.01 220);
+	--color-info-content: oklch(20% 0.04 220);
 
-	--color-success: oklch(65% 0.15 165);
-	--color-success-content: oklch(98% 0.01 165);
+	--color-success: oklch(69% 0.14 175);
+	--color-success-content: oklch(15% 0.03 175);
 
 	--color-warning: oklch(80% 0.15 80);
 	--color-warning-content: oklch(20% 0.05 80);
 
 	--color-error: oklch(60% 0.22 25);
-	--color-error-content: oklch(98% 0.01 25);
+	--color-error-content: oklch(99% 0.005 25);
 
 	--radius-selector: 0.5rem;
 	--radius-field: 0.5rem;
