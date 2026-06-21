@@ -23,16 +23,18 @@
 	</div>
 
 	<!-- Bottom Section: Holds the columns side-by-side -->
-	<div class="flex flex-1">
+	<div class="flex flex-1 flex-nowrap items-start">
 		<!-- Left Column (Stays as small as SideMenu allows) -->
-		<div class="flex-none bg-blue-100 p-4">
+		<div class="flex-none p-4">
 			<SideMenu />
 		</div>
 
 		<!-- Right Column (Fills the rest) -->
-		<div class="flex-1 p-4">
+		<main
+			class="container m-20 rounded-md border-3 border-solid border-primary bg-neutral/75 px-20 py-10"
+		>
 			{@render children()}
-		</div>
+		</main>
 	</div>
 	<div class="flex flex-1">
 		<Footer />
