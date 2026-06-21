@@ -13,7 +13,7 @@
 
 <div class="mainManu">
 
-    <h1>Balto Source: We are so back!!!!!</h1>
+    <h1>Balto Source: We are so back!!!!!!</h1>
     <br/>
     <br/>
     <p><a href="/signup">sign up</a></p>
