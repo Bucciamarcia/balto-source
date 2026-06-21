@@ -46,6 +46,7 @@
 		"vitest-browser-svelte": "^2.1.0"
 	},
 	"dependencies": {
+		"daisyui": "^5.5.23",
 		"pocketbase": "^0.26.8"
 	}
 }
