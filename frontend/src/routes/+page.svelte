@@ -2,6 +2,7 @@
 	import { enhance } from '$app/forms';
 	import ConfirmationSnackbar from '$lib/components/layout/confirmation-snackbar.svelte';
 	import type { PageData } from './$types';
+	import SingleNews from './SingleNews.svelte';
 
 	let { data }: { data: PageData } = $props();
 </script>
@@ -20,10 +21,7 @@
 </div>
 
 {#each data.resultList as news}
-	<p>title: {news.title}</p>
-	<p>body: {news.body}</p>
-	<p>author: {news.expand?.author.username}</p>
-	<p>created: {news.created}</p>
+	<SingleNews {news} />
 {/each}
 
 <form method="POST" action="?/logout" use:enhance>
