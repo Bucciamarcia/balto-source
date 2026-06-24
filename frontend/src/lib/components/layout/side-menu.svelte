@@ -1,4 +1,4 @@
-<div class="sideMenu p-10">
+<div class="p-10">
 	<div>
 		<h2 class="menuTitle">Search</h2>
 
