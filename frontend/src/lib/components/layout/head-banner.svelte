@@ -1,12 +1,5 @@
 <script>
-    import PlaceholderBanner from '$lib/assets/Placeholder-Banner.png';
+	import MainBanner from '$lib/assets/banner.avif';
 </script>
 
-<img alt="Balto Source" class="banner" src={PlaceholderBanner}>
-
-<style>
-    .banner {
-        width: 100%;
-        height: auto;
-    }
-</style>
+<img alt="Balto Source" src={MainBanner} />

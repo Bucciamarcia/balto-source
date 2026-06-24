@@ -15,9 +15,9 @@
 </svelte:head>
 
 <!-- Outer Container: Stacks things vertically -->
-<div class="flex min-h-screen flex-col">
+<div class="mainbg flex min-h-screen flex-col">
 	<!-- Top Bar: Takes up 100% width automatically -->
-	<div class="bg-slate-800 p-4 text-white">
+	<div class="self-center p-4 text-white">
 		<HeadBanner />
 		<HeadMenu />
 	</div>
@@ -40,7 +40,7 @@
 </div>
 
 <style>
-	div {
+	.mainbg {
 		background-image: url('$lib/assets/main-background-image.avif');
 	}
 </style>
