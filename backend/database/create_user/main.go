@@ -2,6 +2,7 @@ package createuser
 
 import (
 	"encoding/json"
+	"fmt"
 
 	"github.com/pocketbase/pocketbase"
 	"github.com/pocketbase/pocketbase/core"
@@ -18,6 +19,9 @@ func Create(e *core.RequestEvent, app *pocketbase.PocketBase) error {
 	if err != nil {
 		return err
 	}
+	if data.Password != data.PasswordConfirm {
+		return fmt.Errorf("the passwords don't match")
+	}
 	collection, err := app.FindCollectionByNameOrId("users")
 	if err != nil {
 		return err
@@ -26,7 +30,6 @@ func Create(e *core.RequestEvent, app *pocketbase.PocketBase) error {
 	record.Set("email", data.Email)
 	record.Set("username", data.Username)
 	record.Set("password", data.Password)
-	record.Set("passwordConfirm", data.PasswordConfirm)
 	record.Set("role", "user")
 	err = app.Save(record)
 	if err != nil {
