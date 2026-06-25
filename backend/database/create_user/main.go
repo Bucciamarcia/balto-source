@@ -2,8 +2,8 @@ package createuser
 
 import (
 	"encoding/json"
-	"fmt"
 
+	validation "github.com/go-ozzo/ozzo-validation/v4"
 	"github.com/pocketbase/pocketbase"
 	"github.com/pocketbase/pocketbase/core"
 )
@@ -20,7 +20,9 @@ func Create(e *core.RequestEvent, app *pocketbase.PocketBase) error {
 		return err
 	}
 	if data.Password != data.PasswordConfirm {
-		return fmt.Errorf("the passwords don't match")
+		return validation.Errors{
+			"passwordConfirm": validation.NewError("validation_password_mismatch", "The passwords don't match."),
+		}
 	}
 	collection, err := app.FindCollectionByNameOrId("users")
 	if err != nil {

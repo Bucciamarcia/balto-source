@@ -42,8 +42,7 @@ func main() {
 			slog.Info("Creating new user")
 			err := createuser.Create(e, app)
 			if err != nil {
-				slog.Info("Returning error", "e", err)
-				return e.InternalServerError("Couldn't create user", err)
+				return e.BadRequestError("Couldn't create user", err)
 			}
 			return e.String(http.StatusOK, "OK")
 		})
