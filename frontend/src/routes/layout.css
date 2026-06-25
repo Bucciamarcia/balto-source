@@ -54,6 +54,10 @@
 		@apply font-sans text-4xl font-bold text-base-100;
 	}
 
+	h2 {
+		@apply font-sans text-2xl font-bold;
+	}
+
 	body {
 		@apply font-sans text-neutral-content;
 	}
