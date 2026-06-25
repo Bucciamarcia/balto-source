@@ -14,8 +14,8 @@
 	}
 </script>
 
-<div class="border">
-	<h2>{news.title}</h2>
+<div>
+	<h2 class="mt-7">{news.title}</h2>
 	<div class="mt-4 mb-4 flex">
 		<div class="self-center">
 			<p>By {news.expand.author.username}</p>
