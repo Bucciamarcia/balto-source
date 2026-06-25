@@ -39,7 +39,7 @@
 			bind:value={passwordConfirm}
 			placeholder="Confirm password"
 		/>
-		<button type="submit">Submit</button>
+		<button class="btn cursor-pointer btn-primary" type="submit">Submit</button>
 	</form>
 	{#if form?.message}
 		<FormError message={form.message} />
