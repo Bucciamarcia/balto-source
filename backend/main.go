@@ -1,6 +1,7 @@
 package main
 
 import (
+	createuser "balto-source/backend/database/create_user"
 	"balto-source/backend/features/chat"
 	"log/slog"
 	"net/http"
@@ -36,6 +37,15 @@ func main() {
 			}
 			return e.String(http.StatusOK, "OK")
 		}).Bind(apis.RequireAuth("users"))
+
+		se.Router.POST("/create_user", func(e *core.RequestEvent) error {
+			slog.Info("Creating new user")
+			err := createuser.Create(e, app)
+			if err != nil {
+				return e.BadRequestError("Couldn't create user", err)
+			}
+			return e.String(http.StatusOK, "OK")
+		})
 
 		return se.Next()
 	})

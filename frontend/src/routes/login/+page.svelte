@@ -11,9 +11,21 @@
 
 {#if !loggedUser}
 	<form method="POST" action="?/login" use:enhance>
-		<input name="email" type="email" bind:value={email} placeholder="Your email address" />
-		<input name="password" type="password" bind:value={password} placeholder="Your password" />
-		<button type="submit">Submit</button>
+		<input
+			class="text-black"
+			name="email"
+			type="email"
+			bind:value={email}
+			placeholder="Your email address"
+		/>
+		<input
+			class="text-black"
+			name="password"
+			type="password"
+			bind:value={password}
+			placeholder="Your password"
+		/>
+		<button class="btn cursor-pointer btn-primary" type="submit">Submit</button>
 	</form>
 	{#if form?.message}
 		<FormError message={form.message} />
