@@ -11,10 +11,29 @@
 
 {#if !loggedUser}
 	<form method="POST" action="?/createUser" use:enhance>
-		<input name="email" type="email" bind:value={email} placeholder="Your email address" />
-		<input name="username" type="text" bind:value={username} placeholder="Your username" />
-		<input name="password" type="password" bind:value={password} placeholder="Your password" />
 		<input
+			class="text-black"
+			name="email"
+			type="email"
+			bind:value={email}
+			placeholder="Your email address"
+		/>
+		<input
+			class="text-black"
+			name="username"
+			type="text"
+			bind:value={username}
+			placeholder="Your username"
+		/>
+		<input
+			name="password"
+			class="text-black"
+			type="password"
+			bind:value={password}
+			placeholder="Your password"
+		/>
+		<input
+			class="text-black"
 			name="passwordConfirm"
 			type="password"
 			bind:value={passwordConfirm}
