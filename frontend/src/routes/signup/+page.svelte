@@ -47,3 +47,8 @@
 {:else}
 	<p>You are already logged in</p>
 {/if}
+{#if form?.success}
+	<p class="mt-4 text-lg font-semibold text-green-600">
+		Registration successful! Confirm your email address to activate your account.
+	</p>
+{/if}

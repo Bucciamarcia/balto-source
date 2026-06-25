@@ -84,6 +84,7 @@ export const actions: Actions = {
 			}
 			return fail(400, { message: 'An unexpected error has occurred' });
 		}
+		return { success: true }
 	}
 };
 export const load: PageServerLoad = async ({ locals }) => {
