@@ -30,7 +30,7 @@
 				/>
 			</div>
 			<div class="self-center">
-				<p>On <FormattedDate date={new Date()} /></p>
+				<p>On <FormattedDate date={new Date(news.created)} /></p>
 			</div>
 		{/if}
 	</div>
