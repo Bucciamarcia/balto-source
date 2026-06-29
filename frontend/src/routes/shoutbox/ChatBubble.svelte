@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { buildAvatarUrl } from '$lib/components/buildAvatarUrl';
+	import FormattedDate from '$lib/components/FormattedDate.svelte';
 	import type { ChatMessagesResponse, UsersResponse } from '$lib/pocketbase-types';
 
 	type Message = ChatMessagesResponse<{ author: UsersResponse }>;
@@ -14,6 +15,9 @@
 				alt="{message.expand.author.username} avatar"
 			/>
 		</div>
+	</div>
+	<div class="chat-header">
+		{message.expand.author.username} - <FormattedDate date={new Date(message.created)} />
 	</div>
 	<div class="chat-bubble">
 		{message.body}
