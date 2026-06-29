@@ -6,6 +6,7 @@
 	import type { PageData } from './$types';
 	import type { ChatMessagesResponse, UsersResponse } from '$lib/pocketbase-types';
 	import { PUBLIC_POCKETBASE_URL } from '$lib/pocketbase/url';
+	import ChatBubble from './ChatBubble.svelte';
 
 	let { data }: { data: PageData } = $props();
 
@@ -52,9 +53,8 @@
 </script>
 
 {#each messages as message}
-	<p>created: {message.created}</p>
-	<p>body: {message.body}</p>
-	<p>author: {message.expand?.author.username}</p>
+	{console.log(message.expand.author.avatar)}
+	<ChatBubble {message} user={data.loggedUser} />
 {/each}
 <form
 	method="POST"

@@ -9,7 +9,7 @@ export const load: PageServerLoad = async ({ locals }) => {
 		.getList<ChatMessagesResponse<{ author: UsersResponse }>>(1, 20, { expand: "author", sort: "-created" });
 	const items = resultList.items;
 
-	return { messages: items.toReversed(), authenticated: authenticated }
+	return { messages: items.toReversed(), authenticated: authenticated, loggedUser: locals.user?.id ?? null }
 }
 
 export const actions: Actions = {

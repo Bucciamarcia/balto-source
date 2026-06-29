@@ -1,13 +1,9 @@
 <script lang="ts">
+	import { buildAvatarUrl } from '$lib/components/buildAvatarUrl';
 	import FormattedDate from '$lib/components/FormattedDate.svelte';
 	import type { HomepageNewsResponse, UsersResponse } from '$lib/pocketbase-types';
-	import { PUBLIC_POCKETBASE_URL } from '$lib/pocketbase/url';
 
 	let { news }: { news: HomepageNewsResponse<{ author: UsersResponse }> } = $props();
-
-	function buildAvatarUrl(user: UsersResponse): string {
-		return `${PUBLIC_POCKETBASE_URL}/api/files/users/${user.id}/${user.avatar}?thumb=40x40`;
-	}
 
 	function buildUserAvatarTag(user: UsersResponse): string {
 		return `${user.username} avatar`;
