@@ -6,6 +6,7 @@
 	import type { PageData } from './$types';
 	import type { ChatMessagesResponse, UsersResponse } from '$lib/pocketbase-types';
 	import { PUBLIC_POCKETBASE_URL } from '$lib/pocketbase/url';
+	import ChatBubble from './ChatBubble.svelte';
 
 	let { data }: { data: PageData } = $props();
 
@@ -13,10 +14,14 @@
 
 	let messages: Message[] = $state<Message[]>(untrack(() => [...data.messages]));
 	let text = $state('');
+	// svelte-ignore non_reactive_update
+	let inputEl: HTMLInputElement;
 
 	const pb = new PocketBase(PUBLIC_POCKETBASE_URL);
 
 	onMount(() => {
+		inputEl.focus();
+		inputEl.select();
 		let unsubscribe: (() => void) | undefined;
 
 		pb.collection('chat_messages')
@@ -49,13 +54,24 @@
 			return messages.slice(-20);
 		}
 	}
+
+	// Maike the chat scroll down
+	let container: HTMLDivElement;
+	$effect(() => {
+		messages;
+		if (container) {
+			container.scrollTop = container.scrollHeight;
+		}
+	});
+
+	// Select text
 </script>
 
-{#each messages as message}
-	<p>created: {message.created}</p>
-	<p>body: {message.body}</p>
-	<p>author: {message.expand?.author.username}</p>
-{/each}
+<div bind:this={container} class="max-h-128 overflow-y-auto">
+	{#each messages as message}
+		<ChatBubble {message} user={data.loggedUser} />
+	{/each}
+</div>
 <form
 	method="POST"
 	action="?/sendMessage"
@@ -66,11 +82,22 @@
 				reset: false,
 				invalidateAll: false
 			});
+			setTimeout(() => {
+				inputEl?.focus();
+				inputEl?.select();
+			});
 		};
 	}}
 >
 	{#if data.authenticated}
-		<input name="message" type="text" bind:value={text} placeholder="Message..." />
+		<input
+			name="message"
+			class="text-black"
+			type="text"
+			bind:value={text}
+			placeholder="Message..."
+			bind:this={inputEl}
+		/>
 	{:else}
 		<input
 			name="message"
@@ -81,6 +108,6 @@
 		/>
 	{/if}
 	{#if data.authenticated}
-		<button type="submit">Submit</button>
+		<button type="submit" class="btn cursor-pointer btn-primary">Submit</button>
 	{/if}
 </form>
