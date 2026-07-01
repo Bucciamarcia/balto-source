@@ -14,10 +14,14 @@
 
 	let messages: Message[] = $state<Message[]>(untrack(() => [...data.messages]));
 	let text = $state('');
+	// svelte-ignore non_reactive_update
+	let inputEl: HTMLInputElement;
 
 	const pb = new PocketBase(PUBLIC_POCKETBASE_URL);
 
 	onMount(() => {
+		inputEl.focus();
+		inputEl.select();
 		let unsubscribe: (() => void) | undefined;
 
 		pb.collection('chat_messages')
@@ -59,6 +63,8 @@
 			container.scrollTop = container.scrollHeight;
 		}
 	});
+
+	// Select text
 </script>
 
 <div bind:this={container} class="max-h-128 overflow-y-auto">
@@ -76,6 +82,10 @@
 				reset: false,
 				invalidateAll: false
 			});
+			setTimeout(() => {
+				inputEl?.focus();
+				inputEl?.select();
+			});
 		};
 	}}
 >
@@ -86,6 +96,7 @@
 			type="text"
 			bind:value={text}
 			placeholder="Message..."
+			bind:this={inputEl}
 		/>
 	{:else}
 		<input
