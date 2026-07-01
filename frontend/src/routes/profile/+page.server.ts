@@ -16,7 +16,8 @@ export const load: PageServerLoad = async ({ locals, url }) => {
 	} else {
 		try {
 			const user = await locals.pb.collection("users").getOne<UsersResponse>(uid)
-			return { status: 200, user }
+			const isSelf = user.id === locals.user?.id
+			return { status: 200, user, isSelf }
 		} catch (e) {
 			return { status: 404, error: "Not found" }
 		}
