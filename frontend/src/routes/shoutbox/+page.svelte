@@ -50,12 +50,22 @@
 			return messages.slice(-20);
 		}
 	}
+
+	// Maike the chat scroll down
+	let container: HTMLDivElement;
+	$effect(() => {
+		messages;
+		if (container) {
+			container.scrollTop = container.scrollHeight;
+		}
+	});
 </script>
 
-{#each messages as message}
-	{console.log(message.expand.author.avatar)}
-	<ChatBubble {message} user={data.loggedUser} />
-{/each}
+<div bind:this={container} class="max-h-128 overflow-y-auto">
+	{#each messages as message}
+		<ChatBubble {message} user={data.loggedUser} />
+	{/each}
+</div>
 <form
 	method="POST"
 	action="?/sendMessage"
@@ -70,7 +80,13 @@
 	}}
 >
 	{#if data.authenticated}
-		<input name="message" type="text" bind:value={text} placeholder="Message..." />
+		<input
+			name="message"
+			class="text-black"
+			type="text"
+			bind:value={text}
+			placeholder="Message..."
+		/>
 	{:else}
 		<input
 			name="message"
