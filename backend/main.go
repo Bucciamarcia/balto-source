@@ -3,10 +3,14 @@ package main
 import (
 	createuser "balto-source/backend/database/create_user"
 	"balto-source/backend/features/chat"
+	"errors"
 	"log/slog"
 	"net/http"
 	"os"
+	"sort"
+	"strings"
 
+	validation "github.com/go-ozzo/ozzo-validation/v4"
 	"github.com/pocketbase/pocketbase"
 	"github.com/pocketbase/pocketbase/apis"
 	"github.com/pocketbase/pocketbase/core"
@@ -42,7 +46,7 @@ func main() {
 			slog.Info("Creating new user")
 			err := createuser.Create(e, app)
 			if err != nil {
-				return e.BadRequestError("Couldn't create user", err)
+				return e.BadRequestError(publicErrorMessage(err), err)
 			}
 			return e.String(http.StatusOK, "OK")
 		})
@@ -53,4 +57,48 @@ func main() {
 		slog.Error("Couldn't start application", "error", err)
 		os.Exit(1)
 	}
+}
+
+func publicErrorMessage(err error) string {
+	if message := firstValidationErrorMessage(err); message != "" {
+		return message
+	}
+
+	message := strings.TrimSpace(err.Error())
+	if message != "" {
+		return message
+	}
+
+	return "An unexpected error has occurred"
+}
+
+func firstValidationErrorMessage(err error) string {
+	var validationErrors validation.Errors
+	if !errors.As(err, &validationErrors) {
+		return ""
+	}
+
+	keys := make([]string, 0, len(validationErrors))
+	for key := range validationErrors {
+		keys = append(keys, key)
+	}
+	sort.Strings(keys)
+
+	for _, key := range keys {
+		fieldErr := validationErrors[key]
+		if message := firstValidationErrorMessage(fieldErr); message != "" {
+			return message
+		}
+
+		var validationError validation.Error
+		if errors.As(fieldErr, &validationError) {
+			return strings.TrimSpace(validationError.Error())
+		}
+
+		if message := strings.TrimSpace(fieldErr.Error()); message != "" {
+			return message
+		}
+	}
+
+	return ""
 }
