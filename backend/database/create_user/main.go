@@ -2,6 +2,7 @@ package createuser
 
 import (
 	"encoding/json"
+	"errors"
 
 	validation "github.com/go-ozzo/ozzo-validation/v4"
 	"github.com/pocketbase/pocketbase"
@@ -28,6 +29,10 @@ func Create(e *core.RequestEvent, app *pocketbase.PocketBase) error {
 	if err != nil {
 		return err
 	}
+	isUnique := checkIfUnique(data.Username, app)
+	if !isUnique {
+		return errors.New("this username is already taken")
+	}
 	record := core.NewRecord(collection)
 	record.Set("email", data.Email)
 	record.Set("username", data.Username)
@@ -38,4 +43,9 @@ func Create(e *core.RequestEvent, app *pocketbase.PocketBase) error {
 		return err
 	}
 	return nil
+}
+
+func checkIfUnique(userName string, app *pocketbase.PocketBase) bool {
+	_, err := app.FindFirstRecordByData("users", "username", userName)
+	return err == nil
 }
