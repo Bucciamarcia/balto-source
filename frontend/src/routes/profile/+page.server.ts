@@ -1,16 +1,24 @@
+import type { UsersResponse } from "$lib/pocketbase-types";
 import type { PageServerLoad } from "./$types";
 
 export const load: PageServerLoad = async ({ locals, url }) => {
-	let toReturn: string = ""
-	const id = locals.user?.id;
-	const uid = url.searchParams.get("id")
-	if (uid != null) {
-		toReturn = uid
-		return { toReturn }
+	let uid: string = ""
+	const localsId = locals.user?.id;
+	const paramId = url.searchParams.get("id")
+	if (paramId != null) {
+		uid = paramId
 	}
-	if (id != null) {
-		toReturn = id;
-		return { toReturn };
+	else if (localsId != null) {
+		uid = localsId;
 	}
-	return { toReturn }
+	if (uid === "") {
+		return { status: 400, error: "Empty uid" }
+	} else {
+		try {
+			const user = await locals.pb.collection("users").getOne<UsersResponse>(uid)
+			return { status: 200, user }
+		} catch (e) {
+			return { status: 404, error: "Not found" }
+		}
+	}
 }

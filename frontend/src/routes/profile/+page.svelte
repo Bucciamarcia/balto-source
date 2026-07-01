@@ -1,11 +1,11 @@
 <script lang="ts">
 	let { data } = $props();
-	// svelte-ignore state_referenced_locally
-	const uid: string = data.toReturn;
 </script>
 
-{#if uid == ''}
-	<p>You need to be logged in to view your profile</p>
+{#if data.status === 400}
+	<p>You need to log in to see your profile</p>
+{:else if data.status === 404}
+	<p>User not found</p>
 {:else}
-	<p>Your uid: {uid}</p>
+	<p>Your uid: {data.user?.username}</p>
 {/if}
