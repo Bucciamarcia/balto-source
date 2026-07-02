@@ -1,5 +1,6 @@
 import type { UsersResponse } from "$lib/pocketbase-types";
-import type { PageServerLoad } from "./$types";
+import { fail } from "@sveltejs/kit";
+import type { Actions, PageServerLoad } from "./$types";
 
 export const load: PageServerLoad = async ({ locals, url }) => {
 	let uid: string = ""
@@ -20,6 +21,21 @@ export const load: PageServerLoad = async ({ locals, url }) => {
 			return { status: 200, user, isSelf }
 		} catch (e) {
 			return { status: 404, error: "Not found" }
+		}
+	}
+}
+
+export const actions: Actions = {
+	changeUsername: async ({ request, locals }) => {
+		const data = await request.formData();
+		const newUsername = data.get("newUsername");
+		const v = newUsername?.valueOf()
+		if (typeof v !== "string") {
+			return fail(400, { error: "this is not a string", newUsername })
+		}
+		const t = v.trim()
+		if (t === "") {
+			return fail(400, { error: "username can't be empty", newUsername })
 		}
 	}
 }
