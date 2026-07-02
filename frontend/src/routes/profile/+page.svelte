@@ -2,6 +2,7 @@
 	import EditButtonSvg from './EditButtonSvg.svelte';
 
 	let { data } = $props();
+	let editMode = $state(false);
 </script>
 
 {#if data.status === 400}
@@ -10,9 +11,13 @@
 	<p>User not found</p>
 {:else}
 	<div class="flex">
-		<div><h1 class="text-center">{data.user?.username}</h1></div>
+		{#if editMode === false}
+			<div><h1 class="text-center">{data.user?.username}</h1></div>
+		{:else}
+			<div><h1>edit mode</h1></div>
+		{/if}
 		{#if data.isSelf}
-			<EditButtonSvg />
+			<EditButtonSvg onEdit={() => (editMode = !editMode)} />
 		{/if}
 	</div>
 	<p>IsSelf: {data.isSelf ?? 'noep'}</p>

@@ -1,5 +1,12 @@
+<script lang="ts">
+	interface Props {
+		onEdit: () => void;
+	}
+	let { onEdit }: Props = $props();
+</script>
+
 <div class="tooltip ml-5 self-center" data-tip="Change your username">
-	<button aria-label="Change username">
+	<button aria-label="Change username" class="cursor-pointer" onclick={onEdit}>
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
 			fill="none"
