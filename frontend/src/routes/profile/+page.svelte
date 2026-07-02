@@ -3,6 +3,7 @@
 
 	let { data } = $props();
 	let editMode = $state(false);
+	let newUsername: string = $state('');
 </script>
 
 {#if data.status === 400}
@@ -14,10 +15,17 @@
 		{#if editMode === false}
 			<div><h1 class="text-center">{data.user?.username}</h1></div>
 		{:else}
-			<div><h1>edit mode</h1></div>
+			<input class="text-black" name="newUsername" type="text" bind:value={newUsername} />
 		{/if}
 		{#if data.isSelf}
-			<EditButtonSvg {editMode} flipMode={() => (editMode = !editMode)} />
+			<EditButtonSvg
+				{editMode}
+				flipMode={() => (editMode = !editMode)}
+				onUsernameChanged={() => {
+					console.log({ newUsername });
+					editMode = !editMode;
+				}}
+			/>
 		{/if}
 	</div>
 	<p>IsSelf: {data.isSelf ?? 'noep'}</p>

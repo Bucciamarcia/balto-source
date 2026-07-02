@@ -2,8 +2,9 @@
 	interface Props {
 		editMode: boolean;
 		flipMode: () => void;
+		onUsernameChanged: () => void;
 	}
-	let { editMode, flipMode }: Props = $props();
+	let { editMode, flipMode, onUsernameChanged }: Props = $props();
 </script>
 
 {#if editMode === false}
@@ -27,18 +28,20 @@
 	</button>
 {:else}
 	<div class="flex">
-		<div class="tooltip mr-3 ml-5 self-center" data-tip="Confirm change">
-			<svg
-				xmlns="http://www.w3.org/2000/svg"
-				fill="none"
-				viewBox="0 0 24 24"
-				stroke-width="1.5"
-				stroke="currentColor"
-				class="size-6"
-			>
-				<path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
-			</svg>
-		</div>
+		<button aria-label="Confirm username change" class="cursor-pointer" onclick={onUsernameChanged}>
+			<div class="tooltip mr-3 ml-5 self-center" data-tip="Confirm change">
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					fill="none"
+					viewBox="0 0 24 24"
+					stroke-width="1.5"
+					stroke="currentColor"
+					class="size-6"
+				>
+					<path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+				</svg>
+			</div>
+		</button>
 		<button aria-label="Cancel username change" class="cursor-pointer" onclick={flipMode}>
 			<div class="tooltip self-center" data-tip="Cancel change">
 				<svg
