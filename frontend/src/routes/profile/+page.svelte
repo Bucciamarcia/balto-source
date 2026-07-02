@@ -17,7 +17,7 @@
 			<div><h1>edit mode</h1></div>
 		{/if}
 		{#if data.isSelf}
-			<EditButtonSvg onEdit={() => (editMode = !editMode)} />
+			<EditButtonSvg {editMode} flipMode={() => (editMode = !editMode)} />
 		{/if}
 	</div>
 	<p>IsSelf: {data.isSelf ?? 'noep'}</p>
