@@ -1,6 +1,7 @@
 import type { UsersResponse } from "$lib/pocketbase-types";
 import { fail } from "@sveltejs/kit";
 import type { Actions, PageServerLoad } from "./$types";
+import { PUBLIC_POCKETBASE_URL } from "$lib/pocketbase/url";
 
 export const load: PageServerLoad = async ({ locals, url }) => {
 	let uid: string = ""
@@ -26,7 +27,7 @@ export const load: PageServerLoad = async ({ locals, url }) => {
 }
 
 export const actions: Actions = {
-	changeUsername: async ({ request, locals }) => {
+	changeUsername: async ({ request }) => {
 		const data = await request.formData();
 		const newUsername = data.get("newUsername");
 		const v = newUsername?.valueOf()
@@ -37,5 +38,28 @@ export const actions: Actions = {
 		if (t === "") {
 			return fail(400, { error: "username can't be empty", newUsername })
 		}
+		try {
+			const unique = await isUnique(t)
+			if (!unique) {
+				return fail(400, { error: "this username already exists" })
+			}
+		} catch (e) {
+			return fail(400, { error: e instanceof Error ? e.message : "Unknown error" })
+		}
 	}
+}
+
+async function isUnique(username: string): Promise<boolean> {
+	const response = await fetch(`${PUBLIC_POCKETBASE_URL}/is_user_unique`, {
+		method: "POST",
+		headers: { "Content-Type": "application/json" },
+		body: JSON.stringify({
+			"username": username
+		})
+	})
+	if (!response.ok) {
+		throw new Error("Network response was not ok");
+	}
+	const data = await response.json()
+	return data["is_unique"] as boolean
 }
