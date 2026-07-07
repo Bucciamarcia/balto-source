@@ -15,7 +15,7 @@
 {:else if data.status === 404}
 	<p>User not found</p>
 {:else}
-	<div class="flex">
+	<div class="flex w-full justify-center">
 		{#if editMode === false}
 			<div><h1 class="text-center">{data.user?.username}</h1></div>
 		{:else}
@@ -41,18 +41,19 @@
 			</form>
 		{/if}
 		{#if data.isSelf}
-			<EditButtonSvg
-				{editMode}
-				flipMode={() => (editMode = !editMode)}
-				onUsernameChanged={() => {
-					errorMessage = '';
-					formEl?.requestSubmit();
-				}}
-			/>
+			<div>
+				<EditButtonSvg
+					{editMode}
+					flipMode={() => (editMode = !editMode)}
+					onUsernameChanged={() => {
+						errorMessage = '';
+						formEl?.requestSubmit();
+					}}
+				/>
+			</div>
 		{/if}
 	</div>
 	{#if errorMessage !== ''}
 		<FormError message="Error: {errorMessage}" />
 	{/if}
-	<p>IsSelf: {data.isSelf ?? 'noep'}</p>
 {/if}
