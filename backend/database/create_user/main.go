@@ -36,7 +36,7 @@ func Create(e *core.RequestEvent, app *pocketbase.PocketBase) error {
 			"username": validation.NewError("Validation_email_taken", "This email already exists"),
 		}
 	}
-	isUserUnique, err := checkUniqueUser(data.Username, app)
+	isUserUnique, err := CheckUniqueUser(data.Username, app)
 	if err != nil {
 		return err
 	}
@@ -62,7 +62,7 @@ func checkUniqueEmail(email string, app *pocketbase.PocketBase) bool {
 	return err != nil
 }
 
-func checkUniqueUser(username string, app *pocketbase.PocketBase) (bool, error) {
+func CheckUniqueUser(username string, app *pocketbase.PocketBase) (bool, error) {
 	records, err := app.FindAllRecords("users")
 	if err != nil {
 		return false, err

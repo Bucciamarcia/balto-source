@@ -51,6 +51,23 @@ func main() {
 			return e.String(http.StatusOK, "OK")
 		})
 
+		se.Router.POST("/is_user_unique", func(e *core.RequestEvent) error {
+			slog.Info("Checking if user is unique")
+			data := struct {
+				Username string `json:"username"`
+			}{}
+			err := e.BindBody(&data)
+			if err != nil {
+				return e.BadRequestError("Couldn't parse the request body", err)
+			}
+			isUnique, err := createuser.CheckUniqueUser(data.Username, app)
+			if err != nil {
+				return e.InternalServerError("Couldn't check if user is unique", err)
+			}
+			slog.Info("checked", "is_unique", isUnique)
+			return e.JSON(http.StatusOK, map[string]any{"is_unique": isUnique})
+		})
+
 		return se.Next()
 	})
 	if err := app.Start(); err != nil {
