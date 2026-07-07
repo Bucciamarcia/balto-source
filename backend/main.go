@@ -51,9 +51,10 @@ func main() {
 			return e.String(http.StatusOK, "OK")
 		})
 
-		se.Router.POST("/is_user_unique", func(e *core.RequestEvent) error {
+		se.Router.POST("/change_user", func(e *core.RequestEvent) error {
 			slog.Info("Checking if user is unique")
 			data := struct {
+				Id       string `json:"id"`
 				Username string `json:"username"`
 			}{}
 			err := e.BindBody(&data)
@@ -65,7 +66,14 @@ func main() {
 				return e.InternalServerError("Couldn't check if user is unique", err)
 			}
 			slog.Info("checked", "is_unique", isUnique)
-			return e.JSON(http.StatusOK, map[string]any{"is_unique": isUnique})
+			if !isUnique {
+				return e.BadRequestError("The username already exists", nil)
+			}
+			err = createuser.ChangeUsername(data.Username, data.Id, app)
+			if err != nil {
+				return e.BadRequestError("Couldn't change username", err)
+			}
+			return e.String(http.StatusOK, "OK")
 		})
 
 		return se.Next()
