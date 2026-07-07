@@ -45,6 +45,7 @@
 				{editMode}
 				flipMode={() => (editMode = !editMode)}
 				onUsernameChanged={() => {
+					errorMessage = '';
 					formEl?.requestSubmit();
 				}}
 			/>

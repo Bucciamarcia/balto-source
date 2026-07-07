@@ -27,7 +27,11 @@ export const load: PageServerLoad = async ({ locals, url }) => {
 }
 
 export const actions: Actions = {
-	changeUsername: async ({ request }) => {
+	changeUsername: async ({ locals, request }) => {
+		const id = locals.user?.id
+		if (id == null || id === undefined) {
+			return fail(401, { error: "Not logged in" });
+		}
 		const data = await request.formData();
 		const newUsername = data.get("newUsername");
 		const v = newUsername?.valueOf()
@@ -39,27 +43,23 @@ export const actions: Actions = {
 			return fail(400, { error: "username can't be empty", newUsername })
 		}
 		try {
-			const unique = await isUnique(t)
-			if (!unique) {
-				return fail(400, { error: "this username already exists" })
-			}
+			await changeUsername(t, id)
 		} catch (e) {
 			return fail(400, { error: e instanceof Error ? e.message : "Unknown error" })
 		}
 	}
 }
 
-async function isUnique(username: string): Promise<boolean> {
-	const response = await fetch(`${PUBLIC_POCKETBASE_URL}/is_user_unique`, {
+async function changeUsername(username: string, id: string) {
+	const response = await fetch(`${PUBLIC_POCKETBASE_URL}/change_user`, {
 		method: "POST",
 		headers: { "Content-Type": "application/json" },
 		body: JSON.stringify({
+			"id": id,
 			"username": username
 		})
 	})
 	if (!response.ok) {
-		throw new Error("Network response was not ok");
+		throw new Error(await response.text());
 	}
-	const data = await response.json()
-	return data["is_unique"] as boolean
 }
