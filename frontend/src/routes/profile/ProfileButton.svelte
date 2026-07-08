@@ -3,19 +3,18 @@
 
 	interface Props {
 		label: string;
+		onClick: () => void;
 	}
 
-	let { label }: Props = $props();
+	let { label, onClick }: Props = $props();
 </script>
 
-<form
-	method="POST"
-	action="?/moi"
-	use:enhance={() => {
-		return async ({ update }) => {
-			await update();
-		};
-	}}
->
-	<button type="submit" class="btn cursor-pointer no-underline btn-primary">{label}</button>
+<form>
+	<button
+		type="submit"
+		class="btn cursor-pointer no-underline btn-primary"
+		onclick={() => {
+			onClick();
+		}}>{label}</button
+	>
 </form>

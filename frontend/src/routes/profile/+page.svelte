@@ -3,12 +3,14 @@
 	import { enhance } from '$app/forms';
 	import FormError from '$lib/components/formError.svelte';
 	import ProfileButton from './ProfileButton.svelte';
+	import ChangeEmailDialog from './ChangeEmailDialog.svelte';
 
 	let { data } = $props();
 	let editMode = $state(false);
 	let newUsername: string = $state('');
 	let formEl: HTMLFormElement | undefined = $state();
 	let errorMessage: string = $state('');
+	let showModal: boolean = $state(false);
 </script>
 
 {#if data.status === 400}
@@ -59,7 +61,13 @@
 	{/if}
 	{#if data.isSelf}
 		<div class="mt-5 flex w-full justify-center">
-			<div><ProfileButton label="moi" /></div>
+			<div><ProfileButton label="moi" onClick={() => (showModal = true)} /></div>
 		</div>
+		<ChangeEmailDialog
+			bind:open={showModal}
+			onConfirm={(v) => {
+				console.log(v);
+			}}
+		></ChangeEmailDialog>
 	{/if}
 {/if}

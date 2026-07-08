@@ -48,9 +48,6 @@ export const actions: Actions = {
 			return fail(400, { error: e instanceof Error ? e.message : "Unknown error" })
 		}
 	},
-	moi: async () => {
-		console.log("moi")
-	}
 }
 
 async function changeUsername(username: string, id: string) {
