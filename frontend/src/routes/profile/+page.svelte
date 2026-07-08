@@ -2,6 +2,7 @@
 	import EditButtonSvg from './EditButtonSvg.svelte';
 	import { enhance } from '$app/forms';
 	import FormError from '$lib/components/formError.svelte';
+	import ProfileButton from './ProfileButton.svelte';
 
 	let { data } = $props();
 	let editMode = $state(false);
@@ -55,5 +56,10 @@
 	</div>
 	{#if errorMessage !== ''}
 		<FormError message="Error: {errorMessage}" />
+	{/if}
+	{#if data.isSelf}
+		<div class="mt-5 flex w-full justify-center">
+			<div><ProfileButton label="moi" /></div>
+		</div>
 	{/if}
 {/if}

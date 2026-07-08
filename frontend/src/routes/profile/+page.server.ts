@@ -47,6 +47,9 @@ export const actions: Actions = {
 		} catch (e) {
 			return fail(400, { error: e instanceof Error ? e.message : "Unknown error" })
 		}
+	},
+	moi: async () => {
+		console.log("moi")
 	}
 }
 
