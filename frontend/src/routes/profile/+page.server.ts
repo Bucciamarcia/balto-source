@@ -87,5 +87,13 @@ async function changeUsername(username: string, id: string): Promise<void> {
 }
 
 async function changeEmail(email: string, id: string): Promise<void> {
-	throw new Error("noep")
+	const response = await fetch(`${PUBLIC_POCKETBASE_URL}/change_email`, {
+		method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({
+			"id": id, "email": email
+		})
+	})
+	if (!response.ok) {
+		const body = await response.json().catch(() => null);
+		throw new Error(body?.message ?? `error: ${response.text()}`)
+	}
 }
