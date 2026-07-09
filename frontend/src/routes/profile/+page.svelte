@@ -63,11 +63,6 @@
 		<div class="mt-5 flex w-full justify-center">
 			<div><ProfileButton label="moi" onClick={() => (showModal = true)} /></div>
 		</div>
-		<ChangeEmailDialog
-			bind:open={showModal}
-			onConfirm={(v) => {
-				console.log(v);
-			}}
-		></ChangeEmailDialog>
+		<ChangeEmailDialog bind:open={showModal}></ChangeEmailDialog>
 	{/if}
 {/if}

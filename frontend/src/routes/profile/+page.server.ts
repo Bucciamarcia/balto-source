@@ -48,9 +48,31 @@ export const actions: Actions = {
 			return fail(400, { error: e instanceof Error ? e.message : "Unknown error" })
 		}
 	},
+
+	changeEmail: async ({ locals, request }) => {
+		const id = locals.user?.id
+		if (id == null || id === undefined) {
+			return fail(401, { error: "Not logged in" });
+		}
+		const data = await request.formData();
+		const newEmailObj = data.get("email");
+		let newEmail = newEmailObj?.valueOf();
+		if (typeof newEmail !== "string") {
+			return fail(400, { error: "this is not a string", newEmail })
+		}
+		newEmail = newEmail.trim()
+		if (newEmail === "" || newEmail instanceof Object) {
+			return fail(400, { error: "Email can't be empty", newEmail })
+		}
+		try {
+			await changeEmail(newEmail, id)
+		} catch (e) {
+			return fail(400, { error: e instanceof Error ? e.message : "Unknown error" })
+		}
+	}
 }
 
-async function changeUsername(username: string, id: string) {
+async function changeUsername(username: string, id: string): Promise<void> {
 	const response = await fetch(`${PUBLIC_POCKETBASE_URL}/change_user`, {
 		method: "POST",
 		headers: { "Content-Type": "application/json" },
@@ -62,4 +84,8 @@ async function changeUsername(username: string, id: string) {
 	if (!response.ok) {
 		throw new Error(await response.text());
 	}
+}
+
+async function changeEmail(email: string, id: string): Promise<void> {
+	throw new Error("noep")
 }
