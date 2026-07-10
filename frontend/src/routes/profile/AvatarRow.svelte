@@ -1,5 +1,7 @@
 <script lang="ts">
+	import { enhance } from '$app/forms';
 	import { buildAvatarUrl } from '$lib/components/buildAvatarUrl';
+	import FormError from '$lib/components/formError.svelte';
 	import type { UsersResponse } from '$lib/pocketbase-types';
 	let {
 		user,
@@ -7,13 +9,40 @@
 		open = $bindable(false)
 	}: { user: UsersResponse; isSelf: boolean; open: any } = $props();
 	let isEditingAvatar: boolean = $state(false);
+	let errorMessage: string = $state('');
 </script>
 
 <div class="mt-5 mb-5 flex w-full justify-center">
 	<div class="mr-5"><img src={buildAvatarUrl(user)} alt="" height="50" width="50" /></div>
 	{#if isSelf}
 		{#if isEditingAvatar}
-			<button class="btn" onclick={() => (isEditingAvatar = false)}>Close</button>
+			<form
+				method="POST"
+				action="?/changeAvatar"
+				enctype="multipart/form-data"
+				use:enhance={() => {
+					errorMessage = '';
+					return async ({ result, update }) => {
+						if (result.type === 'failure') {
+							errorMessage = (result.data?.error as string) ?? 'Unknown error';
+						}
+						await update();
+					};
+				}}
+				class="flex"
+			>
+				<div>
+					<input
+						type="file"
+						name="avatar"
+						class="file-input file-input-accent text-black"
+						accept=".png, .jpg, .jpeg"
+					/>
+				</div>
+				<div><button class="btn" type="submit">Confirm new avatar</button></div>
+			</form>
+			<button class="btn ml-5" type="button" onclick={() => (isEditingAvatar = false)}>Close</button
+			>
 		{:else}
 			<button
 				aria-label="Change username"
@@ -38,5 +67,10 @@
 				</div>
 			</button>
 		{/if}
+	{/if}
+</div>
+<div class="mt-5 mb-5 flex w-full justify-center">
+	{#if errorMessage}
+		<FormError message={errorMessage} />
 	{/if}
 </div>

@@ -112,6 +112,23 @@ export const actions: Actions = {
 			}
 			return fail(400, { error: "Unknown error" });
 		}
+	},
+
+	changeAvatar: async ({ locals, request }) => {
+		const user = locals.pb.authStore.record
+		if (!user) {
+			return fail(401, { error: "Not logged in" });
+		}
+		const data = await request.formData();
+		const file = data.get("avatar") as File;
+		if (file.size === 0) {
+			return fail(400, { error: "You must first select a file" })
+		}
+		try {
+			await locals.pb.collection("users").update(user.id, { "avatar": file })
+		} catch (e) {
+			return fail(400, { error: e instanceof Error ? e.message : "Unknown error" })
+		}
 	}
 }
 
