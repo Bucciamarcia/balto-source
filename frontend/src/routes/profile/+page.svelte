@@ -4,13 +4,15 @@
 	import FormError from '$lib/components/formError.svelte';
 	import ProfileButton from './ProfileButton.svelte';
 	import ChangeEmailDialog from './ChangeEmailDialog.svelte';
+	import ChangePassDialog from './ChangePassDialog.svelte';
 
 	let { data } = $props();
 	let editMode = $state(false);
 	let newUsername: string = $state('');
 	let formEl: HTMLFormElement | undefined = $state();
 	let errorMessage: string = $state('');
-	let showModal: boolean = $state(false);
+	let showEmailModal: boolean = $state(false);
+	let showPassModal: boolean = $state(false);
 </script>
 
 {#if data.status === 400}
@@ -61,8 +63,12 @@
 	{/if}
 	{#if data.isSelf}
 		<div class="mt-5 flex w-full justify-center">
-			<div><ProfileButton label="moi" onClick={() => (showModal = true)} /></div>
+			<div class="mr-5">
+				<ProfileButton label="Change email" onClick={() => (showEmailModal = true)} />
+			</div>
+			<div><ProfileButton label="Change password" onClick={() => (showPassModal = true)} /></div>
 		</div>
-		<ChangeEmailDialog bind:open={showModal}></ChangeEmailDialog>
+		<ChangeEmailDialog bind:open={showPassModal}></ChangeEmailDialog>
+		<ChangePassDialog bind:open={showPassModal}></ChangePassDialog>
 	{/if}
 {/if}
