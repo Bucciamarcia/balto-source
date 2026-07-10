@@ -14,6 +14,7 @@
 	let errorMessage: string = $state('');
 	let showEmailModal: boolean = $state(false);
 	let showPassModal: boolean = $state(false);
+	let showAvatarModal: boolean = $state(false);
 </script>
 
 {#if data.status === 400}
@@ -63,7 +64,7 @@
 		<FormError message="Error: {errorMessage}" />
 	{/if}
 	{#if data.user}
-		<AvatarRow user={data.user} isSelf={data.isSelf} />
+		<AvatarRow bind:open={showAvatarModal} user={data.user} isSelf={data.isSelf} />
 	{/if}
 	{#if data.isSelf}
 		<div class="mt-5 flex w-full justify-center">
