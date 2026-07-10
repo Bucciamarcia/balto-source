@@ -5,8 +5,6 @@
 	let showConfirm: boolean = $state(false);
 	let errorMessage: string = $state('');
 
-	let email: string = $state('');
-
 	let { open = $bindable(false) }: { open: any } = $props();
 	let dialogEl: HTMLDialogElement | undefined = $state();
 	let isLoading: boolean = $state(false);
@@ -28,7 +26,7 @@
 >
 	<form
 		method="POST"
-		action="?/changeEmail"
+		action="?/changePassword"
 		use:enhance={() => {
 			errorMessage = '';
 			showConfirm = false;
@@ -46,15 +44,8 @@
 		}}
 	>
 		<div class="lightbox-content m-8">
-			<h2>Change email address</h2>
-			<p class="mb-5">You will receive an email to the new address to confirm the change.</p>
-			<input
-				name="email"
-				class="text-box"
-				type="email"
-				bind:value={email}
-				placeholder="New email address"
-			/>
+			<h2>Change password</h2>
+			<p class="mb-5">You will receive an email to reset your password.</p>
 			{#if !isLoading}
 				<div class="flex justify-center">
 					<div>

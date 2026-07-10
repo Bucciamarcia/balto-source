@@ -86,6 +86,32 @@ export const actions: Actions = {
 			}
 			return fail(400, { error: "Unknown error" });
 		}
+	},
+
+	changePassword: async ({ locals }) => {
+		const user = locals.pb.authStore.record
+		const email = user?.email
+		try {
+			await locals.pb.collection("users").requestPasswordReset(email)
+		} catch (e) {
+			if (e instanceof Error) {
+				const err = e as Error
+				const causeJson = err.cause as any
+
+				const fieldErrors = causeJson?.data?.data
+				let message = "Unknown error"
+
+				if (fieldErrors) {
+					const firstField = Object.keys(fieldErrors)[0]
+					message = fieldErrors[firstField]?.message ?? causeJson?.data?.message ?? "Unknown error"
+				} else if (causeJson?.data?.message) {
+					message = causeJson.data.message
+				}
+
+				return fail(400, { error: message })
+			}
+			return fail(400, { error: "Unknown error" });
+		}
 	}
 }
 

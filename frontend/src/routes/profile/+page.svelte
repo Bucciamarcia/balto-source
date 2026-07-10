@@ -68,7 +68,7 @@
 			</div>
 			<div><ProfileButton label="Change password" onClick={() => (showPassModal = true)} /></div>
 		</div>
-		<ChangeEmailDialog bind:open={showPassModal}></ChangeEmailDialog>
+		<ChangeEmailDialog bind:open={showEmailModal}></ChangeEmailDialog>
 		<ChangePassDialog bind:open={showPassModal}></ChangePassDialog>
 	{/if}
 {/if}
