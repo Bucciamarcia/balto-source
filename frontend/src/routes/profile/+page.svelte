@@ -5,6 +5,7 @@
 	import ProfileButton from './ProfileButton.svelte';
 	import ChangeEmailDialog from './ChangeEmailDialog.svelte';
 	import ChangePassDialog from './ChangePassDialog.svelte';
+	import AvatarRow from './AvatarRow.svelte';
 
 	let { data } = $props();
 	let editMode = $state(false);
@@ -60,6 +61,9 @@
 	</div>
 	{#if errorMessage !== ''}
 		<FormError message="Error: {errorMessage}" />
+	{/if}
+	{#if data.user}
+		<AvatarRow user={data.user} isSelf={data.isSelf} />
 	{/if}
 	{#if data.isSelf}
 		<div class="mt-5 flex w-full justify-center">
