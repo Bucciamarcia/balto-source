@@ -2,6 +2,7 @@ import type { UsersResponse } from "$lib/pocketbase-types";
 import { fail } from "@sveltejs/kit";
 import type { Actions, PageServerLoad } from "./$types";
 import { PUBLIC_POCKETBASE_URL } from "$lib/pocketbase/url";
+import type Client from "pocketbase";
 
 export const load: PageServerLoad = async ({ locals, url }) => {
 	let uid: string = ""
@@ -65,9 +66,25 @@ export const actions: Actions = {
 			return fail(400, { error: "Email can't be empty", newEmail })
 		}
 		try {
-			await changeEmail(newEmail, id)
+			await changeEmail(newEmail, locals.pb)
 		} catch (e) {
-			return fail(400, { error: e instanceof Error ? e.message : "Unknown error" })
+			if (e instanceof Error) {
+				const err = e as Error
+				const causeJson = err.cause as any
+
+				const fieldErrors = causeJson?.data?.data
+				let message = "Unknown error"
+
+				if (fieldErrors) {
+					const firstField = Object.keys(fieldErrors)[0]
+					message = fieldErrors[firstField]?.message ?? causeJson?.data?.message ?? "Unknown error"
+				} else if (causeJson?.data?.message) {
+					message = causeJson.data.message
+				}
+
+				return fail(400, { error: message })
+			}
+			return fail(400, { error: "Unknown error" });
 		}
 	}
 }
@@ -86,14 +103,6 @@ async function changeUsername(username: string, id: string): Promise<void> {
 	}
 }
 
-async function changeEmail(email: string, id: string): Promise<void> {
-	const response = await fetch(`${PUBLIC_POCKETBASE_URL}/change_email`, {
-		method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({
-			"id": id, "email": email
-		})
-	})
-	if (!response.ok) {
-		const body = await response.json().catch(() => null);
-		throw new Error(body?.message ?? `error: ${response.text()}`)
-	}
+async function changeEmail(email: string, pb: Client): Promise<void> {
+	await pb.collection("users").requestEmailChange(email)
 }

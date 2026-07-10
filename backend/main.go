@@ -76,17 +76,6 @@ func main() {
 			return e.String(http.StatusOK, "OK")
 		})
 
-		se.Router.POST("/change_email", func(e *core.RequestEvent) error {
-			slog.Info("Changing email")
-			data := struct {
-				Id    string `json:"id"`
-				Email string `json:"email"`
-			}{}
-			slog.Info(data.Email)
-
-			return e.BadRequestError("NOEPGO", errors.New("noepgo"))
-		})
-
 		return se.Next()
 	})
 	if err := app.Start(); err != nil {

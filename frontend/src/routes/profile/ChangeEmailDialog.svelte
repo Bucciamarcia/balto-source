@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import FormError from '$lib/components/formError.svelte';
 
 	let showConfirm: boolean = $state(false);
 	let errorMessage: string = $state('');
@@ -8,6 +9,7 @@
 
 	let { open = $bindable(false) }: { open: any } = $props();
 	let dialogEl: HTMLDialogElement | undefined = $state();
+	let isLoading: boolean = $state(false);
 
 	$effect(() => {
 		if (!dialogEl) return;
@@ -28,7 +30,12 @@
 		method="POST"
 		action="?/changeEmail"
 		use:enhance={() => {
+			errorMessage = '';
+			showConfirm = false;
+			showConfirm = false;
+			isLoading = true;
 			return async ({ result, update }) => {
+				isLoading = false;
 				if (result.type === 'success') {
 					showConfirm = true;
 				} else if (result.type === 'failure') {
@@ -48,17 +55,21 @@
 				bind:value={email}
 				placeholder="New email address"
 			/>
-			<div class="flex justify-center">
-				<div>
-					<button class="btn" type="submit">Submit</button>
+			{#if !isLoading}
+				<div class="flex justify-center">
+					<div>
+						<button class="btn" type="submit">Submit</button>
+					</div>
+					<div><button class="btn" type="button" onclick={() => (open = false)}>Close</button></div>
 				</div>
-				<div><button class="btn" type="button" onclick={() => (open = false)}>Close</button></div>
-			</div>
+			{:else}
+				<span class="loading loading-sm loading-spinner"></span>
+			{/if}
 			{#if showConfirm == true}
 				<p>Request successful. Check your email address to confirm the email change</p>
 			{/if}
 			{#if errorMessage !== ''}
-				<p>Error: {errorMessage}</p>
+				<FormError message={errorMessage} />
 			{/if}
 		</div>
 	</form>
