@@ -3,7 +3,7 @@
     "id": "_pb_users_auth_",
     "listRule": "id = @request.auth.id",
     "viewRule": "",
-    "createRule": "",
+    "createRule": null,
     "updateRule": "id = @request.auth.id",
     "deleteRule": "id = @request.auth.id",
     "name": "users",
@@ -105,20 +105,22 @@
         "hidden": false,
         "id": "file376926767",
         "maxSelect": 1,
-        "maxSize": 0,
+        "maxSize": 2000000,
         "mimeTypes": [
           "image/jpeg",
           "image/png",
           "image/svg+xml",
-          "image/gif",
-          "image/webp"
+          "image/webp",
+          "image/vnd.mozilla.apng"
         ],
         "name": "avatar",
         "presentable": false,
         "protected": false,
         "required": false,
         "system": false,
-        "thumbs": null,
+        "thumbs": [
+          "40x40"
+        ],
         "type": "file"
       },
       {
@@ -128,7 +130,7 @@
         "maxSelect": 0,
         "name": "role",
         "presentable": false,
-        "required": false,
+        "required": true,
         "system": false,
         "type": "select",
         "values": [
@@ -136,6 +138,21 @@
           "moderator",
           "admin"
         ]
+      },
+      {
+        "autogeneratePattern": "",
+        "help": "",
+        "hidden": false,
+        "id": "text3709889147",
+        "max": 0,
+        "min": 0,
+        "name": "bio",
+        "pattern": "",
+        "presentable": false,
+        "primaryKey": false,
+        "required": false,
+        "system": false,
+        "type": "text"
       },
       {
         "hidden": false,
