@@ -80,7 +80,7 @@
 	{/if}
 {/if}
 <div>{@html data.user?.bio ?? 'No bio available for this user'}</div>
-<div class="mt-8 flex w-full justify-center">
+<div class="mt-8 grid place-items-center">
 	{#if data.isSelf}
 		<button onclick={() => (showTipTapEditor = !showTipTapEditor)} class="btn btn-primary"
 			>{showTipTapEditor ? 'Close editor' : 'Edit bio'}</button
@@ -88,7 +88,7 @@
 	{/if}
 </div>
 {#if data.isSelf && showTipTapEditor == true}
-	<div class="flex w-full justify-center">
+	<div class="grid place-items-center">
 		<TipTapEditor />
 	</div>
 {/if}
