@@ -49,6 +49,10 @@
 		"vitest-browser-svelte": "^2.1.0"
 	},
 	"dependencies": {
+		"@tiptap/core": "^3.27.3",
+		"@tiptap/extension-bubble-menu": "^3.27.3",
+		"@tiptap/pm": "^3.27.3",
+		"@tiptap/starter-kit": "^3.27.3",
 		"daisyui": "^5.5.23",
 		"date-fns": "^4.4.0",
 		"pocketbase": "^0.26.8"

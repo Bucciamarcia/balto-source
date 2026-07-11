@@ -6,6 +6,7 @@
 	import ChangeEmailDialog from './ChangeEmailDialog.svelte';
 	import ChangePassDialog from './ChangePassDialog.svelte';
 	import AvatarRow from './AvatarRow.svelte';
+	import TipTapEditor from './TipTapEditor.svelte';
 
 	let { data } = $props();
 	let editMode = $state(false);
@@ -15,6 +16,7 @@
 	let showEmailModal: boolean = $state(false);
 	let showPassModal: boolean = $state(false);
 	let showAvatarModal: boolean = $state(false);
+	let showTipTapEditor: boolean = $state(false);
 </script>
 
 {#if data.status === 400}
@@ -76,4 +78,17 @@
 		<ChangeEmailDialog bind:open={showEmailModal}></ChangeEmailDialog>
 		<ChangePassDialog bind:open={showPassModal}></ChangePassDialog>
 	{/if}
+{/if}
+<div>{@html data.user?.bio ?? 'No bio available for this user'}</div>
+<div class="mt-8 flex w-full justify-center">
+	{#if data.isSelf}
+		<button onclick={() => (showTipTapEditor = !showTipTapEditor)} class="btn btn-primary"
+			>{showTipTapEditor ? 'Close editor' : 'Edit bio'}</button
+		>
+	{/if}
+</div>
+{#if data.isSelf && showTipTapEditor == true}
+	<div class="flex w-full justify-center">
+		<TipTapEditor />
+	</div>
 {/if}
