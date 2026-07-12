@@ -189,6 +189,14 @@
 
 	<div class="editor-surface" bind:this={element}></div>
 </section>
+<div class="flex w-full justify-center">
+	<button
+		class="btn btn-primary"
+		onclick={() => {
+			console.log(editor?.getHTML() ?? 'noep');
+		}}>Save profile</button
+	>
+</div>
 
 <style>
 	.bio-editor {
@@ -217,12 +225,6 @@
 		font-weight: 800;
 		letter-spacing: 0.12em;
 		text-transform: uppercase;
-	}
-	.editor-heading h2 {
-		margin: 0;
-		color: oklch(0.24 0.035 255);
-		font-size: 1.3rem;
-		font-weight: 700;
 	}
 	.formatting-note {
 		color: oklch(0.53 0.025 255);
