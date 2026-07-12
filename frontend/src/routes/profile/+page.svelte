@@ -88,7 +88,7 @@
 	{/if}
 </div>
 {#if data.isSelf && showTipTapEditor == true}
-	<div class="grid place-items-center">
-		<TipTapEditor />
+	<div class="mx-auto">
+		<TipTapEditor content={data.user?.bio ?? ''} />
 	</div>
 {/if}
