@@ -145,6 +145,22 @@ export const actions: Actions = {
 		} catch (e) {
 			return fail(400, { error: e instanceof Error ? e.message : "Unknown error" })
 		}
+	},
+
+	addComment: async ({ locals, request }) => {
+		const user = locals.pb.authStore.record
+		if (!user) {
+			return fail(401, { error: "Not logged in" });
+		}
+		const data = await request.formData();
+		const comment = data.get("comment") as string;
+		const profileId = data.get("profileId");
+		const r = { "target_id": profileId, "content": comment, "type": "profile", "author": user.id }
+		try {
+			await locals.pb.collection("comments").create(r);
+		} catch (e) {
+			return fail(400, { error: e instanceof Error ? e.message : "Unknown error" })
+		}
 	}
 }
 
