@@ -3,6 +3,7 @@ import { fail } from "@sveltejs/kit";
 import type { Actions, PageServerLoad } from "./$types";
 import { PUBLIC_POCKETBASE_URL } from "$lib/pocketbase/url";
 import type Client from "pocketbase";
+import sanitizeHtml from "sanitize-html";
 
 export const load: PageServerLoad = async ({ locals, url }) => {
 	let uid: string = ""
@@ -138,8 +139,9 @@ export const actions: Actions = {
 		}
 		const data = await request.formData();
 		const htmlBio = data.get("html") as string;
+		const cleanHtml = sanitizeHtml(htmlBio);
 		try {
-			await locals.pb.collection("users").update(user.id, { "bio": htmlBio })
+			await locals.pb.collection("users").update(user.id, { "bio": cleanHtml })
 		} catch (e) {
 			return fail(400, { error: e instanceof Error ? e.message : "Unknown error" })
 		}
