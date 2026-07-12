@@ -135,6 +135,7 @@
 		action="?/addComment"
 		use:enhance={() => {
 			showCommentSuccess = false;
+			errorMessage = '';
 			return async ({ result, update }) => {
 				await update();
 
