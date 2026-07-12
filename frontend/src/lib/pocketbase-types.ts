@@ -120,12 +120,13 @@ export const UsersRoleOptions = {
 export type UsersRoleOptions = typeof UsersRoleOptions[keyof typeof UsersRoleOptions]
 export type UsersRecord = {
 	avatar?: FileNameString
+	bio?: string
 	created: IsoAutoDateString
 	email: string
 	emailVisibility?: boolean
 	id: string
 	password: string
-	role?: UsersRoleOptions
+	role: UsersRoleOptions
 	tokenKey: string
 	updated: IsoAutoDateString
 	username: string
