@@ -19,6 +19,16 @@
 	let showTipTapEditor: boolean = $state(false);
 	// svelte-ignore state_referenced_locally
 	let htmlBio: string = $state(data.user?.bio ?? '');
+
+	function renderBio(v: string | undefined): string {
+		if (v === undefined) {
+			return "Can't find bio.";
+		} else if (v === '') {
+			return "This user doesn't have any bio.";
+		} else {
+			return v;
+		}
+	}
 </script>
 
 {#if data.status === 400}
@@ -78,7 +88,7 @@
 		<ChangePassDialog bind:open={showPassModal}></ChangePassDialog>
 	{/if}
 {/if}
-<div>{@html data.user?.bio ?? 'No bio available for this user'}</div>
+<div>{@html renderBio(data.user?.bio)}</div>
 <div class="mt-8 grid place-items-center">
 	{#if data.isSelf}
 		<button onclick={() => (showTipTapEditor = !showTipTapEditor)} class="btn btn-primary"
