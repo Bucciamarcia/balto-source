@@ -129,6 +129,20 @@ export const actions: Actions = {
 		} catch (e) {
 			return fail(400, { error: e instanceof Error ? e.message : "Unknown error" })
 		}
+	},
+
+	updateBio: async ({ locals, request }) => {
+		const user = locals.pb.authStore.record
+		if (!user) {
+			return fail(401, { error: "Not logged in" });
+		}
+		const data = await request.formData();
+		const htmlBio = data.get("html") as string;
+		try {
+			await locals.pb.collection("users").update(user.id, { "bio": htmlBio })
+		} catch (e) {
+			return fail(400, { error: e instanceof Error ? e.message : "Unknown error" })
+		}
 	}
 }
 

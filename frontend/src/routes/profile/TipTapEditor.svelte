@@ -4,7 +4,7 @@
 	import { StarterKit } from '@tiptap/starter-kit';
 	import { TextStyleKit } from '@tiptap/extension-text-style';
 
-	let { content = '' }: { content?: string | null } = $props();
+	let { content, value = $bindable(content) }: { content: string; value: string } = $props();
 
 	let element: HTMLDivElement;
 	let editor = $state<Editor | null>(null);
@@ -72,7 +72,10 @@
 				editorInstance.commands.setColor('#ffffff');
 				refreshToolbar(editorInstance);
 			},
-			onTransaction: ({ editor: editorInstance }) => refreshToolbar(editorInstance)
+			onTransaction: ({ editor: editorInstance }) => refreshToolbar(editorInstance),
+			onUpdate: ({ editor }) => {
+				value = editor.getHTML();
+			}
 		});
 	});
 
@@ -81,10 +84,7 @@
 
 <section class="bio-editor" aria-label="Edit profile bio">
 	<div class="editor-heading">
-		<div>
-			<p class="eyebrow">Edit your profile</p>
-		</div>
-		<span class="formatting-note">Formatting is saved with your bio</span>
+		<p class="eyebrow">Edit your profile</p>
 	</div>
 
 	{#if editor}
@@ -189,14 +189,7 @@
 
 	<div class="editor-surface" bind:this={element}></div>
 </section>
-<div class="flex w-full justify-center">
-	<button
-		class="btn btn-primary"
-		onclick={() => {
-			console.log(editor?.getHTML() ?? 'noep');
-		}}>Save profile</button
-	>
-</div>
+<div class="flex w-full justify-center"></div>
 
 <style>
 	.bio-editor {

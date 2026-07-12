@@ -17,6 +17,8 @@
 	let showPassModal: boolean = $state(false);
 	let showAvatarModal: boolean = $state(false);
 	let showTipTapEditor: boolean = $state(false);
+	// svelte-ignore state_referenced_locally
+	let htmlBio: string = $state(data.user?.bio ?? '');
 </script>
 
 {#if data.status === 400}
@@ -62,9 +64,6 @@
 			</div>
 		{/if}
 	</div>
-	{#if errorMessage !== ''}
-		<FormError message="Error: {errorMessage}" />
-	{/if}
 	{#if data.user}
 		<AvatarRow bind:open={showAvatarModal} user={data.user} isSelf={data.isSelf} />
 	{/if}
@@ -89,6 +88,30 @@
 </div>
 {#if data.isSelf && showTipTapEditor == true}
 	<div class="mx-auto">
-		<TipTapEditor content={data.user?.bio ?? ''} />
+		<TipTapEditor content={data.user?.bio ?? ''} bind:value={htmlBio} />
 	</div>
+	<form
+		method="POST"
+		action="?/updateBio"
+		use:enhance={() => {
+			return async ({ result, update }) => {
+				await update();
+
+				if (result.type === 'failure') {
+					console.log(result.data);
+					errorMessage = (result.data?.error as string) ?? 'Unknown error';
+				}
+				if (result.type === 'success') {
+					showTipTapEditor = false;
+				}
+			};
+		}}
+		class="flex w-full justify-center"
+	>
+		<input name="html" type="hidden" bind:value={htmlBio} />
+		<button class="btn cursor-pointer btn-primary" type="submit">Update your bio</button>
+	</form>
+{/if}
+{#if errorMessage !== ''}
+	<FormError message="Error: {errorMessage}" />
 {/if}
