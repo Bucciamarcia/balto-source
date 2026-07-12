@@ -12,6 +12,7 @@ export const Collections = {
 	Otps: "_otps",
 	Superusers: "_superusers",
 	ChatMessages: "chat_messages",
+	Comments: "comments",
 	HomepageNews: "homepage_news",
 	Users: "users",
 } as const
@@ -103,6 +104,22 @@ export type ChatMessagesRecord = {
 	updated: IsoAutoDateString
 }
 
+export const CommentsTypeOptions = {
+	"news": "news",
+	"profile": "profile",
+} as const
+export type CommentsTypeOptions = typeof CommentsTypeOptions[keyof typeof CommentsTypeOptions]
+export type CommentsRecord = {
+	author?: RecordIdString
+	content: string
+	created: IsoAutoDateString
+	id: string
+	parent?: string
+	target_id: string
+	type: CommentsTypeOptions
+	updated: IsoAutoDateString
+}
+
 export type HomepageNewsRecord = {
 	author: RecordIdString
 	body: string
@@ -140,6 +157,7 @@ export type MfasResponse<Texpand = unknown> = Required<MfasRecord> & BaseSystemF
 export type OtpsResponse<Texpand = unknown> = Required<OtpsRecord> & BaseSystemFields<Texpand>
 export type SuperusersResponse<Texpand = unknown> = Required<SuperusersRecord> & AuthSystemFields<Texpand>
 export type ChatMessagesResponse<Texpand = unknown> = Required<ChatMessagesRecord> & BaseSystemFields<Texpand>
+export type CommentsResponse<Texpand = unknown> = Required<CommentsRecord> & BaseSystemFields<Texpand>
 export type HomepageNewsResponse<Texpand = unknown> = Required<HomepageNewsRecord> & BaseSystemFields<Texpand>
 export type UsersResponse<Texpand = unknown> = Required<UsersRecord> & AuthSystemFields<Texpand>
 
@@ -152,6 +170,7 @@ export type CollectionRecords = {
 	_otps: OtpsRecord
 	_superusers: SuperusersRecord
 	chat_messages: ChatMessagesRecord
+	comments: CommentsRecord
 	homepage_news: HomepageNewsRecord
 	users: UsersRecord
 }
@@ -163,6 +182,7 @@ export type CollectionResponses = {
 	_otps: OtpsResponse
 	_superusers: SuperusersResponse
 	chat_messages: ChatMessagesResponse
+	comments: CommentsResponse
 	homepage_news: HomepageNewsResponse
 	users: UsersResponse
 }
