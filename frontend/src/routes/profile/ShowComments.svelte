@@ -13,7 +13,6 @@
 	let replyId: string = $state('');
 	let replyValue: string = $state('');
 	let commentKey: number = $state(0);
-	let showReplySuccess: boolean = $state(false);
 	let errorMessage: string = $state('');
 
 	function isOpen(commentId: string): boolean {
@@ -60,7 +59,7 @@
 						if (result.type === 'success') {
 							replyValue = '';
 							commentKey++;
-							showReplySuccess = true;
+							replyId = '';
 						}
 					};
 				}}
@@ -72,9 +71,6 @@
 				<input name="comment" type="hidden" value={replyValue} />
 				<input name="profileId" type="hidden" value={profileId} />
 				<button class="btn cursor-pointer btn-primary" type="submit">Add comment</button>
-				{#if showReplySuccess}
-					<p class="mt-3 ml-5 self-center text-green-600">Comment sent successfully</p>
-				{/if}
 				{#if errorMessage !== ''}
 					<FormError message={errorMessage} />
 				{/if}
