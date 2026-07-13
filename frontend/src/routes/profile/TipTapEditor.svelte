@@ -4,7 +4,11 @@
 	import { StarterKit } from '@tiptap/starter-kit';
 	import { TextStyleKit } from '@tiptap/extension-text-style';
 
-	let { content, value = $bindable(content) }: { content: string; value: string } = $props();
+	let {
+		content,
+		value = $bindable(content),
+		header
+	}: { content: string; value: string; header: string } = $props();
 
 	let element: HTMLDivElement;
 	let editor = $state<Editor | null>(null);
@@ -84,7 +88,7 @@
 
 <section class="bio-editor" aria-label="Edit profile bio">
 	<div class="editor-heading">
-		<p class="eyebrow">Edit your profile</p>
+		<p class="eyebrow">{header}</p>
 	</div>
 
 	{#if editor}
@@ -219,11 +223,6 @@
 		letter-spacing: 0.12em;
 		text-transform: uppercase;
 	}
-	.formatting-note {
-		color: oklch(0.53 0.025 255);
-		font-size: 0.8rem;
-		text-align: right;
-	}
 
 	.toolbar {
 		display: flex;
@@ -343,9 +342,6 @@
 		.editor-heading {
 			align-items: start;
 			flex-direction: column;
-		}
-		.formatting-note {
-			text-align: left;
 		}
 		.history-tools {
 			display: none;

@@ -1,4 +1,4 @@
-import type { UsersResponse } from "$lib/pocketbase-types";
+import { type CommentsResponse, type UsersResponse } from "$lib/pocketbase-types";
 import { fail } from "@sveltejs/kit";
 import type { Actions, PageServerLoad } from "./$types";
 import { PUBLIC_POCKETBASE_URL } from "$lib/pocketbase/url";
@@ -9,6 +9,7 @@ export const load: PageServerLoad = async ({ locals, url }) => {
 	let uid: string = ""
 	const localsId = locals.user?.id;
 	const paramId = url.searchParams.get("id")
+	const isLoggedIn = !!locals.pb.authStore.isValid;
 	if (paramId != null) {
 		uid = paramId
 	}
@@ -17,14 +18,23 @@ export const load: PageServerLoad = async ({ locals, url }) => {
 	}
 	if (uid === "") {
 		return { status: 400, error: "Empty uid" }
-	} else {
-		try {
-			const user = await locals.pb.collection("users").getOne<UsersResponse>(uid)
-			const isSelf = user.id === locals.user?.id
-			return { status: 200, user, isSelf }
-		} catch (e) {
-			return { status: 404, error: "Not found" }
-		}
+	}
+	const pb = locals.pb;
+	let comments: CommentsResponse<{ author: UsersResponse }>[]
+	try {
+		comments = await pb.collection("comments").getFullList<CommentsResponse<{ author: UsersResponse }>>({
+			filter: `type = "profile" && target_id = "${uid}"`, sort: '-created', expand: 'author'
+		})
+	} catch (e) {
+		console.log(`Error in fetching comments: ${e}`)
+		comments = [];
+	}
+	try {
+		const user = await locals.pb.collection("users").getOne<UsersResponse>(uid)
+		const isSelf = user.id === locals.user?.id
+		return { status: 200, user, isSelf, comments, isLoggedIn }
+	} catch (e) {
+		return { status: 404, error: "Not found" }
 	}
 }
 
@@ -142,6 +152,24 @@ export const actions: Actions = {
 		const cleanHtml = sanitizeHtml(htmlBio);
 		try {
 			await locals.pb.collection("users").update(user.id, { "bio": cleanHtml })
+		} catch (e) {
+			return fail(400, { error: e instanceof Error ? e.message : "Unknown error" })
+		}
+	},
+
+	addComment: async ({ locals, request }) => {
+		const user = locals.pb.authStore.record
+		if (!user) {
+			return fail(401, { error: "Not logged in" });
+		}
+		const data = await request.formData();
+		const comment = data.get("comment") as string;
+		const profileId = data.get("profileId");
+		const parent = data.get("parent");
+		const clean = sanitizeHtml(comment);
+		const r = { "target_id": profileId, "parent": parent, "content": clean, "type": "profile", "author": user.id }
+		try {
+			await locals.pb.collection("comments").create(r);
 		} catch (e) {
 			return fail(400, { error: e instanceof Error ? e.message : "Unknown error" })
 		}
