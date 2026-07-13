@@ -7,6 +7,7 @@
 	import ChangePassDialog from './ChangePassDialog.svelte';
 	import AvatarRow from './AvatarRow.svelte';
 	import TipTapEditor from './TipTapEditor.svelte';
+	import ShowComments from './ShowComments.svelte';
 
 	let { data } = $props();
 	let editMode = $state(false);
@@ -130,35 +131,42 @@
 	<FormError message="Error: {errorMessage}" />
 {/if}
 <div class="w-full max-w-1/2">
-	<form
-		method="POST"
-		action="?/addComment"
-		use:enhance={() => {
-			showCommentSuccess = false;
-			errorMessage = '';
-			return async ({ result, update }) => {
-				await update();
+	{#if data.isLoggedIn}
+		<form
+			method="POST"
+			action="?/addComment"
+			use:enhance={() => {
+				showCommentSuccess = false;
+				errorMessage = '';
+				return async ({ result, update }) => {
+					await update();
 
-				if (result.type === 'failure') {
-					console.log(result.data);
-					errorMessage = (result.data?.error as string) ?? 'Unknown error';
-				}
-				if (result.type === 'success') {
-					comment = '';
-					commentKey++;
-					showCommentSuccess = true;
-				}
-			};
-		}}
-	>
-		{#key commentKey}
-			<TipTapEditor content="" header="Add a comment" bind:value={comment} />
-		{/key}
-		<input name="comment" type="hidden" bind:value={comment} />
-		<input name="profileId" type="hidden" bind:value={profileId} />
-		<button class="btn cursor-pointer btn-primary" type="submit">Add comment</button>
-	</form>
+					if (result.type === 'failure') {
+						console.log(result.data);
+						errorMessage = (result.data?.error as string) ?? 'Unknown error';
+					}
+					if (result.type === 'success') {
+						comment = '';
+						commentKey++;
+						showCommentSuccess = true;
+					}
+				};
+			}}
+		>
+			{#key commentKey}
+				<TipTapEditor content="" header="Add a comment" bind:value={comment} />
+			{/key}
+			<input name="comment" type="hidden" bind:value={comment} />
+			<input name="profileId" type="hidden" bind:value={profileId} />
+			<button class="btn cursor-pointer btn-primary" type="submit">Add comment</button>
+		</form>
+	{/if}
 	{#if showCommentSuccess}
 		<p class="text-green-300">Comment sent successfully!</p>
+	{/if}
+	{#if data.comments?.length == 0 || !data.comments}
+		<p>No comments yet. Be the first!</p>
+	{:else}
+		<ShowComments comments={data.comments} />
 	{/if}
 </div>
