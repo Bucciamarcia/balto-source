@@ -1,7 +1,5 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import { buildAvatarUrl } from '$lib/components/buildAvatarUrl';
-	import FormattedDate from '$lib/components/FormattedDate.svelte';
 	import FormError from '$lib/components/formError.svelte';
 	import type { CommentsResponse, UsersResponse } from '$lib/pocketbase-types';
 	import SingleCommentDisplay from './SingleCommentDisplay.svelte';
