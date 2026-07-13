@@ -130,7 +130,7 @@
 {#if errorMessage !== ''}
 	<FormError message="Error: {errorMessage}" />
 {/if}
-<div class="w-full max-w-1/2">
+<div class="w-full max-w-3xl">
 	{#if data.isLoggedIn}
 		<form
 			method="POST"
@@ -156,6 +156,7 @@
 			{#key commentKey}
 				<TipTapEditor content="" header="Add a comment" bind:value={comment} />
 			{/key}
+			<input name="parent" type="hidden" value={null} />
 			<input name="comment" type="hidden" bind:value={comment} />
 			<input name="profileId" type="hidden" bind:value={profileId} />
 			<button class="btn cursor-pointer btn-primary" type="submit">Add comment</button>
@@ -167,6 +168,6 @@
 	{#if data.comments?.length == 0 || !data.comments}
 		<p>No comments yet. Be the first!</p>
 	{:else}
-		<ShowComments comments={data.comments} />
+		<ShowComments comments={data.comments} {profileId} />
 	{/if}
 </div>
