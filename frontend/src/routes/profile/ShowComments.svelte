@@ -4,6 +4,7 @@
 	import FormattedDate from '$lib/components/FormattedDate.svelte';
 	import FormError from '$lib/components/formError.svelte';
 	import type { CommentsResponse, UsersResponse } from '$lib/pocketbase-types';
+	import SingleCommentDisplay from './SingleCommentDisplay.svelte';
 	import TipTapEditor from './TipTapEditor.svelte';
 
 	let {
@@ -19,21 +20,19 @@
 		if (replyId == commentId) return true;
 		return false;
 	}
+
+	function rootComments(): CommentsResponse<{ author: UsersResponse }>[] {
+		return comments.filter((c) => c.parent === '');
+	}
+
+	function childComments(parentId: string): CommentsResponse<{ author: UsersResponse }>[] {
+		return comments.filter((c) => c.parent === parentId);
+	}
 </script>
 
-{#each comments as comment}
+{#each rootComments() as comment}
 	<div class="mt-5 border-2 border-accent p-5">
-		<div class="flex">
-			<div class="mr-5 self-center">{comment.expand.author.username}</div>
-			<img
-				src={buildAvatarUrl(comment.expand.author)}
-				alt="{comment.expand.author.username} avatar"
-			/>
-			<div class="ml-5 self-center">
-				<FormattedDate date={new Date(comment.created)} />
-			</div>
-		</div>
-		<p class="mt-5">{@html comment.content}</p>
+		<SingleCommentDisplay {comment} />
 		<button
 			class="btn mt-5 btn-primary"
 			onclick={() => {
@@ -75,7 +74,11 @@
 					<FormError message={errorMessage} />
 				{/if}
 			</form>
-			<div></div>
 		{/if}
+		{#each childComments(comment.id) as child}
+			<div class="mt-5 border-2 border-accent p-5">
+				<SingleCommentDisplay comment={child} />
+			</div>
+		{/each}
 	</div>
 {/each}

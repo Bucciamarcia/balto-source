@@ -110,7 +110,7 @@ export const CommentsTypeOptions = {
 } as const
 export type CommentsTypeOptions = typeof CommentsTypeOptions[keyof typeof CommentsTypeOptions]
 export type CommentsRecord = {
-	author?: RecordIdString
+	author: RecordIdString
 	content: string
 	created: IsoAutoDateString
 	id: string
