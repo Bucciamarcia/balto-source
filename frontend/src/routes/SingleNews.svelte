@@ -1,9 +1,17 @@
 <script lang="ts">
 	import { buildAvatarUrl } from '$lib/components/buildAvatarUrl';
 	import FormattedDate from '$lib/components/FormattedDate.svelte';
-	import type { HomepageNewsResponse, UsersResponse } from '$lib/pocketbase-types';
+	import type {
+		CommentsResponse,
+		HomepageNewsResponse,
+		UsersResponse
+	} from '$lib/pocketbase-types';
 
-	let { news }: { news: HomepageNewsResponse<{ author: UsersResponse }> } = $props();
+	let {
+		news,
+		comments
+	}: { news: HomepageNewsResponse<{ author: UsersResponse }>; comments: CommentsResponse[] } =
+		$props();
 
 	function buildUserAvatarTag(user: UsersResponse): string {
 		return `${user.username} avatar`;
@@ -31,4 +39,9 @@
 		{/if}
 	</div>
 	{@html news.body}
+	<div class="mt-4 flex gap-4 place-self-center">
+		<a href="news/{news.id}" class="text-lg font-semibold text-blue-300"
+			>{comments.length} comments</a
+		>
+	</div>
 </div>
