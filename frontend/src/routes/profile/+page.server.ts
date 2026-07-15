@@ -164,10 +164,10 @@ export const actions: Actions = {
 		}
 		const data = await request.formData();
 		const comment = data.get("comment") as string;
-		const profileId = data.get("profileId");
+		const targetId = data.get("targetId");
 		const parent = data.get("parent");
 		const clean = sanitizeHtml(comment);
-		const r = { "target_id": profileId, "parent": parent, "content": clean, "type": "profile", "author": user.id }
+		const r = { "target_id": targetId, "parent": parent, "content": clean, "type": "profile", "author": user.id }
 		try {
 			await locals.pb.collection("comments").create(r);
 		} catch (e) {
