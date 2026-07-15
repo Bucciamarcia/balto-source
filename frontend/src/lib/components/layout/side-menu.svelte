@@ -51,7 +51,7 @@
 		<h2><strong>Fans</strong></h2>
 
 		<ul>
-			<li>Fanart</li>
+			<a href="/fanart"><li>Fanart</li></a>
 			<li>Fanfic</li>
 			<li>Images</li>
 			<li>Videos</li>

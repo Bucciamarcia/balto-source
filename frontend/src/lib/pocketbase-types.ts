@@ -13,6 +13,8 @@ export const Collections = {
 	Superusers: "_superusers",
 	ChatMessages: "chat_messages",
 	Comments: "comments",
+	FanartFavorites: "fanart_favorites",
+	Fanarts: "fanarts",
 	HomepageNews: "homepage_news",
 	Users: "users",
 } as const
@@ -107,6 +109,7 @@ export type ChatMessagesRecord = {
 export const CommentsTypeOptions = {
 	"news": "news",
 	"profile": "profile",
+	"fanart": "fanart",
 } as const
 export type CommentsTypeOptions = typeof CommentsTypeOptions[keyof typeof CommentsTypeOptions]
 export type CommentsRecord = {
@@ -117,6 +120,24 @@ export type CommentsRecord = {
 	parent?: string
 	target_id: string
 	type: CommentsTypeOptions
+	updated: IsoAutoDateString
+}
+
+export type FanartFavoritesRecord = {
+	created: IsoAutoDateString
+	id: string
+	source?: RecordIdString
+	target?: RecordIdString
+	updated: IsoAutoDateString
+}
+
+export type FanartsRecord = {
+	author: RecordIdString
+	created: IsoAutoDateString
+	description?: string
+	id: string
+	image: FileNameString
+	title?: string
 	updated: IsoAutoDateString
 }
 
@@ -158,6 +179,8 @@ export type OtpsResponse<Texpand = unknown> = Required<OtpsRecord> & BaseSystemF
 export type SuperusersResponse<Texpand = unknown> = Required<SuperusersRecord> & AuthSystemFields<Texpand>
 export type ChatMessagesResponse<Texpand = unknown> = Required<ChatMessagesRecord> & BaseSystemFields<Texpand>
 export type CommentsResponse<Texpand = unknown> = Required<CommentsRecord> & BaseSystemFields<Texpand>
+export type FanartFavoritesResponse<Texpand = unknown> = Required<FanartFavoritesRecord> & BaseSystemFields<Texpand>
+export type FanartsResponse<Texpand = unknown> = Required<FanartsRecord> & BaseSystemFields<Texpand>
 export type HomepageNewsResponse<Texpand = unknown> = Required<HomepageNewsRecord> & BaseSystemFields<Texpand>
 export type UsersResponse<Texpand = unknown> = Required<UsersRecord> & AuthSystemFields<Texpand>
 
@@ -171,6 +194,8 @@ export type CollectionRecords = {
 	_superusers: SuperusersRecord
 	chat_messages: ChatMessagesRecord
 	comments: CommentsRecord
+	fanart_favorites: FanartFavoritesRecord
+	fanarts: FanartsRecord
 	homepage_news: HomepageNewsRecord
 	users: UsersRecord
 }
@@ -183,6 +208,8 @@ export type CollectionResponses = {
 	_superusers: SuperusersResponse
 	chat_messages: ChatMessagesResponse
 	comments: CommentsResponse
+	fanart_favorites: FanartFavoritesResponse
+	fanarts: FanartsResponse
 	homepage_news: HomepageNewsResponse
 	users: UsersResponse
 }
