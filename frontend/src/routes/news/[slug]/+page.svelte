@@ -7,4 +7,4 @@
 </script>
 
 <SingleNews news={data.news} comments={data.comments} showCommentsLine={false} />
-<ShowComments />
+<ShowComments isLoggedIn={data.isLoggedIn} targetId={data.news.id} comments={data.comments} />
