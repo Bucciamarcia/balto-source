@@ -6,8 +6,8 @@
 	import ChangeEmailDialog from './ChangeEmailDialog.svelte';
 	import ChangePassDialog from './ChangePassDialog.svelte';
 	import AvatarRow from './AvatarRow.svelte';
-	import TipTapEditor from './TipTapEditor.svelte';
-	import ShowComments from './ShowComments.svelte';
+	import TipTapEditor from '$lib/components/layout/comments/TipTapEditor.svelte';
+	import ShowComments from '$lib/components/layout/comments/ShowComments.svelte';
 
 	let { data } = $props();
 	let editMode = $state(false);
@@ -131,43 +131,9 @@
 	<FormError message="Error: {errorMessage}" />
 {/if}
 <div class="w-full max-w-3xl">
-	{#if data.isLoggedIn}
-		<form
-			method="POST"
-			action="?/addComment"
-			use:enhance={() => {
-				showCommentSuccess = false;
-				errorMessage = '';
-				return async ({ result, update }) => {
-					await update();
-
-					if (result.type === 'failure') {
-						console.log(result.data);
-						errorMessage = (result.data?.error as string) ?? 'Unknown error';
-					}
-					if (result.type === 'success') {
-						comment = '';
-						commentKey++;
-						showCommentSuccess = true;
-					}
-				};
-			}}
-		>
-			{#key commentKey}
-				<TipTapEditor content="" header="Add a comment" bind:value={comment} />
-			{/key}
-			<input name="parent" type="hidden" value={null} />
-			<input name="comment" type="hidden" bind:value={comment} />
-			<input name="profileId" type="hidden" bind:value={profileId} />
-			<button class="btn cursor-pointer btn-primary" type="submit">Add comment</button>
-		</form>
-	{/if}
-	{#if showCommentSuccess}
-		<p class="text-green-300">Comment sent successfully!</p>
-	{/if}
-	{#if data.comments?.length == 0 || !data.comments}
-		<p>No comments yet. Be the first!</p>
-	{:else}
-		<ShowComments comments={data.comments} {profileId} />
-	{/if}
+	<ShowComments
+		comments={data.comments ?? []}
+		targetId={profileId}
+		isLoggedIn={data.isLoggedIn ?? false}
+	/>
 </div>
