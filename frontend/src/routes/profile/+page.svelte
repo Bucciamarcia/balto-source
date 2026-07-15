@@ -20,9 +20,6 @@
 	let showTipTapEditor: boolean = $state(false);
 	// svelte-ignore state_referenced_locally
 	let htmlBio: string = $state(data.user?.bio ?? '');
-	let comment: string = $state('');
-	let commentKey: number = $state(0);
-	let showCommentSuccess: boolean = $state(false);
 	let profileId: string = $derived(data.user?.id ?? '');
 
 	function renderBio(v: string | undefined): string {
