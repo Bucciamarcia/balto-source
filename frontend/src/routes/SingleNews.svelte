@@ -26,16 +26,18 @@
 	<h2 class="mt-7">{news.title}</h2>
 	<div class="mt-4 mb-4 flex">
 		<div class="self-center">
-			<p>By {news.expand.author.username}</p>
+			<a href={`/profile?id=${news.expand.author.id}`}>By {news.expand.author.username}</a>
 		</div>
 		{#if news.expand.author.avatar != ''}
 			<div class="mr-2 ml-2">
-				<img
-					src={buildAvatarUrl(news.expand.author)}
-					alt={buildUserAvatarTag(news.expand.author)}
-					height="40"
-					width="40"
-				/>
+				<a href={`/profile?id=${news.expand.author.id}`}>
+					<img
+						src={buildAvatarUrl(news.expand.author)}
+						alt={buildUserAvatarTag(news.expand.author)}
+						height="40"
+						width="40"
+					/>
+				</a>
 			</div>
 			<div class="self-center">
 				<p>On <FormattedDate date={new Date(news.created)} /></p>

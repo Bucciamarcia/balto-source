@@ -75,16 +75,18 @@
 	{#each rootComments() as comment}
 		<div class="mt-5 border-2 border-accent p-5">
 			<SingleCommentDisplay {comment} />
-			<button
-				class="btn mt-5 btn-primary"
-				onclick={() => {
-					if (isOpen(comment.id)) {
-						replyId = '';
-					} else {
-						replyId = comment.id;
-					}
-				}}>{isOpen(comment.id) ? 'Close' : 'Reply'}</button
-			>
+			{#if isLoggedIn}
+				<button
+					class="btn mt-5 btn-primary"
+					onclick={() => {
+						if (isOpen(comment.id)) {
+							replyId = '';
+						} else {
+							replyId = comment.id;
+						}
+					}}>{isOpen(comment.id) ? 'Close' : 'Reply'}</button
+				>
+			{/if}
 			{#if replyId == comment.id}
 				<form
 					method="POST"

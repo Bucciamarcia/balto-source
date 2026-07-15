@@ -10,14 +10,19 @@
 <div class="chat {message.author === user ? 'chat-end' : 'chat-start'}">
 	<div class="avatar chat-image">
 		<div class="w-10 rounded-full">
-			<img
-				src={buildAvatarUrl(message.expand.author)}
-				alt="{message.expand.author.username} avatar"
-			/>
+			<a href={`/profile?id=${message.expand.author.id}`}>
+				<img
+					src={buildAvatarUrl(message.expand.author)}
+					alt="{message.expand.author.username} avatar"
+				/>
+			</a>
 		</div>
 	</div>
 	<div class="chat-header">
-		{message.expand.author.username} - <FormattedDate date={new Date(message.created)} />
+		<a class="no-underline" href={`/profile?id=${message.expand.author.id}`}>
+			{message.expand.author.username}</a
+		>
+		- <FormattedDate date={new Date(message.created)} />
 	</div>
 	<div class="chat-bubble">
 		{message.body}
