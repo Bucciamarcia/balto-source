@@ -15,7 +15,7 @@
 </div>
 
 {#each data.resultList as news}
-	<SingleNews {news} comments={data.loadedComments.get(news.id)!} />
+	<SingleNews {news} comments={data.loadedComments.get(news.id)!} showCommentsLine={true} />
 {/each}
 
 {#if data.flash}

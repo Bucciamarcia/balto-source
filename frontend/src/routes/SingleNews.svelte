@@ -9,9 +9,13 @@
 
 	let {
 		news,
-		comments
-	}: { news: HomepageNewsResponse<{ author: UsersResponse }>; comments: CommentsResponse[] } =
-		$props();
+		comments,
+		showCommentsLine
+	}: {
+		news: HomepageNewsResponse<{ author: UsersResponse }>;
+		comments: CommentsResponse[];
+		showCommentsLine: boolean;
+	} = $props();
 
 	function buildUserAvatarTag(user: UsersResponse): string {
 		return `${user.username} avatar`;
@@ -39,9 +43,11 @@
 		{/if}
 	</div>
 	{@html news.body}
-	<div class="mt-4 flex gap-4 place-self-center">
-		<a href="news/{news.id}" class="text-lg font-semibold text-blue-300"
-			>{comments.length} comments</a
-		>
-	</div>
+	{#if showCommentsLine}
+		<div class="mt-4 flex gap-4 place-self-center">
+			<a href="news/{news.id}" class="text-lg font-semibold text-blue-300"
+				>{comments.length} comments</a
+			>
+		</div>
+	{/if}
 </div>
