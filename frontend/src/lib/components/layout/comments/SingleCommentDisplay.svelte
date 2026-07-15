@@ -12,6 +12,8 @@
 	>
 	<a class="mr-5 self-center" href={`/profile?id=${comment.expand.author.id}`}>
 		<img
+			height="40"
+			width="40"
 			src={buildAvatarUrl(comment.expand.author)}
 			alt="{comment.expand.author.username} avatar"
 		/>
