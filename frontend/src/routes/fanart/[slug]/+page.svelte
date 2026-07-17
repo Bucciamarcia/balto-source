@@ -28,5 +28,9 @@
 		>
 			{isExpanded ? 'Show thumbnail' : 'Show full size'}
 		</button>
+		<p>{data.favs.length} favorites</p>
+		<form method="POST" action="?/favorite">
+			<button type="submit">gogo</button>
+		</form>
 	</div>
 </div>
