@@ -13,12 +13,16 @@
 <div class="flex flex-wrap gap-2">
 	{#each data.fanarts as fanart}
 		<div class="flex flex-col">
-			<img src={getFanartUrl(fanart.id, fanart.image)} alt="{fanart.title} by {fanart.author}" />
-			<p class="mt-2 text-center">{fanart.title}</p>
+			<a href={`/fanart/${fanart.id}`}>
+				<img src={getFanartUrl(fanart.id, fanart.image)} alt="{fanart.title} by {fanart.author}" />
+			</a>
+			<a href={`/fanart/${fanart.id}`}>
+				<p class="mt-2 text-center">{fanart.title}</p>
+			</a>
 			<p class="text-center">
 				By <a href={`/profile?id=${fanart.author}`}>{fanart.expand.author.username}</a>
 			</p>
-			<p class="mt-2 text-center text-xs">
+			<p class="mt-2 text-center text-xs italic">
 				On <FormattedDate date={new Date(fanart.created)} showTime={false} />
 			</p>
 		</div>
