@@ -1,0 +1,8 @@
+import type { FanartsResponse, UsersResponse } from "$lib/pocketbase-types";
+import type { PageServerLoad } from "./$types";
+
+export const load: PageServerLoad = async ({ locals, params }) => {
+	const id = params.slug;
+	const fanart = await locals.pb.collection("fanarts").getOne<FanartsResponse<{ author: UsersResponse }>>(id, { expand: "author" });
+	return { fanart }
+}
