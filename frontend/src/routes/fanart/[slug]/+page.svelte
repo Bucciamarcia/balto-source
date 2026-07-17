@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import FormError from '$lib/components/formError.svelte';
+	import ShowComments from '$lib/components/layout/comments/ShowComments.svelte';
+	import TipTapEditor from '$lib/components/layout/comments/TipTapEditor.svelte';
 	import type { UsersResponse } from '$lib/pocketbase-types';
 	import { PUBLIC_POCKETBASE_URL } from '$lib/pocketbase/url';
 
@@ -10,6 +12,7 @@
 	let isExpanded: boolean = $state(false);
 	let errorMessage: string = $state('');
 	let isLoggedIn: boolean = $derived(data.user != null);
+	let comment: string = $state('');
 	function getFanartUrl(id: string, image: string): string {
 		const root = `${PUBLIC_POCKETBASE_URL}/api/files/fanarts/${id}/${image}`;
 		if (isExpanded) return root;
@@ -85,5 +88,6 @@
 				</form>
 			{/if}
 		{/if}
+		<ShowComments {isLoggedIn} targetId={data.fanart.id} comments={data.comments} />
 	</div>
 </div>
