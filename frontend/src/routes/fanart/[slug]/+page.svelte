@@ -17,12 +17,21 @@
 	}
 </script>
 
-<div class="mainbg flex flex-col">
+<div class="flex flex-col">
 	<div class="self-center p-4">
-		<img
-			src={getFanartUrl(data.fanart.id, data.fanart.image)}
-			alt={`${data.fanart.title} by ${author.username}`}
-		/>
+		<div>
+			<h1 class="mb-3 text-center">{data.fanart.title}</h1>
+		</div>
+		<div>
+			<img
+				class="mb-3"
+				src={getFanartUrl(data.fanart.id, data.fanart.image)}
+				alt={`${data.fanart.title} by ${author.username}`}
+			/>
+		</div>
+		<div>
+			{@html data.fanart.description}
+		</div>
 		<button
 			class="mt-3 cursor-pointer underline"
 			type="button"
