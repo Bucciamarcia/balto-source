@@ -30,9 +30,6 @@
 				alt={`${data.fanart.title} by ${author.username}`}
 			/>
 		</div>
-		<div>
-			{@html data.fanart.description}
-		</div>
 		<button
 			class="mt-3 cursor-pointer underline"
 			type="button"
@@ -42,6 +39,9 @@
 		>
 			{isExpanded ? 'Show thumbnail' : 'Show full size'}
 		</button>
+		<div>
+			{@html data.fanart.description}
+		</div>
 		<p>{data.favs.length} favorites</p>
 		{#if isLoggedIn}
 			{#if data.alreadyFaved}
