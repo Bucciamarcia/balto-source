@@ -2,11 +2,11 @@
 	import './layout.css';
 	import SideMenu from '$lib/components/layout/SideMenu.svelte';
 	import HeadBanner from '$lib/components/layout/head-banner.svelte';
-	import HeadMenu from '$lib/components/layout/head-menu/Head-menu.svelte';
+	import HeadMenu from '$lib/components/layout/head-menu/HeadMenu.svelte';
 	import Footer from '$lib/components/layout/footer.svelte';
 	import titleIcon from '$lib/assets/placeholderTitleIcon.png';
 
-	let { children } = $props();
+	let { children, data } = $props();
 </script>
 
 <svelte:head>
@@ -19,7 +19,7 @@
 	<!-- Top Bar: Takes up 100% width automatically -->
 	<div class="self-center p-4 text-white">
 		<HeadBanner />
-		<HeadMenu />
+		<HeadMenu isLoggedIn={data.isLoggedIn} />
 	</div>
 
 	<!-- Bottom Section: Holds the columns side-by-side -->
