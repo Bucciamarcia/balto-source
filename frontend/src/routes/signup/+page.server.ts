@@ -15,7 +15,7 @@ export const actions: Actions = {
 			return fail(400, { message: 'Some data is missing' });
 		}
 
-		if (locals.user != null) {
+		if (locals.auth != null) {
 			throw 'You are already logged in';
 		}
 
@@ -48,6 +48,6 @@ export const actions: Actions = {
 };
 export const load: PageServerLoad = async ({ locals }) => {
 	return {
-		loggedUser: locals.user?.id ?? null
+		loggedUser: locals.auth?.id ?? null
 	};
 };

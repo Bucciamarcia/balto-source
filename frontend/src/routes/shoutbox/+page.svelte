@@ -92,7 +92,7 @@
 		};
 	}}
 >
-	{#if data.authenticated}
+	{#if data.authenticated && data.isVerified}
 		<input
 			name="message"
 			class="text-black"

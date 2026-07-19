@@ -6,15 +6,16 @@
 	let {
 		user,
 		isSelf,
+		isVerified,
 		open = $bindable(false)
-	}: { user: UsersResponse; isSelf: boolean; open: any } = $props();
+	}: { user: UsersResponse; isSelf: boolean; open: any; isVerified: boolean } = $props();
 	let isEditingAvatar: boolean = $state(false);
 	let errorMessage: string = $state('');
 </script>
 
 <div class="mt-5 mb-5 flex w-full justify-center">
 	<div class="mr-5"><img src={buildAvatarUrl(user)} alt="" height="50" width="50" /></div>
-	{#if isSelf}
+	{#if isSelf && isVerified}
 		{#if isEditingAvatar}
 			<form
 				method="POST"

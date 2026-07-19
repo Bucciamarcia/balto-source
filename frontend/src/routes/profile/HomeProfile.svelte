@@ -14,12 +14,14 @@
 		user,
 		isSelf,
 		isLoggedIn,
-		comments
+		comments,
+		isVerified
 	}: {
 		user: UsersResponse;
 		isSelf: boolean;
 		isLoggedIn: boolean;
 		comments: CommentsResponse<{ author: UsersResponse }>[];
+		isVerified: boolean;
 	} = $props();
 	let editMode = $state(false);
 	let newUsername: string = $state('');
@@ -69,7 +71,7 @@
 			<input class="text-black" name="newUsername" type="text" bind:value={newUsername} />
 		</form>
 	{/if}
-	{#if isSelf}
+	{#if isSelf && isVerified}
 		<div>
 			<EditButtonSvg
 				{editMode}
@@ -83,9 +85,9 @@
 	{/if}
 </div>
 {#if user}
-	<AvatarRow bind:open={showAvatarModal} {user} {isSelf} />
+	<AvatarRow bind:open={showAvatarModal} {user} {isSelf} {isVerified} />
 {/if}
-{#if isSelf}
+{#if isSelf && isVerified}
 	<div class="mt-5 flex w-full justify-center">
 		<div class="mr-5">
 			<ProfileButton label="Change email" onClick={() => (showEmailModal = true)} />
@@ -97,7 +99,7 @@
 {/if}
 <div>{@html renderBio(user?.bio)}</div>
 <div class="mt-8 grid place-items-center">
-	{#if isSelf}
+	{#if isSelf && isVerified}
 		<button onclick={() => (showTipTapEditor = !showTipTapEditor)} class="btn btn-primary"
 			>{showTipTapEditor ? 'Close editor' : 'Edit bio'}</button
 		>
@@ -133,5 +135,10 @@
 	<FormError message="Error: {errorMessage}" />
 {/if}
 <div class="w-full max-w-3xl">
-	<ShowComments comments={comments ?? []} targetId={profileId} isLoggedIn={isLoggedIn ?? false} />
+	<ShowComments
+		comments={comments ?? []}
+		targetId={profileId}
+		isLoggedIn={isLoggedIn ?? false}
+		isVerified
+	/>
 </div>

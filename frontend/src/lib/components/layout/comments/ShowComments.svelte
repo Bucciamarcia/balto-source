@@ -8,11 +8,13 @@
 	let {
 		comments,
 		targetId,
-		isLoggedIn
+		isLoggedIn,
+		isVerified
 	}: {
 		comments: CommentsResponse<{ author: UsersResponse }>[];
 		targetId: string;
 		isLoggedIn: boolean;
+		isVerified: boolean;
 	} = $props();
 	let replyId: string = $state('');
 	let replyValue: string = $state('');
@@ -35,7 +37,7 @@
 	}
 </script>
 
-{#if isLoggedIn}
+{#if isLoggedIn && isVerified}
 	<form
 		method="POST"
 		action="?/addComment"
@@ -75,7 +77,7 @@
 	{#each rootComments() as comment}
 		<div class="mt-5 border-2 border-accent p-5">
 			<SingleCommentDisplay {comment} />
-			{#if isLoggedIn}
+			{#if isLoggedIn && isVerified}
 				<button
 					class="btn mt-5 btn-primary"
 					onclick={() => {

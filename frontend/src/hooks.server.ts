@@ -7,7 +7,9 @@ export const handle: Handle = async ({ event, resolve }) => {
 
 	event.locals.pb.authStore.loadFromCookie(event.request.headers.get("cookie") || "");
 
-	event.locals.user = event.locals.pb.authStore.record;
+	event.locals.auth = event.locals.pb.authStore.record;
+
+
 
 	try {
 		if (event.locals.pb.authStore.isValid) {
@@ -15,6 +17,14 @@ export const handle: Handle = async ({ event, resolve }) => {
 		}
 	} catch {
 		event.locals.pb.authStore.clear();
+	}
+	if (event.locals.auth != null) {
+		try {
+			event.locals.user = await event.locals.pb.collection("users").getOne(event.locals.auth.id);
+			event.locals.isVerified = event.locals.user?.verified ?? false;
+		} catch {
+			event.locals.user = undefined;
+		}
 	}
 
 	const response = await resolve(event);

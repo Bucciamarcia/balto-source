@@ -7,7 +7,9 @@ declare global {
 		// interface Error {}
 		interface Locals {
 			pb: Pocketbase;
-			user: AuthRecord;
+			auth: AuthRecord;
+			user: UsersResponse | undefined;
+			isVerified: boolean;
 		}
 		// interface PageData {}
 		// interface PageState {}
