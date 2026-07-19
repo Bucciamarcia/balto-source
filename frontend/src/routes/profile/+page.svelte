@@ -17,12 +17,14 @@
 			selectedTab = 'home';
 		}}>Home</button
 	>
-	<button
-		class={`btn ${pickColor('gallery')}`}
-		onclick={() => {
-			selectedTab = 'gallery';
-		}}>Gallery</button
-	>
+	{#if data.fanarts.length !== 0}
+		<button
+			class={`btn ${pickColor('gallery')}`}
+			onclick={() => {
+				selectedTab = 'gallery';
+			}}>Gallery</button
+		>
+	{/if}
 </div>
 
 {#if selectedTab === 'home'}

@@ -9,6 +9,9 @@
 	let { fanarts }: { fanarts: FanartsResponse<{ author: UsersResponse }>[] } = $props();
 </script>
 
+{#if fanarts.length === 0}
+	<h2>This gallery is empty</h2>
+{/if}
 <div class="flex flex-wrap gap-2">
 	{#each fanarts as fanart}
 		<div class="flex flex-col">
