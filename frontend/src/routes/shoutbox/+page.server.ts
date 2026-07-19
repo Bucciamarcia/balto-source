@@ -5,11 +5,12 @@ import { isAuthenticated } from "$lib/server/pocketbase/auth";
 
 export const load: PageServerLoad = async ({ locals }) => {
 	const authenticated = isAuthenticated(locals.pb);
+	const isVerified = locals.user?.verified ?? false
 	const resultList = await locals.pb.collection("chat_messages")
 		.getList<ChatMessagesResponse<{ author: UsersResponse }>>(1, 20, { expand: "author", sort: "-created" });
 	const items = resultList.items;
 
-	return { messages: items.toReversed(), authenticated: authenticated, loggedUser: locals.auth?.id ?? null }
+	return { messages: items.toReversed(), authenticated: authenticated, loggedUser: locals.auth?.id ?? null, isVerified }
 }
 
 export const actions: Actions = {

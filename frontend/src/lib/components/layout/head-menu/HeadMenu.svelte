@@ -1,9 +1,6 @@
 <script lang="ts">
 	import LinkElement from './LinkElement.svelte';
-	interface Props {
-		isLoggedIn: boolean;
-	}
-	let { isLoggedIn }: Props = $props();
+	let { isLoggedIn, isVerified }: { isLoggedIn: boolean; isVerified: boolean } = $props();
 </script>
 
 <div class="mt-4 flex gap-4 place-self-center">

@@ -19,7 +19,7 @@
 	<!-- Top Bar: Takes up 100% width automatically -->
 	<div class="self-center p-4 text-white">
 		<HeadBanner />
-		<HeadMenu isLoggedIn={data.isLoggedIn} />
+		<HeadMenu isLoggedIn={data.isLoggedIn} isVerified={data.user?.verified == true} />
 		{#if data.user?.verified === false}
 			<div class="mt-10 place-self-center text-lg font-bold text-error">
 				Your account is not active yet. Please verify your email address.

@@ -36,6 +36,7 @@
 		isLoggedIn={data.isLoggedIn}
 		isSelf={data.isSelf}
 		comments={data.comments}
+		isVerified={data.isVerified}
 	/>
 {/if}
 {#if selectedTab === 'gallery'}

@@ -43,7 +43,8 @@ export const load: PageServerLoad = async ({ locals, url }) => {
 	try {
 		const user = await locals.pb.collection("users").getOne<UsersResponse>(uid)
 		const isSelf = user.id === locals.auth?.id
-		return { status: 200, user, isSelf, fanarts, comments, isLoggedIn }
+		const isVerified = locals.user?.verified ?? false;
+		return { status: 200, user, isSelf, isVerified, fanarts, comments, isLoggedIn }
 	} catch (e) {
 		error(404, { message: "Page not found" });
 	}
