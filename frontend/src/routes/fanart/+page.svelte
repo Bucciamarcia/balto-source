@@ -4,4 +4,7 @@
 	let { data }: { data: PageData } = $props();
 </script>
 
+<svelte:head>
+	<title>Fanart - Balto Source</title>
+</svelte:head>
 <FanartGallery fanarts={data.fanarts} />

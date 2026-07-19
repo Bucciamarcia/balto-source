@@ -4,6 +4,9 @@
 	let selected: string = $state('fanart');
 </script>
 
+<svelte:head>
+	<title>Upload - Balto Source</title>
+</svelte:head>
 <div class="mb-10 flex w-full flex-wrap justify-center gap-3">
 	<button
 		class={`btn ${selected === 'fanart' ? 'btn-secondary' : 'btn-primary'}`}

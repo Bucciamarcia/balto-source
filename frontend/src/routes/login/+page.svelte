@@ -9,6 +9,9 @@
 	let loggedUser: string | null = $derived(data.loggedUser);
 </script>
 
+<svelte:head>
+	<title>Login - Balto Source</title>
+</svelte:head>
 {#if !loggedUser}
 	<form method="POST" action="?/login" use:enhance>
 		<input
