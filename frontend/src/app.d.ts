@@ -7,7 +7,8 @@ declare global {
 		// interface Error {}
 		interface Locals {
 			pb: Pocketbase;
-			user: AuthRecord;
+			auth: AuthRecord;
+			user: UsersResponse | undefined;
 		}
 		// interface PageData {}
 		// interface PageState {}

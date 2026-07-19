@@ -22,14 +22,14 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 	const favs = await locals.pb.collection("fanart_favorites").getFullList<FanartFavoritesResponse>({
 		filter: `target="${id}"`
 	})
-	const user = locals.user;
+	const user = locals.auth;
 	const alreadyFaved = user == null ? false : await hasUserAlreadyFaved(user.id, fanart.id);
 	return { fanart, favs, user, alreadyFaved, comments }
 }
 
 export const actions = {
 	favorite: async (event) => {
-		const user = event.locals.user;
+		const user = event.locals.auth;
 		if (user == null) {
 			return fail(400, { error: "Not logged in" });
 		}
@@ -44,7 +44,7 @@ export const actions = {
 	},
 
 	removeFavorite: async (event) => {
-		const user = event.locals.user;
+		const user = event.locals.auth;
 		if (user == null) {
 			return fail(44, { error: "Not logged in" })
 		}

@@ -3,7 +3,7 @@ import type { PageServerLoad } from "./$types";
 import sanitizeHtml from "sanitize-html";
 
 export const load: PageServerLoad = async ({ locals }) => {
-	const user = locals.user;
+	const user = locals.auth;
 	if (user == null) {
 		error(401, { message: "You are not logged in." });
 	}
@@ -16,7 +16,7 @@ export const actions = {
 		const title = data.get("title") as string;
 		const description = data.get("description") as string;
 		const clean = sanitizeHtml(description);
-		const user = locals.user;
+		const user = locals.auth;
 		if (fanart.size === 0) {
 			return fail(400, { error: "You must upload an image" })
 		}

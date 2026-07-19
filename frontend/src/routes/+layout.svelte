@@ -20,6 +20,11 @@
 	<div class="self-center p-4 text-white">
 		<HeadBanner />
 		<HeadMenu isLoggedIn={data.isLoggedIn} />
+		{#if data.user?.verified === false}
+			<div class="mt-10 place-self-center text-lg font-bold text-error">
+				Your account is not active yet. Please verify your email address.
+			</div>
+		{/if}
 	</div>
 
 	<!-- Bottom Section: Holds the columns side-by-side -->

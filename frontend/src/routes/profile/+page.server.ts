@@ -7,7 +7,7 @@ import sanitizeHtml from "sanitize-html";
 
 export const load: PageServerLoad = async ({ locals, url }) => {
 	let uid: string = ""
-	const localsId = locals.user?.id;
+	const localsId = locals.auth?.id;
 	const paramId = url.searchParams.get("id")
 	const isLoggedIn = !!locals.pb.authStore.isValid;
 	if (paramId != null) {
@@ -42,7 +42,7 @@ export const load: PageServerLoad = async ({ locals, url }) => {
 	}
 	try {
 		const user = await locals.pb.collection("users").getOne<UsersResponse>(uid)
-		const isSelf = user.id === locals.user?.id
+		const isSelf = user.id === locals.auth?.id
 		return { status: 200, user, isSelf, fanarts, comments, isLoggedIn }
 	} catch (e) {
 		error(404, { message: "Page not found" });
@@ -51,7 +51,7 @@ export const load: PageServerLoad = async ({ locals, url }) => {
 
 export const actions: Actions = {
 	changeUsername: async ({ locals, request }) => {
-		const id = locals.user?.id
+		const id = locals.auth?.id
 		if (id == null || id === undefined) {
 			return fail(401, { error: "Not logged in" });
 		}
@@ -73,7 +73,7 @@ export const actions: Actions = {
 	},
 
 	changeEmail: async ({ locals, request }) => {
-		const id = locals.user?.id
+		const id = locals.auth?.id
 		if (id == null || id === undefined) {
 			return fail(401, { error: "Not logged in" });
 		}
