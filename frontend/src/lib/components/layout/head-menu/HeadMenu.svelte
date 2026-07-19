@@ -10,7 +10,7 @@
 		<LinkElement label="Sign up" destination="/signup" logOut={false} />
 	{/if}
 	<LinkElement label="Shout box" destination="/shoutbox" logOut={false} />
-	{#if isLoggedIn}
+	{#if isLoggedIn && isVerified}
 		<LinkElement label="Profile" destination="/profile" logOut={false} />
 		<LinkElement label="Upload" destination="/upload" logOut={false} />
 		<LinkElement label="Log out" destination="/" logOut={true} />
