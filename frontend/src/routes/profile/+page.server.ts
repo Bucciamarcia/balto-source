@@ -1,5 +1,5 @@
-import { type CommentsResponse, type UsersResponse } from "$lib/pocketbase-types";
-import { fail } from "@sveltejs/kit";
+import { type CommentsResponse, type FanartsResponse, type UsersResponse } from "$lib/pocketbase-types";
+import { error, fail } from "@sveltejs/kit";
 import type { Actions, PageServerLoad } from "./$types";
 import { PUBLIC_POCKETBASE_URL } from "$lib/pocketbase/url";
 import type Client from "pocketbase";
@@ -17,10 +17,11 @@ export const load: PageServerLoad = async ({ locals, url }) => {
 		uid = localsId;
 	}
 	if (uid === "") {
-		return { status: 400, error: "Empty uid" }
+		error(401, { message: "You are not logged in." });
 	}
 	const pb = locals.pb;
 	let comments: CommentsResponse<{ author: UsersResponse }>[]
+	let fanarts: FanartsResponse<{ author: UsersResponse }>[]
 	try {
 		comments = await pb.collection("comments").getFullList<CommentsResponse<{ author: UsersResponse }>>({
 			filter: `type = "profile" && target_id = "${uid}"`, sort: '-created', expand: 'author'
@@ -30,11 +31,21 @@ export const load: PageServerLoad = async ({ locals, url }) => {
 		comments = [];
 	}
 	try {
+		fanarts = await pb.collection("fanarts").getFullList<FanartsResponse<{ author: UsersResponse }>>(
+			{
+				filter: `author = "${uid}"`, sort: "-created", expand: "author"
+			}
+		);
+	} catch (e) {
+		console.log(`Error fetching fanarts: ${e}`)
+		fanarts = [];
+	}
+	try {
 		const user = await locals.pb.collection("users").getOne<UsersResponse>(uid)
 		const isSelf = user.id === locals.user?.id
-		return { status: 200, user, isSelf, comments, isLoggedIn }
+		return { status: 200, user, isSelf, fanarts, comments, isLoggedIn }
 	} catch (e) {
-		return { status: 404, error: "Not found" }
+		error(404, { message: "Page not found" });
 	}
 }
 
