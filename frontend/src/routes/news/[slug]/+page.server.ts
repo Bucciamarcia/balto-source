@@ -13,7 +13,8 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 			expand: "author"
 		}
 	)
-	return { news, comments, isLoggedIn }
+	const isVerified = locals.isVerified;
+	return { news, comments, isLoggedIn, isVerified }
 };
 
 export const actions: Actions = {

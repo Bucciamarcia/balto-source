@@ -9,6 +9,7 @@ declare global {
 			pb: Pocketbase;
 			auth: AuthRecord;
 			user: UsersResponse | undefined;
+			isVerified: boolean;
 		}
 		// interface PageData {}
 		// interface PageState {}

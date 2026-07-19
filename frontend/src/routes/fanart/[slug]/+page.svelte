@@ -13,4 +13,5 @@
 	user={data.user}
 	favs={data.favs}
 	alreadyFaved={data.alreadyFaved}
+	isVerified={data.isVerified}
 />

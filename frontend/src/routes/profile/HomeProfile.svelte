@@ -135,5 +135,10 @@
 	<FormError message="Error: {errorMessage}" />
 {/if}
 <div class="w-full max-w-3xl">
-	<ShowComments comments={comments ?? []} targetId={profileId} isLoggedIn={isLoggedIn ?? false} />
+	<ShowComments
+		comments={comments ?? []}
+		targetId={profileId}
+		isLoggedIn={isLoggedIn ?? false}
+		isVerified
+	/>
 </div>

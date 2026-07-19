@@ -16,13 +16,15 @@
 		user,
 		favs,
 		alreadyFaved,
-		comments
+		comments,
+		isVerified
 	}: {
 		fanart: FanartsResponse<{ author: UsersResponse }>;
 		user: AuthRecord;
 		favs: FanartFavoritesResponse[];
 		alreadyFaved: boolean;
 		comments: CommentsResponse<{ author: UsersResponse }>[];
+		isVerified: boolean;
 	} = $props();
 	// svelte-ignore state_referenced_locally
 	const author: UsersResponse = fanart.expand.author;
@@ -97,13 +99,15 @@
 						};
 					}}
 				>
-					<button type="submit" class="btn btn-primary">Add to favorites</button>
+					{#if isVerified}
+						<button type="submit" class="btn btn-primary">Add to favorites</button>
+					{/if}
 					{#if errorMessage != ''}
 						<FormError message={errorMessage} />
 					{/if}
 				</form>
 			{/if}
 		{/if}
-		<ShowComments {isLoggedIn} targetId={fanart.id} {comments} />
+		<ShowComments {isLoggedIn} targetId={fanart.id} {comments} {isVerified} />
 	</div>
 </div>

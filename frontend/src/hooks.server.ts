@@ -21,6 +21,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 	if (event.locals.auth != null) {
 		try {
 			event.locals.user = await event.locals.pb.collection("users").getOne(event.locals.auth.id);
+			event.locals.isVerified = event.locals.user?.verified ?? false;
 		} catch {
 			event.locals.user = undefined;
 		}
