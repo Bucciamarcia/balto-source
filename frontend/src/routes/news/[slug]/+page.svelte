@@ -6,6 +6,9 @@
 	let { data }: { data: PageData } = $props();
 </script>
 
+<svelte:head>
+	<title>{data.news.title} - Balto Source</title>
+</svelte:head>
 <SingleNews news={data.news} comments={data.comments} showCommentsLine={false} />
 <div class="w-full max-w-3xl">
 	<ShowComments isLoggedIn={data.isLoggedIn} targetId={data.news.id} comments={data.comments} />

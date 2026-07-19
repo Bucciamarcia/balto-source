@@ -10,6 +10,9 @@
 	}
 </script>
 
+<svelte:head>
+	<title>{data.user.username}'s profile - Balto Source</title>
+</svelte:head>
 <div class="mb-5 flex w-full justify-center gap-3">
 	<button
 		class={`btn ${pickColor('home')}`}

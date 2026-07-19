@@ -4,6 +4,9 @@
 	let { data } = $props();
 </script>
 
+<svelte:head>
+	<title>{data.fanart.title} by {data.fanart.expand.author.username} - Balto Source</title>
+</svelte:head>
 <SingleFanartDisplay
 	fanart={data.fanart}
 	comments={data.comments}

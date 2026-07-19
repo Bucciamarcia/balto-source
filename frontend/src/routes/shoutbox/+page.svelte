@@ -67,6 +67,9 @@
 	// Select text
 </script>
 
+<svelte:head>
+	<title>Shoutbox - Balto Source</title>
+</svelte:head>
 <div bind:this={container} class="max-h-128 overflow-y-auto">
 	{#each messages as message}
 		<ChatBubble {message} user={data.loggedUser} />
