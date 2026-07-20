@@ -1,6 +1,7 @@
 import { error, fail, type Actions } from "@sveltejs/kit";
 import type { PageServerLoad } from "./$types";
 import sanitizeHtml from "sanitize-html";
+import { moderateImageData } from "$lib/components/moderateAi";
 
 export const load: PageServerLoad = async ({ locals }) => {
 	const user = locals.auth;
@@ -28,6 +29,12 @@ export const actions = {
 		}
 		if (description === "") {
 			return fail(400, { error: "You must provide a description" });
+		}
+		try {
+			const moderation = await moderateImageData(fanart)
+			console.log(moderation)
+		} catch (e) {
+			return fail(500, { error: e instanceof Error ? e.message : "Unknown error" })
 		}
 		try {
 			await locals.pb.collection("fanarts").create({
