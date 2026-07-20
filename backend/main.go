@@ -90,7 +90,7 @@ func main() {
 			if err != nil {
 				return e.InternalServerError("Couldn't moderate the text", err)
 			}
-			return e.JSON(http.StatusOK, r)
+			return e.String(http.StatusOK, r)
 		})
 
 		return se.Next()
