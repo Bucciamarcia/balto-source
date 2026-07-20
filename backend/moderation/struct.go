@@ -16,6 +16,7 @@ const (
 
 type ModerationResponse struct {
 	Action ModerationAction `json:"action" jsonschema_description:"The recommended moderation action"`
+	Reason string           `json:"reason" jsonschema_description:"Why you took the moderation action"`
 }
 
 func GenerateSchema[T any]() map[string]any {
