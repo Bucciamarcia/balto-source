@@ -93,7 +93,7 @@ func main() {
 			return e.String(http.StatusOK, r)
 		})
 
-		se.Router.POST("/moderate_image", func(e *core.RequestEvent) error {
+		se.Router.POST("/moderate_image_url", func(e *core.RequestEvent) error {
 			slog.Info("Moderating text")
 			data := struct {
 				Url string `json:"url"`
@@ -102,7 +102,23 @@ func main() {
 			if err != nil {
 				return e.BadRequestError("Couldn't extract text to moderate", err)
 			}
-			r, err := moderation.ModerateImage(data.Url)
+			r, err := moderation.ModerateImageUrl(data.Url)
+			if err != nil {
+				return e.InternalServerError("Couldn't moderate the text", err)
+			}
+			return e.String(http.StatusOK, r)
+		})
+		se.Router.POST("/moderate_image_bytes", func(e *core.RequestEvent) error {
+			slog.Info("Moderating text")
+			data := struct {
+				ImageType string `json:"imageType"`
+				ImageData string `json:"imageData"`
+			}{}
+			err := e.BindBody(&data)
+			if err != nil {
+				return e.BadRequestError("Couldn't extract text to moderate", err)
+			}
+			r, err := moderation.ModerateImageData(data.ImageType, data.ImageData)
 			if err != nil {
 				return e.InternalServerError("Couldn't moderate the text", err)
 			}
