@@ -84,6 +84,9 @@
 		</div>
 	{/if}
 </div>
+{#if errorMessage !== ''}
+	<FormError message="Error: {errorMessage}" />
+{/if}
 {#if user}
 	<AvatarRow bind:open={showAvatarModal} {user} {isSelf} {isVerified} />
 {/if}
