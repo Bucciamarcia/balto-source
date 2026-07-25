@@ -13,11 +13,8 @@ export async function moderateText(t: string): Promise<ModerateResult> {
 	}
 	const r = await response.text()
 	const jsonResponse = JSON.parse(r)
-	console.log(jsonResponse)
 	const action = jsonResponse.action
-	console.log(action)
 	const toReturn: ModerateResult = action
-	console.log(toReturn)
 	return toReturn
 }
 export async function moderateImageUrl(url: string): Promise<ModerateResult> {
@@ -71,4 +68,4 @@ async function fileToBase64(file: File): Promise<string> {
 	}
 	return btoa(binary);
 }
-type ModerateResult = "allow" | "moderate" | "remove"
+export type ModerateResult = "allow" | "moderate" | "remove"

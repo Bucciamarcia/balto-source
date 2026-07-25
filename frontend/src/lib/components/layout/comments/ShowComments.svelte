@@ -66,6 +66,9 @@
 		<input name="comment" type="hidden" bind:value={comment} />
 		<input name="targetId" type="hidden" bind:value={targetId} />
 		<button class="btn cursor-pointer btn-primary" type="submit">Add comment</button>
+		{#if errorMessage !== ''}
+			<FormError message={errorMessage} />
+		{/if}
 	</form>
 {/if}
 {#if showCommentSuccess}
