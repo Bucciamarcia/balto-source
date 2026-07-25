@@ -2,6 +2,7 @@ import type { CommentsResponse, FanartFavoritesResponse, FanartsResponse, UsersR
 import { fail } from "@sveltejs/kit";
 import type { PageServerLoad, Actions } from "./$types";
 import sanitizeHtml from "sanitize-html";
+import { moderateText } from "$lib/components/moderateAi";
 
 export const load: PageServerLoad = async ({ locals, params }) => {
 	async function hasUserAlreadyFaved(userId: string, fanartId: string): Promise<boolean> {
@@ -67,10 +68,17 @@ export const actions = {
 			return fail(401, { error: "Not logged in" });
 		}
 		const data = await request.formData();
-		const comment = data.get("comment") as string;
+		const comment = data.get("comment");
+		if (comment == null) {
+			return fail(400, { error: "Data invalid" })
+		}
+		const moderation = await moderateText(comment.toString())
+		if (moderation === "remove") {
+			return fail(400, { error: "This comment is not allowed" })
+		}
 		const targetId = data.get("targetId");
 		const parent = data.get("parent");
-		const clean = sanitizeHtml(comment);
+		const clean = sanitizeHtml(comment.toString());
 		const r = { "target_id": targetId, "parent": parent, "content": clean, "type": "fanart", "author": user.id }
 		try {
 			await locals.pb.collection("comments").create(r);
