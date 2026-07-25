@@ -174,6 +174,10 @@ export const actions: Actions = {
 		const data = await request.formData();
 		const htmlBio = data.get("html") as string;
 		const cleanHtml = sanitizeHtml(htmlBio);
+		const moderation = await moderateText(cleanHtml);
+		if (moderation === "remove") {
+			return fail(400, { error: "This content is not allowed" })
+		}
 		try {
 			await locals.pb.collection("users").update(user.id, { "bio": cleanHtml })
 		} catch (e) {
