@@ -14,20 +14,8 @@ export const actions = {
 	uploadFanart: async ({ request, locals }) => {
 		const data = await request.formData();
 		const fanart = data.get("fanart") as File;
-		const faMod = await moderateImageData(fanart);
-		if (faMod === "remove") {
-			return fail(400, { error: "This fanart is not allowed" })
-		}
 		const title = data.get("title") as string;
-		const titleMod = await moderateText(title);
-		if (titleMod === "remove") {
-			return fail(400, { error: "This title is not allowed" })
-		}
 		const description = data.get("description") as string;
-		const desMod = await moderateText(description);
-		if (desMod === "remove") {
-			return fail(400, { error: "This description is not allowed" })
-		}
 		const clean = sanitizeHtml(description);
 		const user = locals.auth;
 		if (fanart.size === 0) {
@@ -41,6 +29,18 @@ export const actions = {
 		}
 		if (description === "") {
 			return fail(400, { error: "You must provide a description" });
+		}
+		const titleMod = await moderateText(title);
+		if (titleMod === "remove") {
+			return fail(400, { error: "This title is not allowed" })
+		}
+		const desMod = await moderateText(description);
+		if (desMod === "remove") {
+			return fail(400, { error: "This description is not allowed" })
+		}
+		const faMod = await moderateImageData(fanart);
+		if (faMod === "remove") {
+			return fail(400, { error: "This fanart is not allowed" })
 		}
 		try {
 			const moderation = await moderateImageData(fanart)
