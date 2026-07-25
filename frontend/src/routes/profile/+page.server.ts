@@ -195,6 +195,10 @@ export const actions: Actions = {
 		const targetId = data.get("targetId");
 		const parent = data.get("parent");
 		const clean = sanitizeHtml(comment);
+		const moderation = await moderateText(clean);
+		if (moderation === "remove") {
+			return fail(400, { error: "This content is not allowed" })
+		}
 		const r = { "target_id": targetId, "parent": parent, "content": clean, "type": "profile", "author": user.id }
 		try {
 			await locals.pb.collection("comments").create(r);
