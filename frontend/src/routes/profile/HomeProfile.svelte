@@ -34,6 +34,7 @@
 	// svelte-ignore state_referenced_locally
 	let htmlBio: string = $state(user?.bio ?? '');
 	let profileId: string = $derived(user?.id ?? '');
+	let isLoading: boolean = $state(false);
 
 	function renderBio(v: string | undefined): string {
 		if (v === undefined) {
@@ -55,8 +56,10 @@
 			method="POST"
 			action="?/changeUsername"
 			use:enhance={() => {
+				isLoading = true;
 				return async ({ result, update }) => {
 					await update();
+					isLoading = false;
 
 					if (result.type === 'failure') {
 						console.log(result.data);
@@ -80,6 +83,7 @@
 					errorMessage = '';
 					formEl?.requestSubmit();
 				}}
+				{isLoading}
 			/>
 		</div>
 	{/if}
@@ -116,8 +120,10 @@
 		method="POST"
 		action="?/updateBio"
 		use:enhance={() => {
+			isLoading = true;
 			return async ({ result, update }) => {
 				await update();
+				isLoading = false;
 
 				if (result.type === 'failure') {
 					console.log(result.data);
