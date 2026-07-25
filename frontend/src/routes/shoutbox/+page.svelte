@@ -16,6 +16,7 @@
 	let messages: Message[] = $state<Message[]>(untrack(() => [...data.messages]));
 	let text = $state('');
 	let errorMessage: string = $state('');
+	let isLoading: boolean = $state(false);
 	// svelte-ignore non_reactive_update
 	let inputEl: HTMLInputElement;
 
@@ -82,11 +83,13 @@
 	action="?/sendMessage"
 	use:enhance={() => {
 		text = '';
+		isLoading = true;
 		return async ({ result, update }) => {
 			await update({
 				reset: false,
 				invalidateAll: false
 			});
+			isLoading = false;
 			if (result.type === 'failure') {
 				errorMessage = (result.data?.error as string) ?? 'Unknown error';
 			}
@@ -116,7 +119,11 @@
 		/>
 	{/if}
 	{#if data.authenticated}
-		<button type="submit" class="btn cursor-pointer btn-primary">Submit</button>
+		{#if isLoading}
+			<span class="loading loading-spinner text-primary"></span>
+		{:else}
+			<button type="submit" class="btn cursor-pointer btn-primary">Submit</button>
+		{/if}
 	{/if}
 	{#if errorMessage != ''}
 		<FormError message={errorMessage} />

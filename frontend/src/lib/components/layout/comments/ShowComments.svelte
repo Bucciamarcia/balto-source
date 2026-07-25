@@ -22,6 +22,7 @@
 	let errorMessage: string = $state('');
 	let showCommentSuccess: boolean = $state(false);
 	let comment: string = $state('');
+	let isLoading: boolean = $state(false);
 
 	function isOpen(commentId: string): boolean {
 		if (replyId == commentId) return true;
@@ -44,8 +45,10 @@
 		use:enhance={() => {
 			showCommentSuccess = false;
 			errorMessage = '';
+			isLoading = true;
 			return async ({ result, update }) => {
 				await update();
+				isLoading = false;
 
 				if (result.type === 'failure') {
 					console.log(result.data);
@@ -65,7 +68,11 @@
 		<input name="parent" type="hidden" value={null} />
 		<input name="comment" type="hidden" bind:value={comment} />
 		<input name="targetId" type="hidden" bind:value={targetId} />
-		<button class="btn cursor-pointer btn-primary" type="submit">Add comment</button>
+		{#if isLoading}
+			<span class="loading loading-spinner text-primary"></span>
+		{:else}
+			<button class="btn cursor-pointer btn-primary" type="submit">Add comment</button>
+		{/if}
 		{#if errorMessage !== ''}
 			<FormError message={errorMessage} />
 		{/if}
@@ -97,8 +104,10 @@
 					method="POST"
 					action="?/addComment"
 					use:enhance={() => {
+						isLoading = true;
 						return async ({ result, update }) => {
 							await update();
+							isLoading = false;
 
 							if (result.type === 'failure') {
 								console.log(result.data);
@@ -118,7 +127,11 @@
 					<input name="parent" type="hidden" value={comment.id} />
 					<input name="comment" type="hidden" value={replyValue} />
 					<input name="targetId" type="hidden" value={targetId} />
-					<button class="btn cursor-pointer btn-primary" type="submit">Add comment</button>
+					{#if isLoading}
+						<span class="loading loading-spinner text-primary"></span>
+					{:else}
+						<button class="btn cursor-pointer btn-primary" type="submit">Add comment</button>
+					{/if}
 					{#if errorMessage !== ''}
 						<FormError message={errorMessage} />
 					{/if}

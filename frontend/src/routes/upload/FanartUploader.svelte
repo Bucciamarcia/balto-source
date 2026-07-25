@@ -5,6 +5,7 @@
 	let previewUrl: string | null = $state(null);
 	let errorMessage: string = $state('');
 	let success: boolean = $state(false);
+	let isLoading: boolean = $state(false);
 
 	$effect(() => {
 		const file = files?.[0];
@@ -25,8 +26,10 @@
 	use:enhance={() => {
 		errorMessage = '';
 		success = false;
+		isLoading = true;
 		return async ({ result, update }) => {
 			await update();
+			isLoading = false;
 			if (result.type === 'failure') {
 				console.log('failure');
 				console.log(result.data?.error);
@@ -66,7 +69,11 @@
 			></textarea>
 		</div>
 		<div>
-			<button class="btn mt-5" type="submit">Upload your fanart</button>
+			{#if isLoading}
+				<span class="loading loading-spinner text-primary"></span>
+			{:else}
+				<button class="btn mt-5" type="submit">Upload your fanart</button>
+			{/if}
 		</div>
 	{/if}
 </form>

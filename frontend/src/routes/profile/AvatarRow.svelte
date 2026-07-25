@@ -8,9 +8,15 @@
 		isSelf,
 		isVerified,
 		open = $bindable(false)
-	}: { user: UsersResponse; isSelf: boolean; open: any; isVerified: boolean } = $props();
+	}: {
+		user: UsersResponse;
+		isSelf: boolean;
+		open: any;
+		isVerified: boolean;
+	} = $props();
 	let isEditingAvatar: boolean = $state(false);
 	let errorMessage: string = $state('');
+	let isLoading: boolean = $state(false);
 </script>
 
 <div class="mt-5 mb-5 flex w-full justify-center">
@@ -22,12 +28,14 @@
 				action="?/changeAvatar"
 				enctype="multipart/form-data"
 				use:enhance={() => {
+					isLoading = true;
 					errorMessage = '';
 					return async ({ result, update }) => {
+						await update();
+						isLoading = false;
 						if (result.type === 'failure') {
 							errorMessage = (result.data?.error as string) ?? 'Unknown error';
 						}
-						await update();
 					};
 				}}
 				class="flex"
@@ -40,10 +48,17 @@
 						accept=".png, .jpg, .jpeg"
 					/>
 				</div>
-				<div><button class="btn" type="submit">Confirm new avatar</button></div>
+				{#if isLoading}
+					<span class="text-main loading loading-spinner"></span>
+				{:else}
+					<div><button class="btn" type="submit">Confirm new avatar</button></div>
+				{/if}
 			</form>
-			<button class="btn ml-5" type="button" onclick={() => (isEditingAvatar = false)}>Close</button
-			>
+			{#if !isLoading}
+				<button class="btn ml-5" type="button" onclick={() => (isEditingAvatar = false)}
+					>Close</button
+				>
+			{/if}
 		{:else}
 			<button
 				aria-label="Change username"
