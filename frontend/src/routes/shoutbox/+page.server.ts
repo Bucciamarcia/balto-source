@@ -2,6 +2,7 @@ import type { ChatMessagesResponse, UsersResponse } from "$lib/pocketbase-types"
 import { fail } from "@sveltejs/kit";
 import type { PageServerLoad, Actions } from "./$types";
 import { isAuthenticated } from "$lib/server/pocketbase/auth";
+import { moderateText } from "$lib/components/moderateAi";
 
 export const load: PageServerLoad = async ({ locals }) => {
 	const authenticated = isAuthenticated(locals.pb);
@@ -17,10 +18,14 @@ export const actions: Actions = {
 	sendMessage: async ({ request, locals }) => {
 		const data = await request.formData();
 		const message = data.get("message")
-		if (message?.valueOf() === "") {
+		if (message == null || message?.valueOf() === "") {
 			return;
 		}
 		try {
+			const moderation = await moderateText(message.toString());
+			if (moderation === "remove") {
+				return fail(400, { error: "The comment has not been approved" })
+			}
 			await locals.pb.send("/add_chat_message", {
 				method: "POST", body: { "message": message }
 			})

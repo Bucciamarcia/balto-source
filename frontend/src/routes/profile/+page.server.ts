@@ -4,6 +4,7 @@ import type { Actions, PageServerLoad } from "./$types";
 import { PUBLIC_POCKETBASE_URL } from "$lib/pocketbase/url";
 import type Client from "pocketbase";
 import sanitizeHtml from "sanitize-html";
+import { moderateImageData, moderateText } from "$lib/components/moderateAi";
 
 export const load: PageServerLoad = async ({ locals, url }) => {
 	let uid: string = ""
@@ -58,6 +59,13 @@ export const actions: Actions = {
 		}
 		const data = await request.formData();
 		const newUsername = data.get("newUsername");
+		if (newUsername == null) {
+			return fail(400, { error: "This is not a valid input", newUsername })
+		}
+		const moderation = await moderateText(newUsername.toString());
+		if (moderation === "remove") {
+			return fail(400, { error: "This username is not allowed" })
+		}
 		const v = newUsername?.valueOf()
 		if (typeof v !== "string") {
 			return fail(400, { error: "this is not a string", newUsername })
@@ -144,6 +152,10 @@ export const actions: Actions = {
 		}
 		const data = await request.formData();
 		const file = data.get("avatar") as File;
+		const moderation = await moderateImageData(file);
+		if (moderation === "remove") {
+			return fail(400, { error: "This avatar is not allowed" })
+		}
 		if (file.size === 0) {
 			return fail(400, { error: "You must first select a file" })
 		}
@@ -162,6 +174,10 @@ export const actions: Actions = {
 		const data = await request.formData();
 		const htmlBio = data.get("html") as string;
 		const cleanHtml = sanitizeHtml(htmlBio);
+		const moderation = await moderateText(cleanHtml);
+		if (moderation === "remove") {
+			return fail(400, { error: "This content is not allowed" })
+		}
 		try {
 			await locals.pb.collection("users").update(user.id, { "bio": cleanHtml })
 		} catch (e) {
@@ -179,6 +195,10 @@ export const actions: Actions = {
 		const targetId = data.get("targetId");
 		const parent = data.get("parent");
 		const clean = sanitizeHtml(comment);
+		const moderation = await moderateText(clean);
+		if (moderation === "remove") {
+			return fail(400, { error: "This content is not allowed" })
+		}
 		const r = { "target_id": targetId, "parent": parent, "content": clean, "type": "profile", "author": user.id }
 		try {
 			await locals.pb.collection("comments").create(r);

@@ -1,6 +1,7 @@
 import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { PUBLIC_POCKETBASE_URL } from '$lib/pocketbase/url';
+import { moderateText } from '$lib/components/moderateAi';
 
 export const actions: Actions = {
 	createUser: async ({ request, locals }) => {
@@ -13,6 +14,11 @@ export const actions: Actions = {
 
 		if (!username || !email || !password) {
 			return fail(400, { message: 'Some data is missing' });
+		}
+
+		const moderation = await moderateText(username);
+		if (moderation === "remove") {
+			return fail(400, { message: "This username is not allowed" })
 		}
 
 		if (locals.auth != null) {

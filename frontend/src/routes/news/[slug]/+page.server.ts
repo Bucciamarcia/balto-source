@@ -2,6 +2,7 @@ import type { CommentsResponse, HomepageNewsResponse, UsersResponse } from '$lib
 import { fail, type Actions } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import sanitizeHtml from "sanitize-html";
+import { moderateText } from '$lib/components/moderateAi';
 
 export const load: PageServerLoad = async ({ locals, params }) => {
 	const newsId = params.slug;
@@ -28,6 +29,10 @@ export const actions: Actions = {
 		const targetId = data.get("targetId");
 		const parent = data.get("parent");
 		const clean = sanitizeHtml(comment);
+		const moderation = await moderateText(clean);
+		if (moderation === "remove") {
+			return fail(400, { error: "The comment has not been approved" })
+		}
 		const r = { "target_id": targetId, "parent": parent, "content": clean, "type": "news", "author": user.id }
 		try {
 			await locals.pb.collection("comments").create(r);

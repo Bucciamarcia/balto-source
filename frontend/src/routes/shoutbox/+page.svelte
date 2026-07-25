@@ -7,6 +7,7 @@
 	import type { ChatMessagesResponse, UsersResponse } from '$lib/pocketbase-types';
 	import { PUBLIC_POCKETBASE_URL } from '$lib/pocketbase/url';
 	import ChatBubble from './ChatBubble.svelte';
+	import FormError from '$lib/components/formError.svelte';
 
 	let { data }: { data: PageData } = $props();
 
@@ -14,6 +15,7 @@
 
 	let messages: Message[] = $state<Message[]>(untrack(() => [...data.messages]));
 	let text = $state('');
+	let errorMessage: string = $state('');
 	// svelte-ignore non_reactive_update
 	let inputEl: HTMLInputElement;
 
@@ -79,12 +81,15 @@
 	method="POST"
 	action="?/sendMessage"
 	use:enhance={() => {
-		return async ({ update }) => {
-			text = '';
+		text = '';
+		return async ({ result, update }) => {
 			await update({
 				reset: false,
 				invalidateAll: false
 			});
+			if (result.type === 'failure') {
+				errorMessage = (result.data?.error as string) ?? 'Unknown error';
+			}
 			setTimeout(() => {
 				inputEl?.focus();
 				inputEl?.select();
@@ -112,5 +117,8 @@
 	{/if}
 	{#if data.authenticated}
 		<button type="submit" class="btn cursor-pointer btn-primary">Submit</button>
+	{/if}
+	{#if errorMessage != ''}
+		<FormError message={errorMessage} />
 	{/if}
 </form>
