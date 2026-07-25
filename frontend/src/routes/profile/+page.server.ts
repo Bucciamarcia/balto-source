@@ -4,7 +4,7 @@ import type { Actions, PageServerLoad } from "./$types";
 import { PUBLIC_POCKETBASE_URL } from "$lib/pocketbase/url";
 import type Client from "pocketbase";
 import sanitizeHtml from "sanitize-html";
-import { moderateText } from "$lib/components/moderateAi";
+import { moderateImageData, moderateText } from "$lib/components/moderateAi";
 
 export const load: PageServerLoad = async ({ locals, url }) => {
 	let uid: string = ""
@@ -152,6 +152,10 @@ export const actions: Actions = {
 		}
 		const data = await request.formData();
 		const file = data.get("avatar") as File;
+		const moderation = await moderateImageData(file);
+		if (moderation === "remove") {
+			return fail(400, { error: "This avatar is not allowed" })
+		}
 		if (file.size === 0) {
 			return fail(400, { error: "You must first select a file" })
 		}
