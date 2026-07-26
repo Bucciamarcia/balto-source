@@ -2,7 +2,6 @@ package moderation
 
 import (
 	"context"
-
 	"github.com/anthropics/anthropic-sdk-go"
 )
 

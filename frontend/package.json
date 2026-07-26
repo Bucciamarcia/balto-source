@@ -60,6 +60,7 @@
 		"maths.ts": "^0.0.8",
 		"pocketbase": "^0.26.8",
 		"sanitize-html": "^2.17.6",
+		"svelte-turnstile": "^0.11.0",
 		"tsmathlib": "^0.2.1",
 		"vector-math": "^1.1.1"
 	}

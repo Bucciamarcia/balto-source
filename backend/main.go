@@ -4,6 +4,7 @@ import (
 	createuser "balto-source/backend/database/create_user"
 	"balto-source/backend/features/chat"
 	"balto-source/backend/moderation"
+	turnstile "balto-source/backend/moderation/turnstyle"
 	"errors"
 	"log/slog"
 	"net/http"
@@ -12,6 +13,7 @@ import (
 	"strings"
 
 	validation "github.com/go-ozzo/ozzo-validation/v4"
+	"github.com/joho/godotenv"
 	"github.com/pocketbase/pocketbase"
 	"github.com/pocketbase/pocketbase/apis"
 	"github.com/pocketbase/pocketbase/core"
@@ -19,6 +21,10 @@ import (
 
 func main() {
 	app := pocketbase.New()
+	err := godotenv.Load()
+	if err != nil {
+		panic("Error loading .env file")
+	}
 
 	app.OnServe().BindFunc(func(se *core.ServeEvent) error {
 		se.Router.GET("/helloworld", func(e *core.RequestEvent) error {
@@ -123,6 +129,22 @@ func main() {
 				return e.InternalServerError("Couldn't moderate the text", err)
 			}
 			return e.String(http.StatusOK, r)
+		})
+		se.Router.POST("/turnstile_validation", func(e *core.RequestEvent) error {
+			data := struct {
+				Response string `json:"response"`
+			}{}
+			if err := e.BindBody(&data); err != nil {
+				return e.BadRequestError("Failed to read request data", err)
+			}
+			r, err := turnstile.VerifyTurnstile(data.Response)
+			if err != nil {
+				return e.InternalServerError("Couldn't verify the request", err)
+			}
+			if !r {
+				return e.BadRequestError("Unverified Turnstile", errors.New("unknown error in turnstile"))
+			}
+			return e.String(http.StatusOK, "OK")
 		})
 
 		return se.Next()
