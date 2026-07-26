@@ -10,4 +10,7 @@
 	<title>Fanart - Balto Source</title>
 </svelte:head>
 <FanartSearchBox action="?/filter" />
-<FanartGallery fanarts={filteredFanart == null ? data.fanarts : filteredFanart} />
+<FanartGallery
+	fanarts={filteredFanart == null ? data.fanarts : filteredFanart}
+	fanartsFavorites={data.favorites}
+/>
