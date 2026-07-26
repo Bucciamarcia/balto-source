@@ -2,6 +2,7 @@ import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { PUBLIC_POCKETBASE_URL } from '$lib/pocketbase/url';
 import { moderateText } from '$lib/components/moderateAi';
+import { verifyTurnstile } from '$lib/verifyTurnstile';
 
 export const actions: Actions = {
 	createUser: async ({ request, locals }) => {
@@ -10,6 +11,14 @@ export const actions: Actions = {
 		const username = data.get('username') as string;
 		const password = data.get('password') as string;
 		const passwordConfirm = data.get('passwordConfirm') as string;
+		const turnStyle = data.get("cf-turnstile-response")
+		if (!turnStyle) {
+			return fail(400, { message: "Couldn't find verification token" })
+		}
+		const tsValidation = await verifyTurnstile(turnStyle.toString())
+		if (!tsValidation) {
+			return fail(400, { message: "Captcha not passed" })
+		}
 		const email = data.get('email') as string;
 
 		if (!username || !email || !password) {

@@ -1,9 +1,7 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import FormError from '$lib/components/formError.svelte';
-	import { TURNSTILE_PUBLIC_KEY } from '$lib/consts';
 	import type { CommentsResponse, UsersResponse } from '$lib/pocketbase-types';
-	import { Turnstile } from 'svelte-turnstile';
 	import SingleCommentDisplay from './SingleCommentDisplay.svelte';
 	import TipTapEditor from './TipTapEditor.svelte';
 
@@ -87,9 +85,6 @@
 		{#if errorMessage !== ''}
 			<FormError message={errorMessage} />
 		{/if}
-		{#key captchaKey}
-			<Turnstile siteKey={TURNSTILE_PUBLIC_KEY} />
-		{/key}
 	</form>
 {/if}
 {#if showCommentSuccess}
@@ -149,10 +144,6 @@
 					{#if errorMessage !== ''}
 						<FormError message={errorMessage} />
 					{/if}
-					<div class="cf-turnstile" data-sitekey={TURNSTILE_PUBLIC_KEY}></div>
-					{#key captchaKey}
-						<Turnstile siteKey={TURNSTILE_PUBLIC_KEY} />
-					{/key}
 				</form>
 			{/if}
 			{#each childComments(comment.id) as child}
