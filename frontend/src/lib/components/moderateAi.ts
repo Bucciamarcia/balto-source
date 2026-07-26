@@ -1,6 +1,10 @@
+import { dev } from "$app/env";
 import { PUBLIC_POCKETBASE_URL } from "$lib/pocketbase/url";
 
 export async function moderateText(t: string): Promise<ModerateResult> {
+	if (dev) {
+		return "allow";
+	}
 	const response = await fetch(`${PUBLIC_POCKETBASE_URL}/moderate_text`, {
 		method: "POST",
 		headers: { "Content-Type": "application/json" },
