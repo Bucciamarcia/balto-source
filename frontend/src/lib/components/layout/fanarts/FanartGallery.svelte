@@ -2,11 +2,26 @@
 	import FormattedDate from '$lib/components/FormattedDate.svelte';
 	import type { FanartsResponse, UsersResponse } from '$lib/pocketbase-types';
 	import { PUBLIC_POCKETBASE_URL } from '$lib/pocketbase/url';
+	import type { FavoriteByFanart } from '../../../../routes/fanart/proxy+page.server';
 
 	function getFanartUrl(id: string, image: string): string {
 		return `${PUBLIC_POCKETBASE_URL}/api/files/fanarts/${id}/${image}?thumb=300x200f`;
 	}
-	let { fanarts }: { fanarts: FanartsResponse<{ author: UsersResponse }>[] } = $props();
+	let {
+		fanarts,
+		fanartsFavorites
+	}: {
+		fanarts: FanartsResponse<{ author: UsersResponse }>[];
+		fanartsFavorites: FavoriteByFanart[];
+	} = $props();
+
+	function getFavs(id: string): number {
+		const fa = fanartsFavorites.find((f) => f.fanart == id);
+		if (!fa) {
+			return 0;
+		}
+		return fa.favorites.length;
+	}
 </script>
 
 {#if fanarts.length === 0}
@@ -23,6 +38,9 @@
 			</a>
 			<p class="text-center">
 				By <a href={`/profile?id=${fanart.author}`}>{fanart.expand.author.username}</a>
+			</p>
+			<p class="text-center">
+				{getFavs(fanart.id)} favorites
 			</p>
 			<p class="mt-2 text-center text-xs italic">
 				On <FormattedDate date={new Date(fanart.created)} showTime={false} />

@@ -9,14 +9,12 @@
 		comments,
 		targetId,
 		isLoggedIn,
-		form,
 		isVerified
 	}: {
 		comments: CommentsResponse<{ author: UsersResponse }>[];
 		targetId: string;
 		isLoggedIn: boolean;
 		isVerified: boolean;
-		form: any;
 	} = $props();
 	let replyId: string = $state('');
 	let replyValue: string = $state('');
@@ -25,14 +23,7 @@
 	let showCommentSuccess: boolean = $state(false);
 	let comment: string = $state('');
 	let isLoading: boolean = $state(false);
-	let captchaKey = $state(0);
 
-	$effect(() => {
-		if (form) {
-			captchaKey += 1;
-			form = null;
-		}
-	});
 	function isOpen(commentId: string): boolean {
 		if (replyId == commentId) return true;
 		return false;
