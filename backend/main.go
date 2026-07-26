@@ -60,11 +60,15 @@ func main() {
 
 		se.Router.POST("/change_user", func(e *core.RequestEvent) error {
 			slog.Info("Checking if user is unique")
+			user := e.Auth.Id
 			data := struct {
 				Id       string `json:"id"`
 				Username string `json:"username"`
 			}{}
 			err := e.BindBody(&data)
+			if user != data.Id {
+				return e.BadRequestError("You can't change someone else's username", errors.New("you can't change someone else's username"))
+			}
 			if err != nil {
 				return e.BadRequestError("Couldn't parse the request body", err)
 			}
@@ -81,7 +85,7 @@ func main() {
 				return e.BadRequestError("Couldn't change username", err)
 			}
 			return e.String(http.StatusOK, "OK")
-		})
+		}).Bind(apis.RequireAuth("users"))
 
 		se.Router.POST("/moderate_text", func(e *core.RequestEvent) error {
 			slog.Info("Moderating text")

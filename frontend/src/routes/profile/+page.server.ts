@@ -75,7 +75,7 @@ export const actions: Actions = {
 			return fail(400, { error: "username can't be empty", newUsername })
 		}
 		try {
-			await changeUsername(t, id)
+			await changeUsername(t, id, locals.pb.authStore.token)
 		} catch (e) {
 			return fail(400, { error: e instanceof Error ? e.message : "Unknown error" })
 		}
@@ -208,10 +208,10 @@ export const actions: Actions = {
 	}
 }
 
-async function changeUsername(username: string, id: string): Promise<void> {
+async function changeUsername(username: string, id: string, token: string): Promise<void> {
 	const response = await fetch(`${PUBLIC_POCKETBASE_URL}/change_user`, {
 		method: "POST",
-		headers: { "Content-Type": "application/json" },
+		headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
 		body: JSON.stringify({
 			"id": id,
 			"username": username
