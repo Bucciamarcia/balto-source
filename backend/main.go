@@ -162,6 +162,14 @@ func main() {
 			}
 			return nil
 		})
+		app.OnRecordAfterCreateSuccess("comments").BindFunc(func(e *core.RecordEvent) error {
+			err = notifications.NotifyOnComment(e.App, e.Record)
+			if err != nil {
+				fmt.Println("ALLARME ALLARME")
+				fmt.Println(err)
+			}
+			return nil
+		})
 
 		return se.Next()
 	})
