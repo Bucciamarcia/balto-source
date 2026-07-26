@@ -3,6 +3,7 @@ import { fail, type Actions } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import sanitizeHtml from "sanitize-html";
 import { moderateText } from '$lib/components/moderateAi';
+import { PUBLIC_POCKETBASE_URL } from '$lib/pocketbase/url';
 
 export const load: PageServerLoad = async ({ locals, params }) => {
 	const newsId = params.slug;
@@ -28,6 +29,20 @@ export const actions: Actions = {
 		const comment = data.get("comment") as string;
 		const targetId = data.get("targetId");
 		const parent = data.get("parent");
+		const turnstyleResponse = data.get("cf-turnstile-response")
+		if (turnstyleResponse == null) {
+			return fail(400, { error: "No turnstyle" })
+		}
+		const response = await fetch(`${PUBLIC_POCKETBASE_URL}/turnstile_validation`, {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({
+				"response": turnstyleResponse
+			})
+		})
+		if (!response.ok) {
+			return fail(400, { error: "Couldn't verify the captcha" })
+		}
 		const clean = sanitizeHtml(comment);
 		const moderation = await moderateText(clean);
 		if (moderation === "remove") {

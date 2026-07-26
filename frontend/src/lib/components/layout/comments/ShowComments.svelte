@@ -1,7 +1,9 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import FormError from '$lib/components/formError.svelte';
+	import { TURNSTILE_PUBLIC_KEY } from '$lib/consts';
 	import type { CommentsResponse, UsersResponse } from '$lib/pocketbase-types';
+	import { Turnstile } from 'svelte-turnstile';
 	import SingleCommentDisplay from './SingleCommentDisplay.svelte';
 	import TipTapEditor from './TipTapEditor.svelte';
 
@@ -9,12 +11,14 @@
 		comments,
 		targetId,
 		isLoggedIn,
+		form,
 		isVerified
 	}: {
 		comments: CommentsResponse<{ author: UsersResponse }>[];
 		targetId: string;
 		isLoggedIn: boolean;
 		isVerified: boolean;
+		form: any;
 	} = $props();
 	let replyId: string = $state('');
 	let replyValue: string = $state('');
@@ -23,7 +27,14 @@
 	let showCommentSuccess: boolean = $state(false);
 	let comment: string = $state('');
 	let isLoading: boolean = $state(false);
+	let captchaKey = $state(0);
 
+	$effect(() => {
+		if (form) {
+			captchaKey += 1;
+			form = null;
+		}
+	});
 	function isOpen(commentId: string): boolean {
 		if (replyId == commentId) return true;
 		return false;
@@ -76,6 +87,9 @@
 		{#if errorMessage !== ''}
 			<FormError message={errorMessage} />
 		{/if}
+		{#key captchaKey}
+			<Turnstile siteKey={TURNSTILE_PUBLIC_KEY} />
+		{/key}
 	</form>
 {/if}
 {#if showCommentSuccess}
@@ -135,6 +149,10 @@
 					{#if errorMessage !== ''}
 						<FormError message={errorMessage} />
 					{/if}
+					<div class="cf-turnstile" data-sitekey={TURNSTILE_PUBLIC_KEY}></div>
+					{#key captchaKey}
+						<Turnstile siteKey={TURNSTILE_PUBLIC_KEY} />
+					{/key}
 				</form>
 			{/if}
 			{#each childComments(comment.id) as child}
