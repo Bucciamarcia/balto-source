@@ -3,9 +3,11 @@ package main
 import (
 	createuser "balto-source/backend/database/create_user"
 	"balto-source/backend/features/chat"
+	"balto-source/backend/features/notifications"
 	"balto-source/backend/moderation"
 	turnstile "balto-source/backend/moderation/turnstyle"
 	"errors"
+	"fmt"
 	"log/slog"
 	"net/http"
 	"os"
@@ -149,6 +151,16 @@ func main() {
 				return e.BadRequestError("Unverified Turnstile", errors.New("unknown error in turnstile"))
 			}
 			return e.String(http.StatusOK, "OK")
+		})
+
+		// Subscribe to additions in the database.
+		app.OnRecordAfterCreateSuccess("fanart_favorites").BindFunc(func(e *core.RecordEvent) error {
+			err = notifications.NotifyOnFanartFavorite(e.App, e.Record)
+			if err != nil {
+				fmt.Println("ALLARME ALLARME")
+				fmt.Println(err)
+			}
+			return nil
 		})
 
 		return se.Next()
