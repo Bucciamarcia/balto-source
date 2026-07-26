@@ -11,7 +11,6 @@ import (
 func VerifyTurnstile(response string) (bool, error) {
 	url := "https://challenges.cloudflare.com/turnstile/v0/siteverify"
 	secret := os.Getenv("TURNSTILE_SECRET_KEY")
-	fmt.Printf("turnstile token received: %q (len=%d)\n", response, len(response))
 	body := map[string]string{
 
 		"response": response,
