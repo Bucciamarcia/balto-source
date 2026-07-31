@@ -157,7 +157,6 @@ func main() {
 		app.OnRecordAfterCreateSuccess("fanart_favorites").BindFunc(func(e *core.RecordEvent) error {
 			err = notifications.NotifyOnFanartFavorite(e.App, e.Record)
 			if err != nil {
-				fmt.Println("ALLARME ALLARME")
 				fmt.Println(err)
 			}
 			return nil
@@ -165,7 +164,6 @@ func main() {
 		app.OnRecordAfterCreateSuccess("comments").BindFunc(func(e *core.RecordEvent) error {
 			err = notifications.NotifyOnComment(e.App, e.Record)
 			if err != nil {
-				fmt.Println("ALLARME ALLARME")
 				fmt.Println(err)
 			}
 			return nil
