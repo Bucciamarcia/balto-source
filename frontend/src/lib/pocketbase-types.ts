@@ -154,12 +154,12 @@ export type HomepageNewsRecord = {
 export type NotificationsRecord = {
 	content?: string
 	created: IsoAutoDateString
+	for_user?: RecordIdString
 	id: string
 	is_read?: boolean
-	title?: string
+	source_user?: RecordIdString
 	updated: IsoAutoDateString
 	url?: string
-	user?: RecordIdString
 }
 
 export const UsersRoleOptions = {

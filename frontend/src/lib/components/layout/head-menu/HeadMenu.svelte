@@ -1,7 +1,19 @@
 <script lang="ts">
 	import BellIcon from './BellIcon.svelte';
 	import LinkElement from './LinkElement.svelte';
-	let { isLoggedIn, isVerified }: { isLoggedIn: boolean; isVerified: boolean } = $props();
+	import type { NotificationsResponse } from '$lib/pocketbase-types';
+	import Notifications from './Notifications.svelte';
+	let {
+		isLoggedIn,
+		isVerified,
+		newNotifications,
+		latestNotifications
+	}: {
+		isLoggedIn: boolean;
+		isVerified: boolean;
+		newNotifications: number;
+		latestNotifications: NotificationsResponse[];
+	} = $props();
 </script>
 
 <div class="mt-4 flex gap-4 place-self-center">
@@ -17,10 +29,12 @@
 		<LinkElement label="Log out" destination="/" logOut={true} />
 		<div class="tooltip" data-tip="Notifications">
 			<div class="indicator">
-				<span class="indicator-item badge badge-error">0</span>
+				<span class="indicator-item badge badge-error">{newNotifications}</span>
 				<details class="dropdown dropdown-end">
 					<summary class="btn btn-primary"><BellIcon /></summary>
-					<div class="dropdown-content grid h-120 w-100 bg-base-300">content</div>
+					<div class="dropdown-content grid h-120 w-100 bg-base-300">
+						<Notifications notifications={latestNotifications} />
+					</div>
 				</details>
 			</div>
 		</div>
