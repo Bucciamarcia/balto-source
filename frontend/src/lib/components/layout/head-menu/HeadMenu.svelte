@@ -32,7 +32,7 @@
 				<span class="indicator-item badge badge-error">{newNotifications}</span>
 				<details class="dropdown dropdown-end">
 					<summary class="btn btn-primary"><BellIcon /></summary>
-					<div class="dropdown-content grid h-120 w-100 bg-base-300">
+					<div class="dropdown-content grid h-120 w-100 content-start bg-base-300">
 						<Notifications notifications={latestNotifications} />
 					</div>
 				</details>

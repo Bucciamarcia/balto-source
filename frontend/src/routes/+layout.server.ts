@@ -5,7 +5,8 @@ export const load: LayoutServerLoad = async ({ locals }) => {
 	const auth = locals.auth;
 	const isLoggedIn = auth != null;
 	const user = locals.user;
-	const r = await locals.pb.collection("notifications").getList<NotificationsResponse<{ source_user: UsersResponse }>>(0, 2, {
+	const r = await locals.pb.collection("notifications").getList<NotificationsResponse<{ source_user: UsersResponse }>>(0, 10, {
+		sort: "-created",
 		filter: `for_user = "${auth?.id}"`,
 		expand: "source_user"
 	});
