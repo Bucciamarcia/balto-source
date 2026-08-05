@@ -1,7 +1,7 @@
 <script lang="ts">
 	import BellIcon from './BellIcon.svelte';
 	import LinkElement from './LinkElement.svelte';
-	import type { NotificationsResponse } from '$lib/pocketbase-types';
+	import type { NotificationsResponse, UsersResponse } from '$lib/pocketbase-types';
 	import Notifications from './Notifications.svelte';
 	let {
 		isLoggedIn,
@@ -12,7 +12,7 @@
 		isLoggedIn: boolean;
 		isVerified: boolean;
 		newNotifications: number;
-		latestNotifications: NotificationsResponse[];
+		latestNotifications: NotificationsResponse<{ source_user: UsersResponse }>[];
 	} = $props();
 </script>
 
