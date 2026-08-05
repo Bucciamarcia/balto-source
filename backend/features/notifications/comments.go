@@ -28,6 +28,38 @@ func NotifyOnComment(app core.App, record *core.Record) error {
 		err = notifyOnProfile(app, comment)
 		return err
 	}
+	if comment.CommentType == "fanart" {
+		err := notifyOnFanart(app, comment)
+		return err
+	}
+	return nil
+}
+
+func notifyOnFanart(app core.App, comment Comment) error {
+	notifications, err := app.FindCollectionByNameOrId("notifications")
+	if err != nil {
+		return err
+	}
+	n := core.NewRecord(notifications)
+	data, err := app.FindRecordById("users", comment.Author)
+	if err != nil {
+		return err
+	}
+	fanart, err := app.FindRecordById("fanarts", comment.TargetId)
+	if err != nil {
+		return err
+	}
+	fanartAuthor := fanart.GetString("author")
+	author := data.GetString("username")
+	n.Set("content", author+" commented on your fanart")
+	n.Set("for_user", fanartAuthor)
+	n.Set("is_read", false)
+	n.Set("url", "/fanart/"+comment.TargetId)
+	n.Set("source_user", comment.Author)
+	err = app.Save(n)
+	if err != nil {
+		return err
+	}
 	return nil
 }
 
