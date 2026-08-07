@@ -18,7 +18,7 @@
 
 {#each notifications as notification}
 	<a href={notification.url}>
-		<div class="card m-1 bg-neutral shadow-sm">
+		<div class="card m-1 bg-neutral{notification.is_read ? '-300' : ''} shadow-sm">
 			<div class="card-body">
 				<div class="flex">
 					<img
@@ -27,7 +27,9 @@
 						height="40"
 						width="40"
 					/>
-					<p class="ml-5 text-center text-left">{notification.content}</p>
+					<p class="ml-5 text-center {notification.is_read ? 'text-black' : ''} text-left">
+						{notification.content}
+					</p>
 				</div>
 			</div>
 		</div>
