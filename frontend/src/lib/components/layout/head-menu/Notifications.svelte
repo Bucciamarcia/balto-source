@@ -35,6 +35,8 @@
 {/each}
 {#if unreadNotifications()}
 	<form method="POST" action="?/markNotificationsAsRead">
-		<button type="submit" class="text-black">Mark all as read</button>
+		<button type="submit" class="cursor-pointer text-center text-black underline"
+			>Mark all as read</button
+		>
 	</form>
 {/if}
