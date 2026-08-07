@@ -3,6 +3,7 @@
 	import LinkElement from './LinkElement.svelte';
 	import type { NotificationsResponse, UsersResponse } from '$lib/pocketbase-types';
 	import Notifications from './Notifications.svelte';
+	import type { Action } from 'svelte/action';
 	let {
 		isLoggedIn,
 		isVerified,
@@ -14,6 +15,24 @@
 		newNotifications: number;
 		latestNotifications: NotificationsResponse<{ source_user: UsersResponse }>[];
 	} = $props();
+	const clickOutside: Action<HTMLElement, () => void> = (node, callback) => {
+		function handleClick(event: MouseEvent) {
+			if (node && !node.contains(event.target as Node) && !event.defaultPrevented) {
+				callback();
+			}
+		}
+		document.addEventListener('click', handleClick, true);
+
+		return {
+			destroy() {
+				document.removeEventListener('click', handleClick, true);
+			},
+			update(newCallback: () => void) {
+				callback = newCallback;
+			}
+		};
+	};
+	let isOpen: boolean = $state(false);
 </script>
 
 <div class="mt-4 flex gap-4 place-self-center">
@@ -27,10 +46,17 @@
 		<LinkElement label="Profile" destination="/profile" logOut={false} />
 		<LinkElement label="Upload" destination="/upload" logOut={false} />
 		<LinkElement label="Log out" destination="/" logOut={true} />
-		<div class="tooltip" data-tip="Notifications">
+		<div
+			class="tooltip"
+			use:clickOutside={() => {
+				isOpen = false;
+				console.log('outside');
+			}}
+			data-tip="Notifications"
+		>
 			<div class="indicator">
 				<span class="indicator-item badge badge-error">{newNotifications}</span>
-				<details class="dropdown dropdown-end">
+				<details bind:open={isOpen} class="dropdown dropdown-end">
 					<summary class="btn btn-primary"><BellIcon /></summary>
 					<div class="dropdown-content grid h-120 w-100 content-start bg-base-300">
 						<Notifications notifications={latestNotifications} />
