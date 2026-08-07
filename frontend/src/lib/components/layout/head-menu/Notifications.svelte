@@ -17,26 +17,30 @@
 </script>
 
 {#each notifications as notification}
-	<a href={notification.url}>
-		<div class="card m-1 bg-neutral{notification.is_read ? '-300' : ''} shadow-sm">
-			<div class="card-body">
-				<div class="flex">
-					<img
-						src={buildAvatarUrl(notification.expand.source_user)}
-						alt="{notification.expand.source_user.username} avatar"
-						height="40"
-						width="40"
-					/>
-					<p class="ml-5 text-center {notification.is_read ? 'text-black' : ''} text-left">
-						{notification.content}
-					</p>
+	<form method="POST" action="/?/singleNotificationRead">
+		<input type="hidden" name="id" value={notification.id} />
+		<input type="hidden" name="url" value={notification.url} />
+		<button type="submit" class="w-full cursor-pointer text-left">
+			<div class="card m-1 bg-neutral{notification.is_read ? '-300' : ''} shadow-sm">
+				<div class="card-body">
+					<div class="flex">
+						<img
+							src={buildAvatarUrl(notification.expand.source_user)}
+							alt="{notification.expand.source_user.username} avatar"
+							height="40"
+							width="40"
+						/>
+						<p class="ml-5 text-center {notification.is_read ? 'text-black' : ''} text-left">
+							{notification.content}
+						</p>
+					</div>
 				</div>
 			</div>
-		</div>
-	</a>
+		</button>
+	</form>
 {/each}
 {#if unreadNotifications()}
-	<form method="POST" action="?/markNotificationsAsRead">
+	<form method="POST" action="/?/markNotificationsAsRead">
 		<button type="submit" class="cursor-pointer text-center text-black underline"
 			>Mark all as read</button
 		>

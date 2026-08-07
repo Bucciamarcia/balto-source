@@ -1,6 +1,6 @@
 import type { Actions, PageServerLoad } from "./$types";
 import type { NotificationsResponse, CommentsResponse, HomepageNewsResponse, UsersResponse } from "$lib/pocketbase-types";
-import { fail } from "@sveltejs/kit";
+import { fail, redirect } from "@sveltejs/kit";
 
 export const load: PageServerLoad = async ({ locals, cookies }) => {
 	const flash = cookies.get("flash");
@@ -22,7 +22,7 @@ export const actions: Actions = {
 	logout: async ({ locals }) => {
 		locals.pb.authStore.clear();
 	},
-	markNotificationsAsRead: async ({ locals }) => {
+	markNotificationsAsRead: async ({ locals, request }) => {
 		const user = locals.user;
 		if (user == null) {
 			return fail(401, { error: "Not logged in" });
@@ -49,4 +49,12 @@ export const actions: Actions = {
 			}
 		}
 	},
+	singleNotificationRead: async ({ locals, request }) => {
+		console.log("start not read")
+		const data = await request.formData();
+		const nid = data.get("id") as string;
+		const url = data.get("url") as string;
+		console.log(url)
+		throw redirect(303, url)
+	}
 }
