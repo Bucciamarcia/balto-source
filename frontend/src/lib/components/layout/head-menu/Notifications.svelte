@@ -5,6 +5,15 @@
 	let {
 		notifications
 	}: { notifications: NotificationsResponse<{ source_user: UsersResponse }>[] } = $props();
+
+	function unreadNotifications(): boolean {
+		for (const n of notifications) {
+			if (n.is_read === false) {
+				return true;
+			}
+		}
+		return false;
+	}
 </script>
 
 {#each notifications as notification}
@@ -24,3 +33,8 @@
 		</div>
 	</a>
 {/each}
+{#if unreadNotifications()}
+	<form method="POST" action="?/markNotificationsAsRead">
+		<button type="submit" class="text-black">Mark all as read</button>
+	</form>
+{/if}

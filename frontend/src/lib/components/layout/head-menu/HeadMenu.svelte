@@ -46,19 +46,12 @@
 		<LinkElement label="Profile" destination="/profile" logOut={false} />
 		<LinkElement label="Upload" destination="/upload" logOut={false} />
 		<LinkElement label="Log out" destination="/" logOut={true} />
-		<div
-			class="tooltip"
-			use:clickOutside={() => {
-				isOpen = false;
-				console.log('outside');
-			}}
-			data-tip="Notifications"
-		>
+		<div class="tooltip" use:clickOutside={() => (isOpen = false)} data-tip="Notifications">
 			<div class="indicator">
 				<span class="indicator-item badge badge-error">{newNotifications}</span>
 				<details bind:open={isOpen} class="dropdown dropdown-end">
 					<summary class="btn btn-primary"><BellIcon /></summary>
-					<div class="dropdown-content grid h-120 w-100 content-start bg-base-300">
+					<div class="dropdown-content grid h-120 w-100 content-start overflow-y-auto bg-base-300">
 						<Notifications notifications={latestNotifications} />
 					</div>
 				</details>

@@ -21,4 +21,7 @@ export const actions: Actions = {
 	logout: async ({ locals }) => {
 		locals.pb.authStore.clear();
 	},
+	markNotificationsAsRead: async ({ locals, request }) => {
+		console.log("moi moi")
+	},
 }
