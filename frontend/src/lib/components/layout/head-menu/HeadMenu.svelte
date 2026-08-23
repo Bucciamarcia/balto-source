@@ -48,7 +48,10 @@
 		<LinkElement label="Log out" destination="/" logOut={true} />
 		<div class="tooltip" use:clickOutside={() => (isOpen = false)} data-tip="Notifications">
 			<div class="indicator">
-				<span class="indicator-item badge badge-error">{newNotifications}</span>
+				<span
+					class="indicator-item badge {newNotifications === 0 ? 'badge-secondary' : 'badge-error'}"
+					>{newNotifications}</span
+				>
 				<details bind:open={isOpen} class="dropdown dropdown-end">
 					<summary class="btn btn-primary"><BellIcon /></summary>
 					<div class="dropdown-content grid h-120 w-100 content-start overflow-y-auto bg-base-300">
