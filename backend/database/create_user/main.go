@@ -2,12 +2,15 @@ package createuser
 
 import (
 	"encoding/json"
+	"log/slog"
 	"slices"
 	"strings"
 
 	validation "github.com/go-ozzo/ozzo-validation/v4"
 	"github.com/pocketbase/pocketbase"
 	"github.com/pocketbase/pocketbase/core"
+	"github.com/pocketbase/pocketbase/mails"
+	"github.com/pocketbase/pocketbase/tools/routine"
 )
 
 func Create(e *core.RequestEvent, app *pocketbase.PocketBase) error {
@@ -54,6 +57,11 @@ func Create(e *core.RequestEvent, app *pocketbase.PocketBase) error {
 	if err != nil {
 		return err
 	}
+	routine.FireAndForget(func() {
+		if err := mails.SendRecordVerification(app, record); err != nil {
+			slog.Error("Failed to send verification email", "error", err)
+		}
+	})
 	return nil
 }
 
