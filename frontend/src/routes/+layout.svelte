@@ -1,5 +1,6 @@
 <script lang="ts">
 	import './layout.css';
+	import { enhance } from '$app/forms';
 	import SideMenu from '$lib/components/layout/SideMenu.svelte';
 	import HeadBanner from '$lib/components/layout/head-banner.svelte';
 	import HeadMenu from '$lib/components/layout/head-menu/HeadMenu.svelte';
@@ -7,6 +8,7 @@
 	import titleIcon from '$lib/assets/placeholderTitleIcon.png';
 
 	let { children, data } = $props();
+	let newEmailVerificationYes: boolean = $state(false);
 </script>
 
 <svelte:head>
@@ -26,9 +28,34 @@
 			latestNotifications={data.latestNotifications}
 		/>
 		{#if data.user?.verified === false}
-			<div class="mt-10 place-self-center text-lg font-bold text-error">
-				Your account is not active yet. Please verify your email address.
-			</div>
+			<form
+				method="POST"
+				action="/?/resendVerificationEmail"
+				use:enhance={() => {
+					newEmailVerificationYes = false;
+					return async ({ result, update }) => {
+						await update();
+						if (result.type === 'success') {
+							newEmailVerificationYes = true;
+						}
+					};
+				}}
+			>
+				<div class="mt-10 place-self-center text-lg font-bold text-error">
+					Your account is not active yet. Please verify your email address.
+				</div>
+				<input name="email" type="hidden" value={data.user.email} />
+				<div class="mt-5 place-self-center">
+					<button class="btn cursor-pointer btn-primary" type="submit"
+						>Send new verification email</button
+					>
+				</div>
+				{#if newEmailVerificationYes}
+					<div class="mt-5 place-self-center text-lg font-bold text-black">
+						Email verification sent. Check your email address.
+					</div>
+				{/if}
+			</form>
 		{/if}
 	</div>
 
