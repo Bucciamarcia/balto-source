@@ -16,6 +16,7 @@ export const Collections = {
 	FanartFavorites: "fanart_favorites",
 	Fanarts: "fanarts",
 	HomepageNews: "homepage_news",
+	Notifications: "notifications",
 	Users: "users",
 } as const
 export type Collections = typeof Collections[keyof typeof Collections]
@@ -150,6 +151,17 @@ export type HomepageNewsRecord = {
 	updated: IsoAutoDateString
 }
 
+export type NotificationsRecord = {
+	content?: string
+	created: IsoAutoDateString
+	for_user?: RecordIdString
+	id: string
+	is_read?: boolean
+	source_user?: RecordIdString
+	updated: IsoAutoDateString
+	url?: string
+}
+
 export const UsersRoleOptions = {
 	"user": "user",
 	"moderator": "moderator",
@@ -182,6 +194,7 @@ export type CommentsResponse<Texpand = unknown> = Required<CommentsRecord> & Bas
 export type FanartFavoritesResponse<Texpand = unknown> = Required<FanartFavoritesRecord> & BaseSystemFields<Texpand>
 export type FanartsResponse<Texpand = unknown> = Required<FanartsRecord> & BaseSystemFields<Texpand>
 export type HomepageNewsResponse<Texpand = unknown> = Required<HomepageNewsRecord> & BaseSystemFields<Texpand>
+export type NotificationsResponse<Texpand = unknown> = Required<NotificationsRecord> & BaseSystemFields<Texpand>
 export type UsersResponse<Texpand = unknown> = Required<UsersRecord> & AuthSystemFields<Texpand>
 
 // Types containing all Records and Responses, useful for creating typing helper functions
@@ -197,6 +210,7 @@ export type CollectionRecords = {
 	fanart_favorites: FanartFavoritesRecord
 	fanarts: FanartsRecord
 	homepage_news: HomepageNewsRecord
+	notifications: NotificationsRecord
 	users: UsersRecord
 }
 
@@ -211,6 +225,7 @@ export type CollectionResponses = {
 	fanart_favorites: FanartFavoritesResponse
 	fanarts: FanartsResponse
 	homepage_news: HomepageNewsResponse
+	notifications: NotificationsResponse
 	users: UsersResponse
 }
 

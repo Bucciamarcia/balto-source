@@ -1,6 +1,8 @@
 package createuser
 
-import "time"
+import (
+	"time"
+)
 
 type User struct {
 	Id              string     `json:"id"`

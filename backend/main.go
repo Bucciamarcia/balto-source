@@ -3,9 +3,11 @@ package main
 import (
 	createuser "balto-source/backend/database/create_user"
 	"balto-source/backend/features/chat"
+	"balto-source/backend/features/notifications"
 	"balto-source/backend/moderation"
 	turnstile "balto-source/backend/moderation/turnstyle"
 	"errors"
+	"fmt"
 	"log/slog"
 	"net/http"
 	"os"
@@ -60,11 +62,15 @@ func main() {
 
 		se.Router.POST("/change_user", func(e *core.RequestEvent) error {
 			slog.Info("Checking if user is unique")
+			user := e.Auth.Id
 			data := struct {
 				Id       string `json:"id"`
 				Username string `json:"username"`
 			}{}
 			err := e.BindBody(&data)
+			if user != data.Id {
+				return e.BadRequestError("You can't change someone else's username", errors.New("you can't change someone else's username"))
+			}
 			if err != nil {
 				return e.BadRequestError("Couldn't parse the request body", err)
 			}
@@ -81,7 +87,7 @@ func main() {
 				return e.BadRequestError("Couldn't change username", err)
 			}
 			return e.String(http.StatusOK, "OK")
-		})
+		}).Bind(apis.RequireAuth("users"))
 
 		se.Router.POST("/moderate_text", func(e *core.RequestEvent) error {
 			slog.Info("Moderating text")
@@ -145,6 +151,22 @@ func main() {
 				return e.BadRequestError("Unverified Turnstile", errors.New("unknown error in turnstile"))
 			}
 			return e.String(http.StatusOK, "OK")
+		})
+
+		// Subscribe to additions in the database.
+		app.OnRecordAfterCreateSuccess("fanart_favorites").BindFunc(func(e *core.RecordEvent) error {
+			err = notifications.NotifyOnFanartFavorite(e.App, e.Record)
+			if err != nil {
+				fmt.Println(err)
+			}
+			return nil
+		})
+		app.OnRecordAfterCreateSuccess("comments").BindFunc(func(e *core.RecordEvent) error {
+			err = notifications.NotifyOnComment(e.App, e.Record)
+			if err != nil {
+				fmt.Println(err)
+			}
+			return nil
 		})
 
 		return se.Next()
