@@ -22,7 +22,7 @@ export const actions: Actions = {
 	logout: async ({ locals }) => {
 		locals.pb.authStore.clear();
 	},
-	markNotificationsAsRead: async ({ locals, request }) => {
+	markNotificationsAsRead: async ({ locals }) => {
 		const user = locals.user;
 		if (user == null) {
 			return fail(401, { error: "Not logged in" });
@@ -50,11 +50,16 @@ export const actions: Actions = {
 		}
 	},
 	singleNotificationRead: async ({ locals, request }) => {
-		console.log("start not read")
 		const data = await request.formData();
 		const nid = data.get("id") as string;
 		const url = data.get("url") as string;
-		console.log(url)
+		try {
+			await locals.pb.collection("notifications").update(nid, {
+				"is_read": true
+			})
+		} catch (e) {
+			return fail(500, { error: e instanceof Error ? e.message : "Unknown error" })
+		}
 		throw redirect(303, url)
 	}
 }
