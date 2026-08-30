@@ -61,6 +61,10 @@ export const actions = {
 	previewFanfiction: async ({ request, locals }) => {
 		const data = await request.formData();
 		const fanfic = data.get("fanfiction") as File;
+		const title = data.get("title") as string;
+		const description = data.get("description") as string;
+		console.log("title: " + title)
+		console.log("description: " + description)
 		const user = locals.user
 		if (user == null) {
 			return fail(500, { error: "You are not logged in" })
@@ -72,7 +76,7 @@ export const actions = {
 			})
 			const html = r.value;
 			await locals.pb.collection("fanfictions").create({
-				author: user.id, content: html
+				author: user.id, content: html, title: title, description: description
 			})
 		} catch (e) {
 			return fail(500, { error: e instanceof Error ? e.message : "Unknown error" })

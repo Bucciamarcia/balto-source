@@ -40,17 +40,37 @@
 		};
 	}}
 >
-	<input
-		type="file"
-		name="fanfiction"
-		class="file-input file-input-accent text-black"
-		accept=".docx"
-		bind:files
-	/>
+	<div class="mt-5">
+		<fieldset class="fieldset">
+			<legend class="fieldset-legend text-neutral-content">Title</legend>
+			<input
+				type="text"
+				name="title"
+				class="input text-black"
+				placeholder="Title of you fanfiction"
+			/>
+		</fieldset>
+	</div>
+	<div class="mt-5">
+		<textarea
+			class="textarea text-black"
+			name="description"
+			placeholder="Description (html allowed)"
+		></textarea>
+	</div>
+	<div>
+		<input
+			type="file"
+			name="fanfiction"
+			class="file-input mt-5 file-input-accent text-black"
+			accept=".docx"
+			bind:files
+		/>
+	</div>
 	{#if isLoading}
 		<span class="loading loading-spinner text-primary"></span>
 	{:else if filePicked}
-		<button class="btn" type="submit">Upload your fanfiction</button>
+		<button class="btn mt-5" type="submit">Upload your fanfiction</button>
 	{/if}
 </form>
 {#if success}
