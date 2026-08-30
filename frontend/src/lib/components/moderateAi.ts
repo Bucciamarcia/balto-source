@@ -1,15 +1,15 @@
 import { dev } from "$app/env";
 import { PUBLIC_POCKETBASE_URL } from "$lib/pocketbase/url";
 
-export async function moderateText(t: string): Promise<ModerateResult> {
+export async function moderateText(t: string, category?: string): Promise<ModerateResult> {
 	if (dev) {
-		return "allow";
+		console.log("working still in dev mode")
 	}
 	const response = await fetch(`${PUBLIC_POCKETBASE_URL}/moderate_text`, {
 		method: "POST",
 		headers: { "Content-Type": "application/json" },
 		body: JSON.stringify({
-			"text": t
+			"text": t, "category": category ?? ""
 		})
 	})
 	if (!response.ok) {

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import FormError from '$lib/components/formError.svelte';
 
 	let files: FileList | undefined = $state();
 	let success: boolean = $state(false);
@@ -77,5 +78,5 @@
 	<p class="text-xl text-green-600">Your fanart has been uploaded successfully!</p>
 {/if}
 {#if errorMessage}
-	<p>{errorMessage}</p>
+	<FormError message={errorMessage} />
 {/if}
