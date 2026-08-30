@@ -1,6 +1,7 @@
 import { error, fail, type Actions } from "@sveltejs/kit";
 import type { PageServerLoad } from "./$types";
 import sanitizeHtml from "sanitize-html";
+import mammoth from "mammoth";
 import { moderateImageData, moderateText } from "$lib/components/moderateAi";
 
 export const load: PageServerLoad = async ({ locals }) => {
@@ -54,6 +55,27 @@ export const actions = {
 			})
 		} catch (e) {
 			return fail(500, { error: e instanceof Error ? e.message : "Unknown error" });
+		}
+	},
+
+	previewFanfiction: async ({ request, locals }) => {
+		const data = await request.formData();
+		const fanfic = data.get("fanfiction") as File;
+		const user = locals.user
+		if (user == null) {
+			return fail(500, { error: "You are not logged in" })
+		}
+		try {
+			const fanficArrayBuffer = await fanfic.arrayBuffer()
+			const r = await mammoth.convertToHtml({
+				buffer: Buffer.from(fanficArrayBuffer)
+			})
+			const html = r.value;
+			await locals.pb.collection("fanfictions").create({
+				author: user.id, content: html
+			})
+		} catch (e) {
+			return fail(500, { error: e instanceof Error ? e.message : "Unknown error" })
 		}
 	}
 } satisfies Actions;

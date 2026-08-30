@@ -1,5 +1,6 @@
 <script lang="ts">
 	import FanartUploader from './FanartUploader.svelte';
+	import FanfictionUploader from './FanfictionUploader.svelte';
 
 	let selected: string = $state('fanart');
 </script>
@@ -20,5 +21,5 @@
 {#if selected === 'fanart'}
 	<FanartUploader />
 {:else if selected === 'fanfiction'}
-	Sorry, fanfictions are not yet available!
+	<FanfictionUploader />
 {/if}
