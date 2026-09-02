@@ -10,6 +10,22 @@
 	<title>Balto Source - Reach For The Light</title>
 </svelte:head>
 
+{#if data.user?.role === 'admin'}
+	<div class="flex">
+		<form method="POST" action="?/impersonateUser">
+			<input type="text" placeholder="superuser email" name="email" class="input text-black" />
+			<input
+				type="password"
+				placeholder="superuser password"
+				name="password"
+				class="input text-black"
+			/>
+			<input type="text" placeholder="UserId to impersonate" name="uid" class="input text-black" />
+			<button type="submit">GOGO</button>
+		</form>
+	</div>
+{/if}
+
 <div>
 	<h1>Balto Source: We are so back!!!!!</h1>
 </div>
