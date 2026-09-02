@@ -1,20 +1,24 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import FormError from '$lib/components/formError.svelte';
+	import { FANART_TOO_LARGE_MESSAGE, MAX_FANART_BYTES } from '$lib/limits';
 	let files: FileList | undefined = $state();
 	let previewUrl: string | null = $state(null);
 	let errorMessage: string = $state('');
 	let success: boolean = $state(false);
 	let isLoading: boolean = $state(false);
 
+	let tooLarge = $derived((files?.[0]?.size ?? 0) > MAX_FANART_BYTES);
+
 	$effect(() => {
 		const file = files?.[0];
-		if (!file) {
+		if (!file || file.size > MAX_FANART_BYTES) {
 			previewUrl = null;
 			return;
 		}
 		const url = URL.createObjectURL(file);
 		previewUrl = url;
+		return () => URL.revokeObjectURL(url);
 	});
 </script>
 
@@ -48,6 +52,9 @@
 		accept=".png, .jpg, .jpeg"
 		bind:files
 	/>
+	{#if tooLarge}
+		<FormError message={FANART_TOO_LARGE_MESSAGE} />
+	{/if}
 	{#if previewUrl}
 		<img class="mt-5" src={previewUrl} alt="Preview of your upload" />
 		<div>
