@@ -1,6 +1,8 @@
 import type { Actions, PageServerLoad } from "./$types";
 import type { NotificationsResponse, CommentsResponse, HomepageNewsResponse, UsersResponse } from "$lib/pocketbase-types";
 import { fail, redirect } from "@sveltejs/kit";
+import PocketBase from "pocketbase";
+import { PUBLIC_POCKETBASE_URL } from "$lib/pocketbase/url";
 
 export const load: PageServerLoad = async ({ locals, cookies }) => {
 	const flash = cookies.get("flash");
@@ -15,7 +17,8 @@ export const load: PageServerLoad = async ({ locals, cookies }) => {
 		});
 		loadedComments.set(n.id, comments);
 	}
-	return { resultList, flash, loadedComments }
+	const user = locals.user
+	return { resultList, flash, loadedComments, user }
 }
 
 export const actions: Actions = {
@@ -70,5 +73,15 @@ export const actions: Actions = {
 		} catch (e) {
 			return fail(500, { error: e instanceof Error ? e.message : "Unknown error" })
 		}
+	},
+	impersonateUser: async ({ locals, request }) => {
+		const data = await request.formData();
+		const email = data.get("email") as string;
+		const password = data.get("password") as string;
+		const uid = data.get("uid") as string;
+		const pb = new PocketBase(PUBLIC_POCKETBASE_URL);
+		await pb.collection("_superusers").authWithPassword(email, password)
+		const impersonateClient = await pb.collection("users").impersonate(uid, 3600)
+		locals.pb.authStore.save(impersonateClient.authStore.token, impersonateClient.authStore.record);
 	}
 }
