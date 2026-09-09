@@ -4,6 +4,7 @@ import (
 	createuser "balto-source/backend/database/create_user"
 	"balto-source/backend/features/chat"
 	"balto-source/backend/features/notifications"
+	"balto-source/backend/migrations"
 	"balto-source/backend/moderation"
 	turnstile "balto-source/backend/moderation/turnstyle"
 	"errors"
@@ -27,6 +28,13 @@ func main() {
 	if err != nil {
 		panic("Error loading .env file")
 	}
+
+	app.OnServe().BindFunc(func(se *core.ServeEvent) error {
+		if err := migrations.MigrateLanguage(se.App); err != nil {
+			return err
+		}
+		return se.Next()
+	})
 
 	app.OnServe().BindFunc(func(se *core.ServeEvent) error {
 		se.Router.GET("/helloworld", func(e *core.RequestEvent) error {
