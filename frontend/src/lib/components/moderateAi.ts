@@ -3,7 +3,8 @@ import { PUBLIC_POCKETBASE_URL } from "$lib/pocketbase/url";
 
 export async function moderateText(t: string, category?: string): Promise<ModerateResult> {
 	if (dev) {
-		console.log("working still in dev mode")
+		console.log("Skipping in dev mode")
+		return "allow";
 	}
 	const response = await fetch(`${PUBLIC_POCKETBASE_URL}/moderate_text`, {
 		method: "POST",
