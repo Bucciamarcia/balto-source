@@ -8,7 +8,7 @@ export const load: PageServerLoad = async ({ locals }) => {
 	const authenticated = locals.user != null
 	const isVerified = locals.user?.verified ?? false
 	const resultList = await locals.pb.collection("chat_messages")
-		.getList<ChatMessagesResponse<{ author: UsersResponse }>>(1, 20, { expand: "author", sort: "-created", filter: `language = ${lang}` });
+		.getList<ChatMessagesResponse<{ author: UsersResponse }>>(1, 20, { expand: "author", sort: "-created", filter: `language = "${lang}"` });
 	const items = resultList.items;
 
 	return { messages: items.toReversed(), authenticated: authenticated, loggedUser: locals.auth?.id ?? null, isVerified }
