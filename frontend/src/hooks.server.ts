@@ -36,7 +36,9 @@ export const handle: Handle = async ({ event, resolve }) => {
 		}
 	}
 
-	const response = await resolve(event);
+	const response = await resolve(event, {
+		transformPageChunk: ({ html }) => html.replace('%lang%', event.locals.language)
+	});
 
 	response.headers.append("set-cookie", event.locals.pb.authStore.exportToCookie({ httpOnly: true, secure: true }));
 
