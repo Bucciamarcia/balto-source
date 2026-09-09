@@ -2,7 +2,6 @@ import PocketBase from 'pocketbase';
 import type { Handle } from '@sveltejs/kit';
 import { PUBLIC_POCKETBASE_URL } from '$lib/pocketbase/url';
 
-type LanguageStub = "en" | "fr";
 function getLanguageStub(url: string): LanguageStub {
 	if (url.startsWith("/en")) {
 		return "en"
