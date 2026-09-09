@@ -31,7 +31,10 @@
 	{#each fanarts as fanart}
 		<div class="flex flex-col">
 			<a href={`/fanart/${fanart.id}`}>
-				<img src={getFanartUrl(fanart.id, fanart.image)} alt="{fanart.title} by {fanart.author}" />
+				<img
+					src={getFanartUrl(fanart.id, fanart.image)}
+					alt="{fanart.title} by {fanart.expand.author.username}"
+				/>
 			</a>
 			<a href={`/fanart/${fanart.id}`}>
 				<p class="mt-2 text-center">{fanart.title}</p>

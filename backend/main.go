@@ -92,13 +92,14 @@ func main() {
 		se.Router.POST("/moderate_text", func(e *core.RequestEvent) error {
 			slog.Info("Moderating text")
 			data := struct {
-				Text string `json:"text"`
+				Text     string `json:"text"`
+				Category string `json:"category"`
 			}{}
 			err := e.BindBody(&data)
 			if err != nil {
 				return e.BadRequestError("Couldn't extract text to moderate", err)
 			}
-			r, err := moderation.ModerateText(data.Text)
+			r, err := moderation.ModerateText(data.Text, data.Category)
 			if err != nil {
 				return e.InternalServerError("Couldn't moderate the text", err)
 			}
@@ -156,6 +157,13 @@ func main() {
 		// Subscribe to additions in the database.
 		app.OnRecordAfterCreateSuccess("fanart_favorites").BindFunc(func(e *core.RecordEvent) error {
 			err = notifications.NotifyOnFanartFavorite(e.App, e.Record)
+			if err != nil {
+				fmt.Println(err)
+			}
+			return nil
+		})
+		app.OnRecordAfterCreateSuccess("fanfiction_favorites").BindFunc(func(e *core.RecordEvent) error {
+			err = notifications.NotifyOnFanfictionFavorite(e.App, e.Record)
 			if err != nil {
 				fmt.Println(err)
 			}

@@ -15,6 +15,8 @@ export const Collections = {
 	Comments: "comments",
 	FanartFavorites: "fanart_favorites",
 	Fanarts: "fanarts",
+	FanfictionFavorites: "fanfiction_favorites",
+	Fanfictions: "fanfictions",
 	HomepageNews: "homepage_news",
 	Notifications: "notifications",
 	Users: "users",
@@ -111,6 +113,7 @@ export const CommentsTypeOptions = {
 	"news": "news",
 	"profile": "profile",
 	"fanart": "fanart",
+	"fanfiction": "fanfiction",
 } as const
 export type CommentsTypeOptions = typeof CommentsTypeOptions[keyof typeof CommentsTypeOptions]
 export type CommentsRecord = {
@@ -139,6 +142,24 @@ export type FanartsRecord = {
 	id: string
 	image: FileNameString
 	title?: string
+	updated: IsoAutoDateString
+}
+
+export type FanfictionFavoritesRecord = {
+	created: IsoAutoDateString
+	id: string
+	source?: RecordIdString
+	target?: RecordIdString
+	updated: IsoAutoDateString
+}
+
+export type FanfictionsRecord = {
+	author: RecordIdString
+	content: string
+	created: IsoAutoDateString
+	description: string
+	id: string
+	title: string
 	updated: IsoAutoDateString
 }
 
@@ -193,6 +214,8 @@ export type ChatMessagesResponse<Texpand = unknown> = Required<ChatMessagesRecor
 export type CommentsResponse<Texpand = unknown> = Required<CommentsRecord> & BaseSystemFields<Texpand>
 export type FanartFavoritesResponse<Texpand = unknown> = Required<FanartFavoritesRecord> & BaseSystemFields<Texpand>
 export type FanartsResponse<Texpand = unknown> = Required<FanartsRecord> & BaseSystemFields<Texpand>
+export type FanfictionFavoritesResponse<Texpand = unknown> = Required<FanfictionFavoritesRecord> & BaseSystemFields<Texpand>
+export type FanfictionsResponse<Texpand = unknown> = Required<FanfictionsRecord> & BaseSystemFields<Texpand>
 export type HomepageNewsResponse<Texpand = unknown> = Required<HomepageNewsRecord> & BaseSystemFields<Texpand>
 export type NotificationsResponse<Texpand = unknown> = Required<NotificationsRecord> & BaseSystemFields<Texpand>
 export type UsersResponse<Texpand = unknown> = Required<UsersRecord> & AuthSystemFields<Texpand>
@@ -209,6 +232,8 @@ export type CollectionRecords = {
 	comments: CommentsRecord
 	fanart_favorites: FanartFavoritesRecord
 	fanarts: FanartsRecord
+	fanfiction_favorites: FanfictionFavoritesRecord
+	fanfictions: FanfictionsRecord
 	homepage_news: HomepageNewsRecord
 	notifications: NotificationsRecord
 	users: UsersRecord
@@ -224,6 +249,8 @@ export type CollectionResponses = {
 	comments: CommentsResponse
 	fanart_favorites: FanartFavoritesResponse
 	fanarts: FanartsResponse
+	fanfiction_favorites: FanfictionFavoritesResponse
+	fanfictions: FanfictionsResponse
 	homepage_news: HomepageNewsResponse
 	notifications: NotificationsResponse
 	users: UsersResponse

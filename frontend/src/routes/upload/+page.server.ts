@@ -1,6 +1,7 @@
 import { error, fail, type Actions } from "@sveltejs/kit";
 import type { PageServerLoad } from "./$types";
 import sanitizeHtml from "sanitize-html";
+import mammoth from "mammoth";
 import { moderateImageData, moderateText } from "$lib/components/moderateAi";
 import { FANART_TOO_LARGE_MESSAGE, MAX_FANART_BYTES } from "$lib/limits";
 
@@ -63,6 +64,42 @@ export const actions = {
 			})
 		} catch (e) {
 			return fail(500, { error: e instanceof Error ? e.message : "Unknown error" });
+		}
+	},
+
+	previewFanfiction: async ({ request, locals }) => {
+		const user = locals.user
+		if (user == null) {
+			return fail(500, { error: "You are not logged in" })
+		}
+		const data = await request.formData();
+		const fanfic = data.get("fanfiction") as File;
+		const title = data.get("title") as string;
+		const titleMod = await moderateText(title);
+		if (titleMod === "remove") {
+			return fail(400, { error: "This title is not allowed" })
+		}
+		const description = data.get("description") as string;
+		const clean = sanitizeHtml(description);
+		const descriptionMod = await moderateText(clean);
+		if (descriptionMod === "remove") {
+			return fail(400, { error: "This description is now allowed" })
+		}
+		try {
+			const fanficArrayBuffer = await fanfic.arrayBuffer()
+			const r = await mammoth.convertToHtml({
+				buffer: Buffer.from(fanficArrayBuffer)
+			})
+			const html = r.value;
+			const fanficMod = await moderateText(html, "fanfiction")
+			if (fanficMod === "remove") {
+				return fail(400, { error: "The fanfiction didn't pass moderation. If you think this is a mistake, contact the staff." })
+			}
+			await locals.pb.collection("fanfictions").create({
+				author: user.id, content: html, title: title, description: clean
+			})
+		} catch (e) {
+			return fail(500, { error: e instanceof Error ? e.message : "Unknown error" })
 		}
 	}
 } satisfies Actions;

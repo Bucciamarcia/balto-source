@@ -33,6 +33,34 @@ func NotifyOnFanartFavorite(app core.App, record *core.Record) error {
 	}
 	return nil
 }
+func NotifyOnFanfictionFavorite(app core.App, record *core.Record) error {
+	sourceId := record.GetString("source")
+	targetId := record.GetString("target")
+	sourceUsername, sourceId, err := getUsernameFromId(sourceId, app)
+	if err != nil {
+		return err
+	}
+	targetFanfiction, err := getFanfictionFromId(targetId, app)
+	if err != nil {
+		return err
+	}
+	c, err := app.FindCollectionByNameOrId("notifications")
+	if err != nil {
+		return err
+	}
+	newNotification := core.NewRecord(c)
+	newNotification.Set("content", sourceUsername+" added your fanfiction to their favorites")
+	newNotification.Set("for_user", targetFanfiction.Author)
+	newNotification.Set("is_read", false)
+	newNotification.Set("url", "/fanfiction/"+targetFanfiction.Id)
+	newNotification.Set("source_user", sourceId)
+
+	err = app.Save(newNotification)
+	if err != nil {
+		return err
+	}
+	return nil
+}
 
 func getUsernameFromId(id string, app core.App) (string, string, error) {
 	record, err := app.FindRecordById("users", id)
@@ -60,11 +88,35 @@ func getFanartFromId(id string, app core.App) (Fanart, error) {
 	}
 	return fanart, nil
 }
+func getFanfictionFromId(id string, app core.App) (Fanfiction, error) {
+	record, err := app.FindRecordById("fanfictions", id)
+	if err != nil {
+		return Fanfiction{}, err
+	}
+	bytes, err := record.MarshalJSON()
+	if err != nil {
+		return Fanfiction{}, err
+	}
+	var fanfiction Fanfiction
+	err = json.Unmarshal(bytes, &fanfiction)
+	if err != nil {
+		return Fanfiction{}, err
+	}
+	return fanfiction, nil
+}
 
 type Fanart struct {
 	Id          string `json:"id"`
 	Author      string `json:"author"`
 	Image       string `json:"image"`
+	Title       string `json:"title"`
+	Description string `json:"description"`
+}
+
+type Fanfiction struct {
+	Id          string `json:"id"`
+	Author      string `json:"author"`
+	Content     string `json:"content"`
 	Title       string `json:"title"`
 	Description string `json:"description"`
 }

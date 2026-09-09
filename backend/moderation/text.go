@@ -2,10 +2,23 @@ package moderation
 
 import (
 	"context"
+	"errors"
+
 	"github.com/anthropics/anthropic-sdk-go"
 )
 
-func ModerateText(t string) (string, error) {
+func ModerateText(text string, category string) (string, error) {
+
+	var prompt string
+
+	switch category {
+	case "":
+		prompt = "You are a moderator on a child-friendly platform. Your job is to moderate the following comment before it is approved. You are to act on comments that are either spam, or inopportune for a child-friendly platform. Allow means the comment will be published; remove means the comment will be deleted immediately; moderate means the comment will be submitted to a human reviewer (if you are not sure):\n\n"
+	case "fanfiction":
+		prompt = "You are a moderator for a fanfiction site. Your job is to moderate the following fanfiction. Your job is to only allow fanfictions that can reasonably put in PG-13 category. Allow means the fanfiction will be published directly; remove means the fanfiction will be deleted immediately; moderate means the fanfiction will be submitted to a human reviewer (if you are not sure):\n\n"
+	default:
+		return "", errors.New("case type not allowed")
+	}
 
 	client := anthropic.NewClient()
 
@@ -17,7 +30,7 @@ func ModerateText(t string) (string, error) {
 			MaxTokens: 100,
 			Messages: []anthropic.MessageParam{
 				anthropic.NewUserMessage(
-					anthropic.NewTextBlock("You are a moderator on a child-friendly platform. Your job is to moderate the following comment before it is approved. You are to act on comments that are either spam, or inopportune for a child-friendly platform. Allow means the comment will be published; remove means the comment will be deleted immediately; moderate means the comment will be submitted to a human reviewer (if you are not sure):\n\n" + t),
+					anthropic.NewTextBlock(prompt + text),
 				),
 			},
 			OutputConfig: anthropic.OutputConfigParam{
