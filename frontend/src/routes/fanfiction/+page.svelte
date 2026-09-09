@@ -6,7 +6,10 @@
 	let filteredFanfiction = $derived(form?.result);
 </script>
 
-moi
+<svelte:head>
+	<title>Fanfictions - Balto Source</title>
+</svelte:head>
+
 <FanficSearchBox action="?/filter" />
 <FanfictionGallery
 	fanfictions={filteredFanfiction == null ? data.fanfictions : filteredFanfiction}
