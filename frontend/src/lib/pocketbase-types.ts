@@ -113,6 +113,7 @@ export const CommentsTypeOptions = {
 	"news": "news",
 	"profile": "profile",
 	"fanart": "fanart",
+	"fanfiction": "fanfiction",
 } as const
 export type CommentsTypeOptions = typeof CommentsTypeOptions[keyof typeof CommentsTypeOptions]
 export type CommentsRecord = {
