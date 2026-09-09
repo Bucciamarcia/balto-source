@@ -162,6 +162,13 @@ func main() {
 			}
 			return nil
 		})
+		app.OnRecordAfterCreateSuccess("fanfiction_favorites").BindFunc(func(e *core.RecordEvent) error {
+			err = notifications.NotifyOnFanfictionFavorite(e.App, e.Record)
+			if err != nil {
+				fmt.Println(err)
+			}
+			return nil
+		})
 		app.OnRecordAfterCreateSuccess("comments").BindFunc(func(e *core.RecordEvent) error {
 			err = notifications.NotifyOnComment(e.App, e.Record)
 			if err != nil {
