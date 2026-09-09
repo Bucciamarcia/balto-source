@@ -63,7 +63,7 @@
 	<!-- Bottom Section: Holds the columns side-by-side -->
 	<div class="flex flex-1 flex-nowrap items-start">
 		<!-- Left Column (Stays as small as SideMenu allows) -->
-		<SideMenu />
+		<SideMenu language={data.language} />
 
 		<!-- Right Column (Fills the rest) -->
 		<main

@@ -1,5 +1,9 @@
 <script lang="ts">
 	import baltoSectionImage from '$lib/assets/balto-1-menu-image.avif';
+	interface Props {
+		language: LanguageStub;
+	}
+	let { language }: Props = $props();
 </script>
 
 <div class="p-10">
@@ -54,8 +58,8 @@
 		<h2><strong>Fans</strong></h2>
 
 		<ul>
-			<a href="/fanart"><li>Fanart</li></a>
-			<a href="/fanfiction"><li>Fanfic</li></a>
+			<a href="/{language}/fanart"><li>Fanart</li></a>
+			<a href="/{language}/fanfiction"><li>Fanfic</li></a>
 			<li>Images</li>
 			<li>Videos</li>
 			<li>Music</li>
