@@ -40,5 +40,9 @@
 	/>
 {/if}
 {#if selectedTab === 'gallery'}
-	<FanartGallery fanarts={data.fanarts} />
+	<FanartGallery
+		fanarts={data.fanarts}
+		fanartsFavorites={data.fanartFavorites}
+		language={data.language}
+	/>
 {/if}

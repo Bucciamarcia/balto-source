@@ -2,17 +2,19 @@
 	import FormattedDate from '$lib/components/FormattedDate.svelte';
 	import type { FanartsResponse, UsersResponse } from '$lib/pocketbase-types';
 	import { PUBLIC_POCKETBASE_URL } from '$lib/pocketbase/url';
-	import type { FavoriteByFanart } from '../../../../routes/fanart/proxy+page.server';
+	import type { FavoriteByFanart } from '../../../../routes/en/fanart/+page.server';
 
 	function getFanartUrl(id: string, image: string): string {
 		return `${PUBLIC_POCKETBASE_URL}/api/files/fanarts/${id}/${image}?thumb=300x200f`;
 	}
 	let {
 		fanarts,
-		fanartsFavorites
+		fanartsFavorites,
+		language
 	}: {
 		fanarts: FanartsResponse<{ author: UsersResponse }>[];
 		fanartsFavorites: FavoriteByFanart[];
+		language: LanguageStub;
 	} = $props();
 
 	function getFavs(id: string): number {
@@ -30,17 +32,17 @@
 <div class="flex flex-wrap gap-2">
 	{#each fanarts as fanart}
 		<div class="flex flex-col">
-			<a href={`/fanart/${fanart.id}`}>
+			<a href={`/${language}/fanart/${fanart.id}`}>
 				<img
 					src={getFanartUrl(fanart.id, fanart.image)}
 					alt="{fanart.title} by {fanart.expand.author.username}"
 				/>
 			</a>
-			<a href={`/fanart/${fanart.id}`}>
+			<a href={`/${language}/fanart/${fanart.id}`}>
 				<p class="mt-2 text-center">{fanart.title}</p>
 			</a>
 			<p class="text-center">
-				By <a href={`/profile?id=${fanart.author}`}>{fanart.expand.author.username}</a>
+				By <a href={`/${language}/profile?id=${fanart.author}`}>{fanart.expand.author.username}</a>
 			</p>
 			<p class="text-center">
 				{getFavs(fanart.id)} favorites

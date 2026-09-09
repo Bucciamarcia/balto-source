@@ -5,6 +5,8 @@ import { PUBLIC_POCKETBASE_URL } from "$lib/pocketbase/url";
 import type Client from "pocketbase";
 import sanitizeHtml from "sanitize-html";
 import { moderateImageData, moderateText } from "$lib/components/moderateAi";
+import type { FavoriteByFanart } from "../fanart/+page.server";
+import { getFanartFavorites } from "$lib/components/getFanartFavorites";
 
 export const load: PageServerLoad = async ({ locals, url }) => {
 	let uid: string = ""
@@ -41,11 +43,17 @@ export const load: PageServerLoad = async ({ locals, url }) => {
 		console.log(`Error fetching fanarts: ${e}`)
 		fanarts = [];
 	}
+	const fanartFavorites: FavoriteByFanart[] = await Promise.all(
+		fanarts.map(async (fanart) => ({
+			fanart: fanart.id,
+			favorites: await getFanartFavorites(fanart.id, locals.pb),
+		}))
+	);
 	try {
 		const user = await locals.pb.collection("users").getOne<UsersResponse>(uid)
 		const isSelf = user.id === locals.auth?.id
 		const isVerified = locals.user?.verified ?? false;
-		return { status: 200, user, isSelf, isVerified, fanarts, comments, isLoggedIn }
+		return { status: 200, user, isSelf, isVerified, fanarts, comments, isLoggedIn, fanartFavorites }
 	} catch (e) {
 		error(404, { message: "Page not found" });
 	}

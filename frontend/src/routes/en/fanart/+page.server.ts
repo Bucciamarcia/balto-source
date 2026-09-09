@@ -2,6 +2,7 @@ import type { FanartFavoritesResponse, FanartsResponse, UsersResponse } from "$l
 import Pocketbase from "pocketbase";
 import { fail } from "@sveltejs/kit";
 import type { Actions, PageServerLoad } from "./$types";
+import { getFanartFavorites } from "$lib/components/getFanartFavorites";
 export const load: PageServerLoad = async ({ locals }) => {
 	const language = locals.language;
 	const fanarts = await locals.pb.collection("fanarts")
@@ -14,7 +15,7 @@ export const load: PageServerLoad = async ({ locals }) => {
 	const favorites: FavoriteByFanart[] = await Promise.all(
 		fanarts.map(async (fanart) => ({
 			fanart: fanart.id,
-			favorites: await getFavorites(fanart.id, locals.pb),
+			favorites: await getFanartFavorites(fanart.id, locals.pb),
 		}))
 	);
 	return { fanarts, favorites }
@@ -56,12 +57,4 @@ async function findUsersByFilter(filter: string, pb: Pocketbase): Promise<UsersR
 	return await pb.collection("users").getFullList<UsersResponse>(
 		{ filter: pb.filter(`username ~ {:filter}`, { filter }) }
 	)
-}
-
-async function getFavorites(fanart: string, pb: Pocketbase): Promise<string[]> {
-	const response = await pb.collection("fanart_favorites").getFullList<FanartFavoritesResponse>({
-		filter: pb.filter(`target = {:fanart}`, { fanart }),
-		requestKey: null
-	})
-	return response.map((fa) => fa.id)
 }
