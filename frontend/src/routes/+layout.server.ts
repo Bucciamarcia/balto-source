@@ -13,5 +13,6 @@ export const load: LayoutServerLoad = async ({ locals }) => {
 	const latestNotifications = r.items;
 	const newNotifications = latestNotifications.filter((n) => n.is_read === false)
 	const newNotificationsCount = newNotifications.length
-	return { user, isLoggedIn, newNotificationsCount, latestNotifications }
+	const language = locals.language
+	return { user, isLoggedIn, newNotificationsCount, latestNotifications, language }
 }

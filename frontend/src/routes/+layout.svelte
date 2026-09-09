@@ -26,6 +26,7 @@
 			isVerified={data.user?.verified == true}
 			newNotifications={data.newNotificationsCount}
 			latestNotifications={data.latestNotifications}
+			language={data.language}
 		/>
 		{#if data.user?.verified === false}
 			<form

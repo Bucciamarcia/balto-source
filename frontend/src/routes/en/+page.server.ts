@@ -22,9 +22,6 @@ export const load: PageServerLoad = async ({ locals, cookies }) => {
 }
 
 export const actions: Actions = {
-	logout: async ({ locals }) => {
-		locals.pb.authStore.clear();
-	},
 	markNotificationsAsRead: async ({ locals }) => {
 		const user = locals.user;
 		if (user == null) {
