@@ -16,7 +16,6 @@ func migrateChat(app core.App) error {
 	}
 	for _, message := range messages {
 		language := message.GetString("language")
-		app.Logger().Debug("language", "id", language)
 		if language == "" {
 			c, err := app.FindRecordById("chat_messages", message.Id)
 			if err != nil {
