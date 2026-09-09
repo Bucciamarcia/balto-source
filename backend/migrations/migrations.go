@@ -6,6 +6,9 @@ func MigrateLanguage(app core.App) error {
 	if err := migrateChat(app); err != nil {
 		return err
 	}
+	if err := migrateFanart(app); err != nil {
+		return err
+	}
 	return nil
 }
 
@@ -18,6 +21,26 @@ func migrateChat(app core.App) error {
 		language := message.GetString("language")
 		if language == "" {
 			c, err := app.FindRecordById("chat_messages", message.Id)
+			if err != nil {
+				return err
+			}
+			c.Set("language", "en")
+			if err = app.Save(c); err != nil {
+				return err
+			}
+		}
+	}
+	return nil
+}
+func migrateFanart(app core.App) error {
+	fanarts, err := app.FindAllRecords("fanarts")
+	if err != nil {
+		return err
+	}
+	for _, fanart := range fanarts {
+		language := fanart.GetString("language")
+		if language == "" {
+			c, err := app.FindRecordById("fanarts", fanart.Id)
 			if err != nil {
 				return err
 			}
