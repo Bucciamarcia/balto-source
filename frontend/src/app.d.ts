@@ -10,6 +10,7 @@ declare global {
 			auth: AuthRecord;
 			user: UsersResponse | undefined;
 			isVerified: boolean;
+			language: LanguageStub;
 		}
 		// interface PageData {}
 		// interface PageState {}
