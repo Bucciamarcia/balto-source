@@ -27,7 +27,7 @@ func ModerateText(text string, category string) (string, error) {
 	response, err := client.Messages.New(context.Background(),
 		anthropic.MessageNewParams{
 			Model:     anthropic.ModelClaudeHaiku4_5,
-			MaxTokens: 100,
+			MaxTokens: 1000,
 			Messages: []anthropic.MessageParam{
 				anthropic.NewUserMessage(
 					anthropic.NewTextBlock(prompt + text),
@@ -54,7 +54,7 @@ func ModerateImageUrl(url string) (string, error) {
 	response, err := client.Messages.New(context.Background(),
 		anthropic.MessageNewParams{
 			Model:     anthropic.ModelClaudeHaiku4_5,
-			MaxTokens: 100,
+			MaxTokens: 1000,
 			Messages: []anthropic.MessageParam{
 				anthropic.NewUserMessage(
 					anthropic.NewImageBlock(anthropic.URLImageSourceParam{
@@ -83,7 +83,7 @@ func ModerateImageData(mediaType string, data string) (string, error) {
 	response, err := client.Messages.New(context.Background(),
 		anthropic.MessageNewParams{
 			Model:     anthropic.ModelClaudeHaiku4_5,
-			MaxTokens: 100,
+			MaxTokens: 1000,
 			Messages: []anthropic.MessageParam{
 				anthropic.NewUserMessage(
 					anthropic.NewImageBlockBase64(mediaType, data),
