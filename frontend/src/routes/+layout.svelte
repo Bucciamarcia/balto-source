@@ -17,7 +17,7 @@
 </svelte:head>
 
 <!-- Outer Container: Stacks things vertically -->
-<div class="mainbg flex min-h-screen flex-col">
+<div class="mainbg flex min-h-screen flex-col min-w-full inline-block">
 	<!-- Top Bar: Takes up 100% width automatically -->
 	<div class="self-center p-4 text-white">
 		<HeadBanner />
