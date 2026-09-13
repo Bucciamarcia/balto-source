@@ -12,6 +12,9 @@ func MigrateLanguage(app core.App) error {
 	if err := migrateFanfiction(app); err != nil {
 		return err
 	}
+	if err := migrateNews(app); err != nil {
+		return err
+	}
 	return nil
 }
 
@@ -64,6 +67,26 @@ func migrateFanfiction(app core.App) error {
 		language := fanfiction.GetString("language")
 		if language == "" {
 			c, err := app.FindRecordById("fanfictions", fanfiction.Id)
+			if err != nil {
+				return err
+			}
+			c.Set("language", "en")
+			if err = app.Save(c); err != nil {
+				return err
+			}
+		}
+	}
+	return nil
+}
+func migrateNews(app core.App) error {
+	news, err := app.FindAllRecords("homepage_news")
+	if err != nil {
+		return err
+	}
+	for _, n := range news {
+		language := n.GetString("language")
+		if language == "" {
+			c, err := app.FindRecordById("homepage_news", n.Id)
 			if err != nil {
 				return err
 			}
