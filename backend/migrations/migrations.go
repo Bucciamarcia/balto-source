@@ -9,6 +9,9 @@ func MigrateLanguage(app core.App) error {
 	if err := migrateFanart(app); err != nil {
 		return err
 	}
+	if err := migrateFanfiction(app); err != nil {
+		return err
+	}
 	return nil
 }
 
@@ -41,6 +44,26 @@ func migrateFanart(app core.App) error {
 		language := fanart.GetString("language")
 		if language == "" {
 			c, err := app.FindRecordById("fanarts", fanart.Id)
+			if err != nil {
+				return err
+			}
+			c.Set("language", "en")
+			if err = app.Save(c); err != nil {
+				return err
+			}
+		}
+	}
+	return nil
+}
+func migrateFanfiction(app core.App) error {
+	fanfictions, err := app.FindAllRecords("fanfictions")
+	if err != nil {
+		return err
+	}
+	for _, fanfiction := range fanfictions {
+		language := fanfiction.GetString("language")
+		if language == "" {
+			c, err := app.FindRecordById("fanfictions", fanfiction.Id)
 			if err != nil {
 				return err
 			}
