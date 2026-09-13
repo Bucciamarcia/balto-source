@@ -1,4 +1,4 @@
-import type { FanartFavoritesResponse, FanartsResponse, UsersResponse } from "$lib/pocketbase-types";
+import type { FanartsResponse, UsersResponse } from "$lib/pocketbase-types";
 import Pocketbase from "pocketbase";
 import { fail } from "@sveltejs/kit";
 import type { Actions, PageServerLoad } from "./$types";
