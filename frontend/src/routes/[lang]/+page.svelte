@@ -31,7 +31,12 @@
 </div>
 
 {#each data.resultList as news}
-	<SingleNews {news} comments={data.loadedComments.get(news.id)!} showCommentsLine={true} />
+	<SingleNews
+		{news}
+		comments={data.loadedComments.get(news.id)!}
+		showCommentsLine={true}
+		language={data.language}
+	/>
 {/each}
 
 {#if data.flash}

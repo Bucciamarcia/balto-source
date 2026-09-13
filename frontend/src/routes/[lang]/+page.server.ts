@@ -24,7 +24,7 @@ export const load: PageServerLoad = async ({ locals, cookies }) => {
 		loadedComments.set(n.id, comments);
 	}
 	const user = locals.user
-	return { resultList, flash, loadedComments, user }
+	return { resultList, flash, loadedComments, user, language }
 }
 
 export const actions: Actions = {
