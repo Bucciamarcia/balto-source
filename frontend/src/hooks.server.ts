@@ -5,8 +5,10 @@ import { PUBLIC_POCKETBASE_URL } from '$lib/pocketbase/url';
 function getLanguageStub(url: string): LanguageStub {
 	if (url.startsWith("/en")) {
 		return "en"
-	} else {
+	} else if (url.startsWith("/fr")) {
 		return "fr"
+	} else {
+		throw new Error(`Unsupported language stub: ${url}`);
 	}
 }
 
@@ -16,7 +18,12 @@ export const handle: Handle = async ({ event, resolve }) => {
 	event.locals.pb.authStore.loadFromCookie(event.request.headers.get("cookie") || "");
 
 	event.locals.auth = event.locals.pb.authStore.record;
-	event.locals.language = getLanguageStub(event.url.pathname)
+
+	try {
+		event.locals.language = getLanguageStub(event.url.pathname)
+	} catch {
+		return new Response("404: This language is not supported", { status: 404 })
+	}
 
 
 
