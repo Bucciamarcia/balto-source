@@ -22,7 +22,7 @@
 
 <form
 	method="POST"
-	action="?/previewFanfiction"
+	action="?/uploadFanfiction"
 	enctype="multipart/form-data"
 	use:enhance={() => {
 		errorMessage = '';
@@ -75,7 +75,7 @@
 	{/if}
 </form>
 {#if success}
-	<p class="text-xl text-green-600">Your fanart has been uploaded successfully!</p>
+	<p class="text-xl text-green-600">Your fanfiction has been uploaded successfully!</p>
 {/if}
 {#if errorMessage}
 	<FormError message={errorMessage} />

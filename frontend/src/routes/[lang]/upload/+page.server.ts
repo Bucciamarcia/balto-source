@@ -27,6 +27,7 @@ export const actions = {
 		const description = data.get("description") as string;
 		const clean = sanitizeHtml(description);
 		const user = locals.auth;
+		const language = locals.language;
 		if (fanart.size === 0) {
 			return fail(400, { error: "You must upload an image" })
 		}
@@ -60,14 +61,14 @@ export const actions = {
 		}
 		try {
 			await locals.pb.collection("fanarts").create({
-				author: user.id, image: fanart, title: title, description: clean
+				author: user.id, image: fanart, title: title, description: clean, language: language
 			})
 		} catch (e) {
 			return fail(500, { error: e instanceof Error ? e.message : "Unknown error" });
 		}
 	},
 
-	previewFanfiction: async ({ request, locals }) => {
+	uploadFanfiction: async ({ request, locals }) => {
 		const user = locals.user
 		if (user == null) {
 			return fail(500, { error: "You are not logged in" })
@@ -96,7 +97,7 @@ export const actions = {
 				return fail(400, { error: "The fanfiction didn't pass moderation. If you think this is a mistake, contact the staff." })
 			}
 			await locals.pb.collection("fanfictions").create({
-				author: user.id, content: html, title: title, description: clean
+				author: user.id, content: html, title: title, description: clean, language: locals.language
 			})
 		} catch (e) {
 			return fail(500, { error: e instanceof Error ? e.message : "Unknown error" })
