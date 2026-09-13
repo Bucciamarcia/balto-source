@@ -3,7 +3,7 @@ import type { Handle } from '@sveltejs/kit';
 import { PUBLIC_POCKETBASE_URL } from '$lib/pocketbase/url';
 
 function getLanguageStub(url: string): LanguageStub {
-	if (url.startsWith("/en")) {
+	if (url.startsWith("/en") || url === "/") {
 		return "en"
 	} else if (url.startsWith("/fr")) {
 		return "fr"
