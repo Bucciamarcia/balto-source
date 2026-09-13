@@ -7,7 +7,13 @@ import { PUBLIC_POCKETBASE_URL } from "$lib/pocketbase/url";
 export const load: PageServerLoad = async ({ locals, cookies }) => {
 	const flash = cookies.get("flash");
 	if (flash) cookies.delete("flash", { path: "/" });
-	const resultList = await locals.pb.collection("homepage_news").getFullList<HomepageNewsResponse<{ author: UsersResponse }>>({ sort: "-created", expand: "author" });
+	const language = locals.language
+	const resultList = await locals.pb.collection("homepage_news")
+		.getFullList<HomepageNewsResponse<{ author: UsersResponse }>>({
+			sort: "-created",
+			expand: "author",
+			filter: `language = "${language}"`
+		});
 
 	let loadedComments: Map<string, CommentsResponse[]> = new Map()
 
