@@ -1,6 +1,10 @@
 package migrations
 
-import "github.com/pocketbase/pocketbase/core"
+import (
+	"strings"
+
+	"github.com/pocketbase/pocketbase/core"
+)
 
 func MigrateLanguage(app core.App) error {
 	if err := migrateChat(app); err != nil {
@@ -13,6 +17,9 @@ func MigrateLanguage(app core.App) error {
 		return err
 	}
 	if err := migrateNews(app); err != nil {
+		return err
+	}
+	if err := migrateNotifications(app); err != nil {
 		return err
 	}
 	return nil
@@ -94,6 +101,27 @@ func migrateNews(app core.App) error {
 			if err = app.Save(c); err != nil {
 				return err
 			}
+		}
+	}
+	return nil
+}
+
+func migrateNotifications(app core.App) error {
+	notifications, err := app.FindAllRecords("notifications")
+	if err != nil {
+		return err
+	}
+	for _, n := range notifications {
+		url := n.GetString("url")
+		if strings.HasPrefix(url, "/en") || strings.HasPrefix(url, "/fr") {
+			continue
+		}
+		if err != nil {
+			return err
+		}
+		n.Set("url", "/en"+url)
+		if err = app.Save(n); err != nil {
+			return err
 		}
 	}
 	return nil
