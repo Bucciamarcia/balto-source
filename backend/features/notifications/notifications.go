@@ -8,6 +8,7 @@ import (
 func NotifyOnFanartFavorite(app core.App, record *core.Record) error {
 	sourceId := record.GetString("source")
 	targetId := record.GetString("target")
+	language := record.GetString("language")
 	sourceUsername, sourceId, err := getUsernameFromId(sourceId, app)
 	if err != nil {
 		return err
@@ -24,7 +25,7 @@ func NotifyOnFanartFavorite(app core.App, record *core.Record) error {
 	newNotification.Set("content", sourceUsername+" added your fanart to their favorites")
 	newNotification.Set("for_user", targetFanart.Author)
 	newNotification.Set("is_read", false)
-	newNotification.Set("url", "/fanart/"+targetFanart.Id)
+	newNotification.Set("url", "/"+language+"/fanart/"+targetFanart.Id)
 	newNotification.Set("source_user", sourceId)
 
 	err = app.Save(newNotification)
@@ -36,6 +37,7 @@ func NotifyOnFanartFavorite(app core.App, record *core.Record) error {
 func NotifyOnFanfictionFavorite(app core.App, record *core.Record) error {
 	sourceId := record.GetString("source")
 	targetId := record.GetString("target")
+	language := record.GetString("language")
 	sourceUsername, sourceId, err := getUsernameFromId(sourceId, app)
 	if err != nil {
 		return err
@@ -52,7 +54,7 @@ func NotifyOnFanfictionFavorite(app core.App, record *core.Record) error {
 	newNotification.Set("content", sourceUsername+" added your fanfiction to their favorites")
 	newNotification.Set("for_user", targetFanfiction.Author)
 	newNotification.Set("is_read", false)
-	newNotification.Set("url", "/fanfiction/"+targetFanfiction.Id)
+	newNotification.Set("url", "/"+language+"/fanfiction/"+targetFanfiction.Id)
 	newNotification.Set("source_user", sourceId)
 
 	err = app.Save(newNotification)

@@ -58,7 +58,7 @@ func notifyOnFanart(app core.App, comment Comment) error {
 	n.Set("content", author+" commented on your fanart")
 	n.Set("for_user", fanartAuthor)
 	n.Set("is_read", false)
-	n.Set("url", "/fanart/"+comment.TargetId)
+	n.Set("url", "/"+comment.Language+"/fanart/"+comment.TargetId)
 	n.Set("source_user", comment.Author)
 	err = app.Save(n)
 	if err != nil {
@@ -85,7 +85,7 @@ func notifyOnFanfiction(app core.App, comment Comment) error {
 	n.Set("content", author+" commented on your fanfiction")
 	n.Set("for_user", fanfictionAuthor)
 	n.Set("is_read", false)
-	n.Set("url", "/fanfiction/"+comment.TargetId)
+	n.Set("url", "/"+comment.Language+"/fanfiction/"+comment.TargetId)
 	n.Set("source_user", comment.Author)
 	err = app.Save(n)
 	if err != nil {
@@ -108,7 +108,7 @@ func notifyOnProfile(app core.App, comment Comment) error {
 	n.Set("content", author+" commented on your profile")
 	n.Set("for_user", comment.TargetId)
 	n.Set("is_read", false)
-	n.Set("url", "/profile?id="+comment.TargetId)
+	n.Set("url", "/"+comment.Language+"/profile?id="+comment.TargetId)
 	n.Set("source_user", comment.Author)
 	err = app.Save(n)
 	if err != nil {
@@ -141,9 +141,9 @@ func notifyCommentParent(app core.App, comment Comment, commentType string) erro
 	var url string
 	switch commentType {
 	case "news":
-		url = "/news/" + comment.TargetId
+		url = "/" + comment.Language + "/news/" + comment.TargetId
 	case "profile":
-		url = "/profile?id=" + comment.TargetId
+		url = "/" + comment.Language + "/profile?id=" + comment.TargetId
 	}
 	n.Set("url", url)
 	n.Set("source_user", comment.Author)
@@ -178,4 +178,5 @@ type Comment struct {
 	Parent      string `json:"parent"`
 	CommentType string `json:"type"`
 	Author      string `json:"author"`
+	Language    string `json:"language"`
 }
