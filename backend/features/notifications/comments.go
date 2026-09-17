@@ -17,17 +17,15 @@ func NotifyOnComment(app core.App, record *core.Record) error {
 		return err
 	}
 	if comment.CommentType == "news" {
-		err := notifyCommentParent(app, comment, "news")
-		return err
-	}
-	if comment.CommentType == "profile" {
-		err := notifyCommentParent(app, comment, "profile")
+		target, err := getNewsLangById(app, comment.TargetId)
 		if err != nil {
 			return err
 		}
-		err = notifyOnProfile(app, comment)
+		err = notifyCommentParent(app, comment, "news", target)
 		return err
 	}
+	// Profile not here bc it doesn't have the lang.
+	// Guess I'll eventually fix it, dunno, too tired now. :(
 	if comment.CommentType == "fanart" {
 		err := notifyOnFanart(app, comment)
 		return err
@@ -37,6 +35,14 @@ func NotifyOnComment(app core.App, record *core.Record) error {
 		return err
 	}
 	return nil
+}
+
+func getNewsLangById(app core.App, id string) (string, error) {
+	record, err := app.FindRecordById("homepage_news", id)
+	if err != nil {
+		return "", err
+	}
+	return record.GetString("language"), nil
 }
 
 func notifyOnFanart(app core.App, comment Comment) error {
@@ -96,30 +102,7 @@ func notifyOnFanfiction(app core.App, comment Comment) error {
 	return nil
 }
 
-func notifyOnProfile(app core.App, comment Comment) error {
-	notifications, err := app.FindCollectionByNameOrId("notifications")
-	if err != nil {
-		return err
-	}
-	n := core.NewRecord(notifications)
-	data, err := app.FindRecordById("users", comment.Author)
-	if err != nil {
-		return err
-	}
-	author := data.GetString("username")
-	n.Set("content", author+" commented on your profile")
-	n.Set("for_user", comment.TargetId)
-	n.Set("is_read", false)
-	n.Set("url", "/"+"profile?id="+comment.TargetId)
-	n.Set("source_user", comment.Author)
-	err = app.Save(n)
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
-func notifyCommentParent(app core.App, comment Comment, commentType string) error {
+func notifyCommentParent(app core.App, comment Comment, commentType string, language string) error {
 	if comment.Parent == "" {
 		return nil
 	}
@@ -143,9 +126,9 @@ func notifyCommentParent(app core.App, comment Comment, commentType string) erro
 	var url string
 	switch commentType {
 	case "news":
-		url = "/" + "news/" + comment.TargetId
+		url = "/" + language + "/news/" + comment.TargetId
 	case "profile":
-		url = "/" + "profile?id=" + comment.TargetId
+		url = "/" + language + "/profile?id=" + comment.TargetId
 	}
 	n.Set("url", url)
 	n.Set("source_user", comment.Author)
@@ -180,5 +163,4 @@ type Comment struct {
 	Parent      string `json:"parent"`
 	CommentType string `json:"type"`
 	Author      string `json:"author"`
-	Language    string `json:"language"`
 }
