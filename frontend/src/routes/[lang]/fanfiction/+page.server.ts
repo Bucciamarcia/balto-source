@@ -4,7 +4,9 @@ import { fail, type Actions } from "@sveltejs/kit";
 import type { PageServerLoad } from "../$types";
 
 export const load: PageServerLoad = async ({ locals }) => {
-	const fanfictions = await locals.pb.collection("fanfictions").getFullList<FanfictionsResponse<{ author: UsersResponse }>>({ expand: "author", sort: "-created" });
+	const language = locals.language
+	const fanfictions = await locals.pb.collection("fanfictions")
+		.getFullList<FanfictionsResponse<{ author: UsersResponse }>>({ expand: "author", sort: "-created", filter: `language = "${language}"` });
 
 	const favorites: FavoriteByFanfiction[] = await Promise.all(
 		fanfictions.map(async (fanfic) => ({
@@ -12,24 +14,25 @@ export const load: PageServerLoad = async ({ locals }) => {
 			favorites: await getFavorites(fanfic.id, locals.pb),
 		}))
 	);
-	return { fanfictions, favorites }
+	return { fanfictions, favorites, language }
 }
 
 export const actions = {
 	filter: async ({ request, locals }) => {
 		const data = await request.formData()
 		const filter = data.get("filter")
+		const language = locals.language
 		if (filter == null) {
 			return fail(500, { error: "couldn't find filter" })
 		}
 		let results = await locals.pb.collection("fanfictions").getFullList<FanfictionsResponse<{ author: UsersResponse }>>({
-			expand: "author", filter: `author ~ "${filter}" || title ~ "${filter}"`
+			expand: "author", filter: locals.pb.filter("language = {:language} && (author ~ {:filter} || title ~ {:filter})", { language, filter })
 		})
 		const users = await findUsersByFilter(filter.toString(), locals.pb);
 		for (const user of users) {
 			let r = await locals.pb.collection("fanfictions").getFullList<FanfictionsResponse<{ author: UsersResponse }>>({
 				expand: "author",
-				filter: `author ~ "${user.id}"`
+				filter: locals.pb.filter("language = {:language} && author ~ {:id}", { language, id: user.id })
 			});
 			results = [...results, ...r];
 		}
@@ -43,16 +46,16 @@ export const actions = {
 
 async function findUsersByFilter(filter: string, pb: Pocketbase): Promise<UsersResponse[]> {
 	return await pb.collection("users").getFullList<UsersResponse>(
-		{ filter: `username ~ "${filter}"` }
+		{ filter: pb.filter("username ~ {:filter}", { filter }) }
 	)
 }
 export type FavoriteByFanfiction = {
 	fanfiction: string;
 	favorites: string[];
 };
-async function getFavorites(fanart: string, pb: Pocketbase): Promise<string[]> {
+async function getFavorites(fanfiction: string, pb: Pocketbase): Promise<string[]> {
 	const response = await pb.collection("fanfiction_favorites").getFullList<FanfictionFavoritesResponse>({
-		filter: `target = "${fanart}"`,
+		filter: `target = "${fanfiction}"`,
 		requestKey: null
 	})
 	return response.map((fa) => fa.id)

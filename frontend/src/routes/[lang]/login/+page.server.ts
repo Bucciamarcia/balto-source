@@ -6,6 +6,7 @@ export const actions: Actions = {
 		const data = await request.formData();
 		const email = data.get("email");
 		const password = data.get("password");
+		const language = locals.language;
 		if (email == null || password == null) {
 			return fail(400, "Email or password empty");
 		}
@@ -15,7 +16,7 @@ export const actions: Actions = {
 			return fail(400, { message: "Username or password is wrong" });
 		}
 		cookies.set("flash", "Logged in successfully!", { path: "/", maxAge: 5 });
-		throw redirect(303, "/");
+		throw redirect(303, `/${language}`);
 	}
 }
 

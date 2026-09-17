@@ -23,6 +23,10 @@ export async function moderateText(t: string, category?: string): Promise<Modera
 	return toReturn
 }
 export async function moderateImageUrl(url: string): Promise<ModerateResult> {
+	if (dev) {
+		console.log("Skipping in dev mode")
+		return "allow";
+	}
 	const response = await fetch(`${PUBLIC_POCKETBASE_URL}/moderate_image_url`, {
 		method: "POST",
 		headers: { "Content-Type": "application/json" },
@@ -43,6 +47,10 @@ export async function moderateImageUrl(url: string): Promise<ModerateResult> {
 	return toReturn
 }
 export async function moderateImageData(file: File): Promise<ModerateResult> {
+	if (dev) {
+		console.log("Skipping in dev mode")
+		return "allow";
+	}
 	const imageType = file.type
 	const imageData = fileToBase64(file)
 	const response = await fetch(`${PUBLIC_POCKETBASE_URL}/moderate_image_bytes`, {

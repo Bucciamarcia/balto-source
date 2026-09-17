@@ -8,12 +8,14 @@
 		isLoggedIn,
 		isVerified,
 		newNotifications,
-		latestNotifications
+		latestNotifications,
+		language
 	}: {
 		isLoggedIn: boolean;
 		isVerified: boolean;
 		newNotifications: number;
 		latestNotifications: NotificationsResponse<{ source_user: UsersResponse }>[];
+		language: LanguageStub;
 	} = $props();
 	const clickOutside: Action<HTMLElement, () => void> = (node, callback) => {
 		function handleClick(event: MouseEvent) {
@@ -36,16 +38,16 @@
 </script>
 
 <div class="mt-4 flex gap-4 place-self-center">
-	<LinkElement label="Home page" destination="/" logOut={false} />
+	<LinkElement label="Home page" destination="/{language}" logOut={false} />
 	{#if !isLoggedIn}
-		<LinkElement label="Log in" destination="/login" logOut={false} />
-		<LinkElement label="Sign up" destination="/signup" logOut={false} />
+		<LinkElement label="Log in" destination="/{language}/login" logOut={false} />
+		<LinkElement label="Sign up" destination="/{language}/signup" logOut={false} />
 	{/if}
-	<LinkElement label="Shout box" destination="/shoutbox" logOut={false} />
+	<LinkElement label="Shout box" destination="/{language}/shoutbox" logOut={false} />
 	{#if isLoggedIn && isVerified}
-		<LinkElement label="Profile" destination="/profile" logOut={false} />
-		<LinkElement label="Upload" destination="/upload" logOut={false} />
-		<LinkElement label="Log out" destination="/" logOut={true} />
+		<LinkElement label="Profile" destination="/{language}/profile" logOut={false} />
+		<LinkElement label="Upload" destination="/{language}/upload" logOut={false} />
+		<LinkElement label="Log out" destination="/{language}/" logOut={true} />
 		<div class="tooltip" use:clickOutside={() => (isOpen = false)} data-tip="Notifications">
 			<div class="indicator">
 				<span

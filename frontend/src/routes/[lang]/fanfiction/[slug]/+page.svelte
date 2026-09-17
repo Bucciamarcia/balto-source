@@ -24,7 +24,7 @@
 		</form>
 	{:else}
 		<form method="POST" action="?/favorite" use:enhance>
-			<button class="btn cursor-pointer btn-primary" type="submit">Add from favorites</button>
+			<button class="btn cursor-pointer btn-primary" type="submit">Add to favorites</button>
 		</form>
 	{/if}
 	<ShowComments

@@ -26,7 +26,7 @@
 <div class="flex flex-wrap gap-2">
 	{#each fanfictions as fanfiction}
 		<div class="flex flex-col">
-			<a href={`/fanfiction/${fanfiction.id}`}>
+			<a href={`fanfiction/${fanfiction.id}`}>
 				<p class="mt-2 text-center">{fanfiction.title}</p>
 			</a>
 			<p class="text-center">

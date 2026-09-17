@@ -2,10 +2,10 @@ package main
 
 import (
 	createuser "balto-source/backend/database/create_user"
-	"balto-source/backend/features/chat"
 	"balto-source/backend/features/notifications"
 	"balto-source/backend/moderation"
 	turnstile "balto-source/backend/moderation/turnstyle"
+	"balto-source/backend/populate"
 	"errors"
 	"fmt"
 	"log/slog"
@@ -19,6 +19,8 @@ import (
 	"github.com/pocketbase/pocketbase"
 	"github.com/pocketbase/pocketbase/apis"
 	"github.com/pocketbase/pocketbase/core"
+	"github.com/pocketbase/pocketbase/plugins/migratecmd"
+	"github.com/pocketbase/pocketbase/tools/osutils"
 )
 
 func main() {
@@ -28,28 +30,22 @@ func main() {
 		panic("Error loading .env file")
 	}
 
+	migratecmd.MustRegister(app, app.RootCmd, migratecmd.Config{
+		Automigrate: osutils.IsProbablyGoRun(),
+	})
+
+	app.OnServe().BindFunc(func(se *core.ServeEvent) error {
+		if err := populate.MigrateLanguage(se.App); err != nil {
+			return err
+		}
+		return se.Next()
+	})
+
 	app.OnServe().BindFunc(func(se *core.ServeEvent) error {
 		se.Router.GET("/helloworld", func(e *core.RequestEvent) error {
 			slog.Info("Hello world")
 			return e.JSON(http.StatusOK, map[string]any{"Status": "OK", "Message": "Hello world"})
 		})
-
-		se.Router.POST("/add_chat_message", func(e *core.RequestEvent) error {
-			slog.Info("Adding chat message")
-			data := struct {
-				Message string `json:"message"`
-			}{}
-			err := e.BindBody(&data)
-			if err != nil {
-				return e.InternalServerError("Couldn't parse the request body", err)
-			}
-			author := e.Auth
-			err = chat.InsertChatMessage(data.Message, author.Id, app)
-			if err != nil {
-				return e.InternalServerError("Couldn't add chat message", err)
-			}
-			return e.String(http.StatusOK, "OK")
-		}).Bind(apis.RequireAuth("users"))
 
 		se.Router.POST("/create_user", func(e *core.RequestEvent) error {
 			slog.Info("Creating new user")
