@@ -9,12 +9,14 @@
 		comments,
 		targetId,
 		isLoggedIn,
-		isVerified
+		isVerified,
+		language
 	}: {
 		comments: CommentsResponse<{ author: UsersResponse }>[];
 		targetId: string;
 		isLoggedIn: boolean;
 		isVerified: boolean;
+		language: LanguageStub;
 	} = $props();
 	let replyId: string = $state('');
 	let replyValue: string = $state('');
@@ -86,7 +88,7 @@
 {:else}
 	{#each rootComments() as comment}
 		<div class="mt-5 border-2 border-accent p-5">
-			<SingleCommentDisplay {comment} />
+			<SingleCommentDisplay {comment} {language} />
 			{#if isLoggedIn && isVerified}
 				<button
 					class="btn mt-5 btn-primary"
@@ -139,7 +141,7 @@
 			{/if}
 			{#each childComments(comment.id) as child}
 				<div class="mt-5 border-2 border-accent p-5">
-					<SingleCommentDisplay comment={child} />
+					<SingleCommentDisplay comment={child} {language} />
 				</div>
 			{/each}
 		</div>

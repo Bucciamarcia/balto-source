@@ -75,7 +75,7 @@
 </svelte:head>
 <div bind:this={container} class="max-h-128 overflow-y-auto">
 	{#each messages as message}
-		<ChatBubble {message} user={data.loggedUser} />
+		<ChatBubble {message} user={data.loggedUser} language={data.language} />
 	{/each}
 </div>
 <form

@@ -8,7 +8,10 @@ import (
 func NotifyOnFanartFavorite(app core.App, record *core.Record) error {
 	sourceId := record.GetString("source")
 	targetId := record.GetString("target")
-	language := record.GetString("language")
+	language, err := getFanartLanguageFromid(app, targetId)
+	if err != nil {
+		return err
+	}
 	sourceUsername, sourceId, err := getUsernameFromId(sourceId, app)
 	if err != nil {
 		return err
@@ -34,10 +37,29 @@ func NotifyOnFanartFavorite(app core.App, record *core.Record) error {
 	}
 	return nil
 }
+
+func getFanartLanguageFromid(app core.App, id string) (string, error) {
+	fanart, err := app.FindRecordById("fanarts", id)
+	if err != nil {
+		return "", err
+	}
+	return fanart.GetString("language"), nil
+}
+func getFanficLanguageFromid(app core.App, id string) (string, error) {
+	fanfic, err := app.FindRecordById("fanfictions", id)
+	if err != nil {
+		return "", err
+	}
+	return fanfic.GetString("language"), nil
+}
+
 func NotifyOnFanfictionFavorite(app core.App, record *core.Record) error {
 	sourceId := record.GetString("source")
 	targetId := record.GetString("target")
-	language := record.GetString("language")
+	language, err := getFanficLanguageFromid(app, targetId)
+	if err != nil {
+		return err
+	}
 	sourceUsername, sourceId, err := getUsernameFromId(sourceId, app)
 	if err != nil {
 		return err

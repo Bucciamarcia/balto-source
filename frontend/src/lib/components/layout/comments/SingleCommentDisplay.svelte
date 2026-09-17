@@ -3,14 +3,17 @@
 	import FormattedDate from '$lib/components/FormattedDate.svelte';
 	import type { CommentsResponse, UsersResponse } from '$lib/pocketbase-types';
 
-	let { comment }: { comment: CommentsResponse<{ author: UsersResponse }> } = $props();
+	let {
+		comment,
+		language
+	}: { comment: CommentsResponse<{ author: UsersResponse }>; language: LanguageStub } = $props();
 </script>
 
 <div class="flex">
-	<a class="mr-5 self-center" href={`/profile?id=${comment.expand.author.id}`}
+	<a class="mr-5 self-center" href={`/${language}/profile?id=${comment.expand.author.id}`}
 		>{comment.expand.author.username}</a
 	>
-	<a class="mr-5 self-center" href={`/profile?id=${comment.expand.author.id}`}>
+	<a class="mr-5 self-center" href={`/${language}/profile?id=${comment.expand.author.id}`}>
 		<img
 			height="40"
 			width="40"

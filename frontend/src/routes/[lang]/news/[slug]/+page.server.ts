@@ -15,7 +15,7 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 		}
 	)
 	const isVerified = locals.isVerified;
-	return { news, comments, isLoggedIn, isVerified }
+	return { news, comments, isLoggedIn, isVerified, language: locals.language }
 };
 
 export const actions: Actions = {

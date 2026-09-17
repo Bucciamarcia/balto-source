@@ -12,7 +12,9 @@
 
 <h1 class="text-center">{fanfiction.title}</h1>
 <p class="text-center">
-	By <a href="/profile/{fanfiction.author}">{fanfiction.expand.author.username}</a>
+	By <a href="/{data.language}/profile?id={fanfiction.author}"
+		>{fanfiction.expand.author.username}</a
+	>
 </p>
 <p class="mt-5 mb-10 text-center italic">{fanfiction.description}</p>
 {@html fanfiction.content}
@@ -32,5 +34,6 @@
 		comments={data.comments}
 		targetId={fanfiction.id}
 		isVerified={data.isVerified}
+		language={data.language}
 	/>
 {/if}

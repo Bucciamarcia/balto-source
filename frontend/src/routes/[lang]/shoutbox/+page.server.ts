@@ -11,7 +11,7 @@ export const load: PageServerLoad = async ({ locals }) => {
 		.getList<ChatMessagesResponse<{ author: UsersResponse }>>(1, 20, { expand: "author", sort: "-created", filter: `language = "${lang}"` });
 	const items = resultList.items;
 
-	return { messages: items.toReversed(), authenticated: authenticated, loggedUser: locals.auth?.id ?? null, isVerified }
+	return { messages: items.toReversed(), authenticated: authenticated, loggedUser: locals.auth?.id ?? null, isVerified, language: lang }
 }
 
 export const actions: Actions = {

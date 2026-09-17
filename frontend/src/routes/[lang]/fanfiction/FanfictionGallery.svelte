@@ -5,10 +5,12 @@
 
 	let {
 		fanfictions,
-		fanfictionsFavorites
+		fanfictionsFavorites,
+		language
 	}: {
 		fanfictions: FanfictionsResponse<{ author: UsersResponse }>[];
 		fanfictionsFavorites: FavoriteByFanfiction[];
+		language: LanguageStub;
 	} = $props();
 
 	function getFavs(id: string): number {
@@ -26,11 +28,13 @@
 <div class="flex flex-wrap gap-2">
 	{#each fanfictions as fanfiction}
 		<div class="flex flex-col">
-			<a href={`fanfiction/${fanfiction.id}`}>
+			<a href={`/${language}/fanfiction/${fanfiction.id}`}>
 				<p class="mt-2 text-center">{fanfiction.title}</p>
 			</a>
 			<p class="text-center">
-				By <a href={`/profile?id=${fanfiction.author}`}>{fanfiction.expand.author.username}</a>
+				By <a href={`/${language}/profile?id=${fanfiction.author}`}
+					>{fanfiction.expand.author.username}</a
+				>
 			</p>
 			<p class="text-center">
 				{getFavs(fanfiction.id)} favorites
