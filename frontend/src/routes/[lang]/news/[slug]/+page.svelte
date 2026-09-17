@@ -9,12 +9,18 @@
 <svelte:head>
 	<title>{data.news.title} - Balto Source</title>
 </svelte:head>
-<SingleNews news={data.news} comments={data.comments} showCommentsLine={false} />
+<SingleNews
+	news={data.news}
+	comments={data.comments}
+	showCommentsLine={false}
+	language={data.language}
+/>
 <div class="w-full max-w-3xl">
 	<ShowComments
 		isLoggedIn={data.isLoggedIn}
 		targetId={data.news.id}
 		comments={data.comments}
 		isVerified={data.isVerified}
+		language={data.language}
 	/>
 </div>
