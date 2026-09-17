@@ -3,9 +3,9 @@ package main
 import (
 	createuser "balto-source/backend/database/create_user"
 	"balto-source/backend/features/notifications"
-	"balto-source/backend/migrations"
 	"balto-source/backend/moderation"
 	turnstile "balto-source/backend/moderation/turnstyle"
+	"balto-source/backend/populate"
 	"errors"
 	"fmt"
 	"log/slog"
@@ -19,6 +19,8 @@ import (
 	"github.com/pocketbase/pocketbase"
 	"github.com/pocketbase/pocketbase/apis"
 	"github.com/pocketbase/pocketbase/core"
+	"github.com/pocketbase/pocketbase/plugins/migratecmd"
+	"github.com/pocketbase/pocketbase/tools/osutils"
 )
 
 func main() {
@@ -28,8 +30,12 @@ func main() {
 		panic("Error loading .env file")
 	}
 
+	migratecmd.MustRegister(app, app.RootCmd, migratecmd.Config{
+		Automigrate: osutils.IsProbablyGoRun(),
+	})
+
 	app.OnServe().BindFunc(func(se *core.ServeEvent) error {
-		if err := migrations.MigrateLanguage(se.App); err != nil {
+		if err := populate.MigrateLanguage(se.App); err != nil {
 			return err
 		}
 		return se.Next()
