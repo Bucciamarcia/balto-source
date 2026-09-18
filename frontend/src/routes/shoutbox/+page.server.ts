@@ -2,9 +2,10 @@ import type { ChatMessagesResponse, UsersResponse } from "$lib/pocketbase-types"
 import { fail } from "@sveltejs/kit";
 import type { PageServerLoad, Actions } from "./$types";
 import { moderateText } from "$lib/components/moderateAi";
+import { getLocale } from "$lib/paraglide/runtime";
 
 export const load: PageServerLoad = async ({ locals }) => {
-	const lang = locals.language;
+	const lang = getLocale();
 	const authenticated = locals.user != null
 	const isVerified = locals.user?.verified ?? false
 	const resultList = await locals.pb.collection("chat_messages")
@@ -16,7 +17,7 @@ export const load: PageServerLoad = async ({ locals }) => {
 
 export const actions: Actions = {
 	sendMessage: async ({ request, locals }) => {
-		const lang = locals.language;
+		const lang = getLocale();
 		const data = await request.formData();
 		const message = data.get("message")
 		const uid = locals.auth?.id

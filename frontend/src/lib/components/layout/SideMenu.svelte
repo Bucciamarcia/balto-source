@@ -1,7 +1,8 @@
 <script lang="ts">
 	import baltoSectionImage from '$lib/assets/balto-1-menu-image.avif';
+	import type { Locale } from '$lib/paraglide/runtime';
 	interface Props {
-		language: LanguageStub;
+		language: Locale;
 	}
 	let { language }: Props = $props();
 </script>

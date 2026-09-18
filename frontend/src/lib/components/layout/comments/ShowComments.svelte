@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import FormError from '$lib/components/formError.svelte';
+	import type { Locale } from '$lib/paraglide/runtime';
 	import type { CommentsResponse, UsersResponse } from '$lib/pocketbase-types';
 	import SingleCommentDisplay from './SingleCommentDisplay.svelte';
 	import TipTapEditor from './TipTapEditor.svelte';
@@ -16,7 +17,7 @@
 		targetId: string;
 		isLoggedIn: boolean;
 		isVerified: boolean;
-		language: LanguageStub;
+		language: Locale;
 	} = $props();
 	let replyId: string = $state('');
 	let replyValue: string = $state('');

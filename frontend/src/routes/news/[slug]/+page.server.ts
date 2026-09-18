@@ -3,6 +3,7 @@ import { fail, type Actions } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import sanitizeHtml from "sanitize-html";
 import { moderateText } from '$lib/components/moderateAi';
+import { getLocale } from '$lib/paraglide/runtime';
 
 export const load: PageServerLoad = async ({ locals, params }) => {
 	const newsId = params.slug;
@@ -15,7 +16,7 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 		}
 	)
 	const isVerified = locals.isVerified;
-	return { news, comments, isLoggedIn, isVerified, language: locals.language }
+	return { news, comments, isLoggedIn, isVerified, language: getLocale() }
 };
 
 export const actions: Actions = {

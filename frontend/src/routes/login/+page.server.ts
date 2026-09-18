@@ -1,12 +1,13 @@
 import { fail, redirect } from "@sveltejs/kit";
 import type { Actions, PageServerLoad } from "./$types";
+import { getLocale } from "$lib/paraglide/runtime";
 
 export const actions: Actions = {
 	login: async ({ request, locals, cookies }) => {
 		const data = await request.formData();
 		const email = data.get("email");
 		const password = data.get("password");
-		const language = locals.language;
+		const language = getLocale()
 		if (email == null || password == null) {
 			return fail(400, "Email or password empty");
 		}

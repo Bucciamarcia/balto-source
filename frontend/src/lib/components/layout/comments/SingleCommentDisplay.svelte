@@ -1,12 +1,13 @@
 <script lang="ts">
 	import { buildAvatarUrl } from '$lib/components/buildAvatarUrl';
 	import FormattedDate from '$lib/components/FormattedDate.svelte';
+	import type { Locale } from '$lib/paraglide/runtime';
 	import type { CommentsResponse, UsersResponse } from '$lib/pocketbase-types';
 
 	let {
 		comment,
 		language
-	}: { comment: CommentsResponse<{ author: UsersResponse }>; language: LanguageStub } = $props();
+	}: { comment: CommentsResponse<{ author: UsersResponse }>; language: Locale } = $props();
 </script>
 
 <div class="flex">

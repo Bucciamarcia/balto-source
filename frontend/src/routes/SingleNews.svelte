@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { buildAvatarUrl } from '$lib/components/buildAvatarUrl';
 	import FormattedDate from '$lib/components/FormattedDate.svelte';
+	import type { Locale } from '$lib/paraglide/runtime';
 	import type {
 		CommentsResponse,
 		HomepageNewsResponse,
@@ -16,7 +17,7 @@
 		news: HomepageNewsResponse<{ author: UsersResponse }>;
 		comments: CommentsResponse[];
 		showCommentsLine: boolean;
-		language: LanguageStub;
+		language: Locale;
 	} = $props();
 
 	function buildUserAvatarTag(user: UsersResponse): string {

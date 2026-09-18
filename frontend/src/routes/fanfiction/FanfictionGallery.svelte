@@ -1,5 +1,6 @@
 <script lang="ts">
 	import FormattedDate from '$lib/components/FormattedDate.svelte';
+	import type { Locale } from '$lib/paraglide/runtime';
 	import type { FanfictionsResponse, UsersResponse } from '$lib/pocketbase-types';
 	import type { FavoriteByFanfiction } from './+page.server';
 
@@ -10,7 +11,7 @@
 	}: {
 		fanfictions: FanfictionsResponse<{ author: UsersResponse }>[];
 		fanfictionsFavorites: FavoriteByFanfiction[];
-		language: LanguageStub;
+		language: Locale;
 	} = $props();
 
 	function getFavs(id: string): number {

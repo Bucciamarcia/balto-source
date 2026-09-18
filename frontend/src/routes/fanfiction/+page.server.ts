@@ -2,9 +2,10 @@ import type { FanfictionFavoritesResponse, FanfictionsResponse, UsersResponse } 
 import Pocketbase from "pocketbase";
 import { fail, type Actions } from "@sveltejs/kit";
 import type { PageServerLoad } from "../$types";
+import { getLocale } from "$lib/paraglide/runtime";
 
 export const load: PageServerLoad = async ({ locals }) => {
-	const language = locals.language
+	const language = getLocale()
 	const fanfictions = await locals.pb.collection("fanfictions")
 		.getFullList<FanfictionsResponse<{ author: UsersResponse }>>({ expand: "author", sort: "-created", filter: `language = "${language}"` });
 
@@ -21,7 +22,7 @@ export const actions = {
 	filter: async ({ request, locals }) => {
 		const data = await request.formData()
 		const filter = data.get("filter")
-		const language = locals.language
+		const language = getLocale()
 		if (filter == null) {
 			return fail(500, { error: "couldn't find filter" })
 		}

@@ -4,6 +4,7 @@
 	import type { NotificationsResponse, UsersResponse } from '$lib/pocketbase-types';
 	import Notifications from './Notifications.svelte';
 	import type { Action } from 'svelte/action';
+	import type { Locale } from '$lib/paraglide/runtime';
 	let {
 		isLoggedIn,
 		isVerified,
@@ -15,7 +16,7 @@
 		isVerified: boolean;
 		newNotifications: number;
 		latestNotifications: NotificationsResponse<{ source_user: UsersResponse }>[];
-		language: LanguageStub;
+		language: Locale;
 	} = $props();
 	const clickOutside: Action<HTMLElement, () => void> = (node, callback) => {
 		function handleClick(event: MouseEvent) {

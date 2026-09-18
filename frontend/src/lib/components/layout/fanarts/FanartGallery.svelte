@@ -1,8 +1,9 @@
 <script lang="ts">
 	import FormattedDate from '$lib/components/FormattedDate.svelte';
+	import type { Locale } from '$lib/paraglide/runtime';
 	import type { FanartsResponse, UsersResponse } from '$lib/pocketbase-types';
 	import { PUBLIC_POCKETBASE_URL } from '$lib/pocketbase/url';
-	import type { FavoriteByFanart } from '../../../../routes/en/fanart/+page.server';
+	import type { FavoriteByFanart } from '../../../../routes/fanart/+page.server';
 
 	function getFanartUrl(id: string, image: string): string {
 		return `${PUBLIC_POCKETBASE_URL}/api/files/fanarts/${id}/${image}?thumb=300x200f`;
@@ -14,7 +15,7 @@
 	}: {
 		fanarts: FanartsResponse<{ author: UsersResponse }>[];
 		fanartsFavorites: FavoriteByFanart[];
-		language: LanguageStub;
+		language: Locale;
 	} = $props();
 
 	function getFavs(id: string): number {

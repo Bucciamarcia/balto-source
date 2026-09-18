@@ -3,6 +3,7 @@ import { fail } from "@sveltejs/kit";
 import type { PageServerLoad, Actions } from "./$types";
 import sanitizeHtml from "sanitize-html";
 import { moderateText } from "$lib/components/moderateAi";
+import { getLocale } from "$lib/paraglide/runtime";
 
 export const load: PageServerLoad = async ({ locals, params }) => {
 	async function hasUserAlreadyFaved(userId: string, fanfictionId: string): Promise<boolean> {
@@ -26,7 +27,7 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 	const user = locals.auth;
 	const alreadyFaved = user == null ? false : await hasUserAlreadyFaved(user.id, fanfiction.id);
 	const isVerified = locals.isVerified;
-	return { fanfiction, favs, user, alreadyFaved, comments, isVerified, language: locals.language }
+	return { fanfiction, favs, user, alreadyFaved, comments, isVerified, language: getLocale() }
 }
 
 export const actions = {

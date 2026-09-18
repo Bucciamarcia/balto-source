@@ -3,8 +3,9 @@ import Pocketbase from "pocketbase";
 import { fail } from "@sveltejs/kit";
 import type { Actions, PageServerLoad } from "./$types";
 import { getFanartFavorites } from "$lib/components/getFanartFavorites";
+import { getLocale } from "$lib/paraglide/runtime";
 export const load: PageServerLoad = async ({ locals }) => {
-	const language = locals.language;
+	const language = getLocale()
 	const fanarts = await locals.pb.collection("fanarts")
 		.getFullList<FanartsResponse<{ author: UsersResponse }>>({
 			expand: "author",
@@ -28,7 +29,7 @@ export type FavoriteByFanart = {
 
 export const actions = {
 	filter: async ({ request, locals }) => {
-		const language = locals.language;
+		const language = getLocale();
 		const data = await request.formData()
 		const filter = data.get("filter")
 		if (filter == null) {

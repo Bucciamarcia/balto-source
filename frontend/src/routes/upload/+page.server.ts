@@ -4,6 +4,7 @@ import sanitizeHtml from "sanitize-html";
 import mammoth from "mammoth";
 import { moderateImageData, moderateText } from "$lib/components/moderateAi";
 import { FANART_TOO_LARGE_MESSAGE, MAX_FANART_BYTES } from "$lib/limits";
+import { getLocale } from "$lib/paraglide/runtime";
 
 export const load: PageServerLoad = async ({ locals }) => {
 	const user = locals.auth;
@@ -27,7 +28,7 @@ export const actions = {
 		const description = data.get("description") as string;
 		const clean = sanitizeHtml(description);
 		const user = locals.auth;
-		const language = locals.language;
+		const language = getLocale();
 		if (fanart.size === 0) {
 			return fail(400, { error: "You must upload an image" })
 		}
@@ -97,7 +98,7 @@ export const actions = {
 				return fail(400, { error: "The fanfiction didn't pass moderation. If you think this is a mistake, contact the staff." })
 			}
 			await locals.pb.collection("fanfictions").create({
-				author: user.id, content: html, title: title, description: clean, language: locals.language
+				author: user.id, content: html, title: title, description: clean, language: getLocale()
 			})
 		} catch (e) {
 			return fail(500, { error: e instanceof Error ? e.message : "Unknown error" })
