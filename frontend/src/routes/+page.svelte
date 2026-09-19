@@ -8,7 +8,7 @@
 </script>
 
 <svelte:head>
-	<title>Balto Source - Reach For The Light</title>
+	<title>{m.home_title()}</title>
 </svelte:head>
 
 {#if data.user?.role === 'admin'}
@@ -28,7 +28,7 @@
 {/if}
 
 <div>
-	<h1>{m.hello_world({ name: 'moi' })}</h1>
+	<h1>{m.home_message()}</h1>
 </div>
 
 {#each data.resultList as news}

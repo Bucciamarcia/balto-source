@@ -14,4 +14,5 @@
 	favs={data.favs}
 	alreadyFaved={data.alreadyFaved}
 	isVerified={data.isVerified}
+	locale={data.locale}
 />

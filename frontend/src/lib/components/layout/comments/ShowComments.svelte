@@ -5,6 +5,7 @@
 	import type { CommentsResponse, UsersResponse } from '$lib/pocketbase-types';
 	import SingleCommentDisplay from './SingleCommentDisplay.svelte';
 	import TipTapEditor from './TipTapEditor.svelte';
+	import { m } from '$lib/paraglide/messages';
 
 	let {
 		comments,
@@ -66,7 +67,7 @@
 		}}
 	>
 		{#key commentKey}
-			<TipTapEditor content="" header="Add a comment" bind:value={comment} />
+			<TipTapEditor content="" header={m.comment_show()} bind:value={comment} />
 		{/key}
 		<input name="parent" type="hidden" value={null} />
 		<input name="comment" type="hidden" bind:value={comment} />
@@ -74,7 +75,8 @@
 		{#if isLoading}
 			<span class="loading loading-spinner text-primary"></span>
 		{:else}
-			<button class="btn cursor-pointer btn-primary" type="submit">Add comment</button>
+			<button class="btn cursor-pointer btn-primary" type="submit">{m.comment_add_comment()}</button
+			>
 		{/if}
 		{#if errorMessage !== ''}
 			<FormError message={errorMessage} />
@@ -82,10 +84,10 @@
 	</form>
 {/if}
 {#if showCommentSuccess}
-	<p class="text-green-300">Comment sent successfully!</p>
+	<p class="text-green-300">{m.comment_sent_ok}</p>
 {/if}
 {#if comments?.length == 0 || !comments}
-	<p>No comments yet. Be the first!</p>
+	<p>{m.no_comments_comment()}</p>
 {:else}
 	{#each rootComments() as comment}
 		<div class="mt-5 border-2 border-accent p-5">
@@ -99,7 +101,7 @@
 						} else {
 							replyId = comment.id;
 						}
-					}}>{isOpen(comment.id) ? 'Close' : 'Reply'}</button
+					}}>{isOpen(comment.id) ? m.close_comment() : m.reply_comment()}</button
 				>
 			{/if}
 			{#if replyId == comment.id}
@@ -125,7 +127,7 @@
 					}}
 				>
 					{#key commentKey}
-						<TipTapEditor content="" header="Reply to comment" bind:value={replyValue} />
+						<TipTapEditor content="" header={m.reply_comment_header()} bind:value={replyValue} />
 					{/key}
 					<input name="parent" type="hidden" value={comment.id} />
 					<input name="comment" type="hidden" value={replyValue} />
@@ -133,7 +135,9 @@
 					{#if isLoading}
 						<span class="loading loading-spinner text-primary"></span>
 					{:else}
-						<button class="btn cursor-pointer btn-primary" type="submit">Add comment</button>
+						<button class="btn cursor-pointer btn-primary" type="submit"
+							>{m.add_comment_submit()}</button
+						>
 					{/if}
 					{#if errorMessage !== ''}
 						<FormError message={errorMessage} />

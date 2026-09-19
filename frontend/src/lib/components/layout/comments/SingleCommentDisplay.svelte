@@ -3,6 +3,7 @@
 	import FormattedDate from '$lib/components/FormattedDate.svelte';
 	import type { Locale } from '$lib/paraglide/runtime';
 	import type { CommentsResponse, UsersResponse } from '$lib/pocketbase-types';
+	import { m } from '$lib/paraglide/messages';
 
 	let {
 		comment,
@@ -19,7 +20,7 @@
 			height="40"
 			width="40"
 			src={buildAvatarUrl(comment.expand.author)}
-			alt="{comment.expand.author.username} avatar"
+			alt={m.comment_avatar_owner({ name: comment.expand.author.username })}
 		/>
 	</a>
 	<div class="ml-5 self-center">
