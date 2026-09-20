@@ -2,6 +2,7 @@
 	import { enhance } from '$app/forms';
 	import FormError from '$lib/components/formError.svelte';
 	import ShowComments from '$lib/components/layout/comments/ShowComments.svelte';
+	import type { Locale } from '$lib/paraglide/runtime';
 	import type {
 		CommentsResponse,
 		FanartFavoritesResponse,
@@ -10,6 +11,7 @@
 	} from '$lib/pocketbase-types';
 	import { PUBLIC_POCKETBASE_URL } from '$lib/pocketbase/url';
 	import type { AuthRecord } from 'pocketbase';
+	import { m } from '$lib/paraglide/messages';
 
 	let {
 		fanart,
@@ -17,7 +19,8 @@
 		favs,
 		alreadyFaved,
 		comments,
-		isVerified
+		isVerified,
+		locale
 	}: {
 		fanart: FanartsResponse<{ author: UsersResponse }>;
 		user: AuthRecord;
@@ -25,6 +28,7 @@
 		alreadyFaved: boolean;
 		comments: CommentsResponse<{ author: UsersResponse }>[];
 		isVerified: boolean;
+		locale: Locale;
 	} = $props();
 	// svelte-ignore state_referenced_locally
 	const author: UsersResponse = fanart.expand.author;
@@ -57,12 +61,12 @@
 				isExpanded = !isExpanded;
 			}}
 		>
-			{isExpanded ? 'Show thumbnail' : 'Show full size'}
+			{isExpanded ? m.fanart_showthumb() : m.fanart_showfullsize()}
 		</button>
 		<div>
 			{@html fanart.description}
 		</div>
-		<p>{favs.length} favorites</p>
+		<p>{favs.length} {m.fanart_favs()}</p>
 		{#if isLoggedIn}
 			{#if alreadyFaved}
 				<form
@@ -79,7 +83,7 @@
 						};
 					}}
 				>
-					<button type="submit" class="btn btn-primary">Remove from favorites</button>
+					<button type="submit" class="btn btn-primary">{m.fanart_remove_favs()}</button>
 					{#if errorMessage != ''}
 						<FormError message={errorMessage} />
 					{/if}
@@ -100,7 +104,7 @@
 					}}
 				>
 					{#if isVerified}
-						<button type="submit" class="btn btn-primary">Add to favorites</button>
+						<button type="submit" class="btn btn-primary">{m.fanart_add_favs()}</button>
 					{/if}
 					{#if errorMessage != ''}
 						<FormError message={errorMessage} />
@@ -108,6 +112,6 @@
 				</form>
 			{/if}
 		{/if}
-		<ShowComments {isLoggedIn} targetId={fanart.id} {comments} {isVerified} />
+		<ShowComments {isLoggedIn} targetId={fanart.id} {comments} {isVerified} language={locale} />
 	</div>
 </div>

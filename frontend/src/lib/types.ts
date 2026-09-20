@@ -1,1 +1,0 @@
-type LanguageStub = "en" | "fr";

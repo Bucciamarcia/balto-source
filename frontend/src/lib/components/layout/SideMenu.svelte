@@ -1,7 +1,9 @@
 <script lang="ts">
+	import { m } from '$lib/paraglide/messages';
 	import baltoSectionImage from '$lib/assets/balto-1-menu-image.avif';
+	import type { Locale } from '$lib/paraglide/runtime';
 	interface Props {
-		language: LanguageStub;
+		language: Locale;
 	}
 	let { language }: Props = $props();
 </script>
@@ -58,8 +60,8 @@
 		<h2><strong>Fans</strong></h2>
 
 		<ul>
-			<a href="/{language}/fanart"><li>Fanart</li></a>
-			<a href="/{language}/fanfiction"><li>Fanfic</li></a>
+			<a href="/{language}/fanart"><li>{m.menu_fanart()}</li></a>
+			<a href="/{language}/fanfiction"><li>{m.m_fanfic()}</li></a>
 			<li>Images</li>
 			<li>Videos</li>
 			<li>Music</li>

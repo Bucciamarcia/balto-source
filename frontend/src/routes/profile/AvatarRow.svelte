@@ -1,0 +1,93 @@
+<script lang="ts">
+	import { enhance } from '$app/forms';
+	import { buildAvatarUrl } from '$lib/components/buildAvatarUrl';
+	import FormError from '$lib/components/formError.svelte';
+	import { m } from '$lib/paraglide/messages';
+	import type { UsersResponse } from '$lib/pocketbase-types';
+	let {
+		user,
+		isSelf,
+		isVerified,
+		open = $bindable(false)
+	}: {
+		user: UsersResponse;
+		isSelf: boolean;
+		open: any;
+		isVerified: boolean;
+	} = $props();
+	let isEditingAvatar: boolean = $state(false);
+	let errorMessage: string = $state('');
+	let isLoading: boolean = $state(false);
+</script>
+
+<div class="mt-5 mb-5 flex w-full justify-center">
+	<div class="mr-5"><img src={buildAvatarUrl(user)} alt="" height="50" width="50" /></div>
+	{#if isSelf && isVerified}
+		{#if isEditingAvatar}
+			<form
+				method="POST"
+				action="?/changeAvatar"
+				enctype="multipart/form-data"
+				use:enhance={() => {
+					isLoading = true;
+					errorMessage = '';
+					return async ({ result, update }) => {
+						await update();
+						isLoading = false;
+						if (result.type === 'failure') {
+							errorMessage = (result.data?.error as string) ?? m.p_error_unknown();
+						}
+					};
+				}}
+				class="flex"
+			>
+				<div>
+					<input
+						type="file"
+						name="avatar"
+						class="file-input file-input-accent text-black"
+						accept=".png, .jpg, .jpeg"
+					/>
+				</div>
+				{#if isLoading}
+					<span class="text-main loading loading-spinner"></span>
+				{:else}
+					<div><button class="btn" type="submit">{m.p_confirm_avatar()}</button></div>
+				{/if}
+			</form>
+			{#if !isLoading}
+				<button class="btn ml-5" type="button" onclick={() => (isEditingAvatar = false)}>
+					{m.p_close_something()}
+				</button>
+			{/if}
+		{:else}
+			<button
+				aria-label={m.p_change_user()}
+				class="cursor-pointer"
+				onclick={() => (isEditingAvatar = true)}
+			>
+				<div class="tooltip self-center" data-tip={m.p_change_avatar()}>
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						fill="none"
+						viewBox="0 0 24 24"
+						stroke-width="2.5"
+						stroke="currentColor"
+						class="size-[1.2em]"
+					>
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125"
+						/>
+					</svg>
+				</div>
+			</button>
+		{/if}
+	{/if}
+</div>
+<div class="mt-5 mb-5 flex w-full justify-center">
+	{#if errorMessage}
+		<FormError message={errorMessage} />
+	{/if}
+</div>

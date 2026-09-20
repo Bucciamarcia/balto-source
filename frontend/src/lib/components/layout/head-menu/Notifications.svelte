@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { m } from '$lib/paraglide/messages';
 	import { buildAvatarUrl } from '$lib/components/buildAvatarUrl';
 	import type { NotificationsResponse, UsersResponse } from '$lib/pocketbase-types';
 
@@ -26,7 +27,7 @@
 					<div class="flex">
 						<img
 							src={buildAvatarUrl(notification.expand.source_user)}
-							alt="{notification.expand.source_user.username} avatar"
+							alt={m.noti_src({ name: notification.expand.source_user.username })}
 							height="40"
 							width="40"
 						/>
@@ -42,7 +43,7 @@
 {#if unreadNotifications()}
 	<form method="POST" action="/?/markNotificationsAsRead">
 		<button type="submit" class="cursor-pointer text-center text-black underline"
-			>Mark all as read</button
+			>{m.noti_read()}</button
 		>
 	</form>
 {/if}
