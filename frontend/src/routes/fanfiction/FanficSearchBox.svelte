@@ -1,11 +1,12 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import { m } from '$lib/paraglide/messages';
 
 	let { action = '?/default' }: { action?: string } = $props();
 	let isLoading: boolean = $state(false);
 </script>
 
-<p class="mb-3 text-xl">Search</p>
+<p class="mb-3 text-xl">{m.ff_src()}</p>
 <form
 	class="mb-5"
 	method="POST"
@@ -18,16 +19,11 @@
 		};
 	}}
 >
-	<input
-		type="text"
-		name="filter"
-		class="input text-black"
-		placeholder="Search by author or title"
-	/>
+	<input type="text" name="filter" class="input text-black" placeholder={m.ff_s_place()} />
 	{#if isLoading}
 		<span class="loading loading-sm loading-spinner"></span>
 	{:else}
-		<button type="submit" class="btn btn-primary">Search</button>
-		<button type="submit" formaction="?/clear" class="btn btn-error">Clear results</button>
+		<button type="submit" class="btn btn-primary">{m.ff_bbb()}</button>
+		<button type="submit" formaction="?/clear" class="btn btn-error">{m.ff_s_clear()}</button>
 	{/if}
 </form>

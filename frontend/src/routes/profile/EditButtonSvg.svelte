@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { m } from '$lib/paraglide/messages';
+
 	interface Props {
 		editMode: boolean;
 		flipMode: () => void;
@@ -32,12 +34,8 @@
 		{#if isLoading}
 			<span class="loading loading-spinner text-primary"></span>
 		{:else}
-			<button
-				aria-label="Confirm username change"
-				class="cursor-pointer"
-				onclick={onUsernameChanged}
-			>
-				<div class="tooltip mr-3 ml-5 self-center" data-tip="Confirm change">
+			<button aria-label={m.user_change_ok()} class="cursor-pointer" onclick={onUsernameChanged}>
+				<div class="tooltip mr-3 ml-5 self-center" data-tip={m.user_c()}>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						fill="none"
@@ -50,8 +48,8 @@
 					</svg>
 				</div>
 			</button>
-			<button aria-label="Cancel username change" class="cursor-pointer" onclick={flipMode}>
-				<div class="tooltip self-center" data-tip="Cancel change">
+			<button aria-label={m.user_change_cancel()} class="cursor-pointer" onclick={flipMode}>
+				<div class="tooltip self-center" data-tip={m.user_no()}>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						fill="none"

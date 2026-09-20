@@ -7,6 +7,7 @@ import sanitizeHtml from "sanitize-html";
 import { moderateImageData, moderateText } from "$lib/components/moderateAi";
 import type { FavoriteByFanart } from "../fanart/+page.server";
 import { getFanartFavorites } from "$lib/components/getFanartFavorites";
+import { getLocale } from "$lib/paraglide/runtime";
 
 export const load: PageServerLoad = async ({ locals, url }) => {
 	let uid: string = ""
@@ -53,7 +54,7 @@ export const load: PageServerLoad = async ({ locals, url }) => {
 		const user = await locals.pb.collection("users").getOne<UsersResponse>(uid)
 		const isSelf = user.id === locals.auth?.id
 		const isVerified = locals.user?.verified ?? false;
-		return { status: 200, user, isSelf, isVerified, fanarts, comments, isLoggedIn, fanartFavorites }
+		return { status: 200, user, isSelf, isVerified, fanarts, comments, isLoggedIn, fanartFavorites, language: getLocale() }
 	} catch (e) {
 		error(404, { message: "Page not found" });
 	}

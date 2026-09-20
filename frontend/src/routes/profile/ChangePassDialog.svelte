@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import FormError from '$lib/components/formError.svelte';
+	import { m } from '$lib/paraglide/messages';
 
 	let showConfirm: boolean = $state(false);
 	let errorMessage: string = $state('');
@@ -37,7 +38,7 @@
 				if (result.type === 'success') {
 					showConfirm = true;
 				} else if (result.type === 'failure') {
-					errorMessage = (result.data?.error as string) ?? 'An unknown error occurred';
+					errorMessage = (result.data?.error as string) ?? m.pass_change_error();
 				}
 				await update();
 			};
@@ -45,19 +46,23 @@
 	>
 		<div class="lightbox-content m-8">
 			<h2>Change password</h2>
-			<p class="mb-5">You will receive an email to reset your password.</p>
+			<p class="mb-5">{m.pass_change_mail()}</p>
 			{#if !isLoading}
 				<div class="flex justify-center">
 					<div>
-						<button class="btn" type="submit">Submit</button>
+						<button class="btn" type="submit">{m.pass_submit_mail()}</button>
 					</div>
-					<div><button class="btn" type="button" onclick={() => (open = false)}>Close</button></div>
+					<div>
+						<button class="btn" type="button" onclick={() => (open = false)}>
+							{m.pass_close_mail()}
+						</button>
+					</div>
 				</div>
 			{:else}
 				<span class="loading loading-sm loading-spinner"></span>
 			{/if}
 			{#if showConfirm == true}
-				<p>Request successful. Check your email address to confirm the email change</p>
+				<p>{m.pass_request_change_ok()}</p>
 			{/if}
 			{#if errorMessage !== ''}
 				<FormError message={errorMessage} />

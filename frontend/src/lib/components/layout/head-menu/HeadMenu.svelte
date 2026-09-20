@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { m } from '$lib/paraglide/messages';
 	import BellIcon from './BellIcon.svelte';
 	import LinkElement from './LinkElement.svelte';
 	import type { NotificationsResponse, UsersResponse } from '$lib/pocketbase-types';
@@ -39,17 +40,17 @@
 </script>
 
 <div class="mt-4 flex gap-4 place-self-center">
-	<LinkElement label="Home page" destination="/{language}" logOut={false} />
+	<LinkElement label={m.menu_home()} destination="/{language}" logOut={false} />
 	{#if !isLoggedIn}
-		<LinkElement label="Log in" destination="/{language}/login" logOut={false} />
-		<LinkElement label="Sign up" destination="/{language}/signup" logOut={false} />
+		<LinkElement label={m.menu_login()} destination="/{language}/login" logOut={false} />
+		<LinkElement label={m.menu_signup()} destination="/{language}/signup" logOut={false} />
 	{/if}
-	<LinkElement label="Shout box" destination="/{language}/shoutbox" logOut={false} />
+	<LinkElement label={m.menu_shout()} destination="/{language}/shoutbox" logOut={false} />
 	{#if isLoggedIn && isVerified}
-		<LinkElement label="Profile" destination="/{language}/profile" logOut={false} />
-		<LinkElement label="Upload" destination="/{language}/upload" logOut={false} />
-		<LinkElement label="Log out" destination="/{language}/" logOut={true} />
-		<div class="tooltip" use:clickOutside={() => (isOpen = false)} data-tip="Notifications">
+		<LinkElement label={m.menu_profile()} destination="/{language}/profile" logOut={false} />
+		<LinkElement label={m.menu_upload()} destination="/{language}/upload" logOut={false} />
+		<LinkElement label={m.menu_logout()} destination="/{language}/" logOut={true} />
+		<div class="tooltip" use:clickOutside={() => (isOpen = false)} data-tip={m.menu_noti()}>
 			<div class="indicator">
 				<span
 					class="indicator-item badge {newNotifications === 0 ? 'badge-secondary' : 'badge-error'}"

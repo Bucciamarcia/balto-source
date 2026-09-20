@@ -8,6 +8,7 @@
 	import { PUBLIC_POCKETBASE_URL } from '$lib/pocketbase/url';
 	import ChatBubble from './ChatBubble.svelte';
 	import FormError from '$lib/components/formError.svelte';
+	import { m } from '$lib/paraglide/messages';
 
 	let { data }: { data: PageData } = $props();
 
@@ -71,7 +72,7 @@
 </script>
 
 <svelte:head>
-	<title>Shoutbox - Balto Source</title>
+	<title>{m.sb_title()}</title>
 </svelte:head>
 <div bind:this={container} class="max-h-128 overflow-y-auto">
 	{#each messages as message}
@@ -106,7 +107,7 @@
 			class="text-black"
 			type="text"
 			bind:value={text}
-			placeholder="Message..."
+			placeholder={m.sb_message()}
 			bind:this={inputEl}
 		/>
 	{:else}
@@ -114,7 +115,7 @@
 			name="message"
 			type="text"
 			bind:value={text}
-			placeholder="Log in or register to chat"
+			placeholder={m.sb_login()}
 			disabled={true}
 		/>
 	{/if}
@@ -122,7 +123,7 @@
 		{#if isLoading}
 			<span class="loading loading-spinner text-primary"></span>
 		{:else}
-			<button type="submit" class="btn cursor-pointer btn-primary">Submit</button>
+			<button type="submit" class="btn cursor-pointer btn-primary">{m.sb_submit()}</button>
 		{/if}
 	{/if}
 	{#if errorMessage != ''}

@@ -1,5 +1,11 @@
 <script lang="ts">
 	import { page } from '$app/state';
+	import { m } from '$lib/paraglide/messages';
 </script>
 
-<p>You don't have access to this page: {page.status} - {page.error?.message}</p>
+<p>
+	{m.upload_error({
+		code: page.status,
+		error: page.error?.message ?? 'unknown error'
+	})}
+</p>

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import FormError from '$lib/components/formError.svelte';
+	import { m } from '$lib/paraglide/messages';
 
 	let showConfirm: boolean = $state(false);
 	let errorMessage: string = $state('');
@@ -39,34 +40,38 @@
 				if (result.type === 'success') {
 					showConfirm = true;
 				} else if (result.type === 'failure') {
-					errorMessage = (result.data?.error as string) ?? 'An unknown error occurred';
+					errorMessage = (result.data?.error as string) ?? m.p_error_mail();
 				}
 				await update();
 			};
 		}}
 	>
 		<div class="lightbox-content m-8">
-			<h2>Change email address</h2>
-			<p class="mb-5">You will receive an email to the new address to confirm the change.</p>
+			<h2>{m.p_change_mail_h()}</h2>
+			<p class="mb-5">{m.p_change_mail_warn()}</p>
 			<input
 				name="email"
 				class="text-box"
 				type="email"
 				bind:value={email}
-				placeholder="New email address"
+				placeholder={m.p_change_mail_dist()}
 			/>
 			{#if !isLoading}
 				<div class="flex justify-center">
 					<div>
-						<button class="btn" type="submit">Submit</button>
+						<button class="btn" type="submit">{m.p_submit_mail()}</button>
 					</div>
-					<div><button class="btn" type="button" onclick={() => (open = false)}>Close</button></div>
+					<div>
+						<button class="btn" type="button" onclick={() => (open = false)}>
+							{m.p_close_mail()}
+						</button>
+					</div>
 				</div>
 			{:else}
 				<span class="loading loading-sm loading-spinner"></span>
 			{/if}
 			{#if showConfirm == true}
-				<p>Request successful. Check your email address to confirm the email change</p>
+				<p>{m.p_change_mail_ok()}</p>
 			{/if}
 			{#if errorMessage !== ''}
 				<FormError message={errorMessage} />

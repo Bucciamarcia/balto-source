@@ -2,6 +2,7 @@
 	import { enhance } from '$app/forms';
 	import FormError from '$lib/components/formError.svelte';
 	import { TURNSTILE_PUBLIC_KEY } from '$lib/consts.js';
+	import { m } from '$lib/paraglide/messages.js';
 	import { Turnstile } from 'svelte-turnstile';
 	let email: string = $state('');
 	let username: string = $state('');
@@ -13,7 +14,7 @@
 </script>
 
 <svelte:head>
-	<title>Sign up - Balto Source</title>
+	<title>{m.su_title()}</title>
 </svelte:head>
 {#if !loggedUser}
 	<form
@@ -32,33 +33,33 @@
 			name="email"
 			type="email"
 			bind:value={email}
-			placeholder="Your email address"
+			placeholder={m.su_mail()}
 		/>
 		<input
 			class="text-black"
 			name="username"
 			type="text"
 			bind:value={username}
-			placeholder="Your username"
+			placeholder={m.su_user()}
 		/>
 		<input
 			name="password"
 			class="text-black"
 			type="password"
 			bind:value={password}
-			placeholder="Your password"
+			placeholder={m.su_pass()}
 		/>
 		<input
 			class="text-black"
 			name="passwordConfirm"
 			type="password"
 			bind:value={passwordConfirm}
-			placeholder="Confirm password"
+			placeholder={m.su_pass_repeat()}
 		/>
 		{#if isLoading}
 			<span class="loading loading-spinner text-primary"></span>
 		{:else}
-			<button class="btn cursor-pointer btn-primary" type="submit">Submit</button>
+			<button class="btn cursor-pointer btn-primary" type="submit">{m.su_submit()}</button>
 		{/if}
 		<Turnstile siteKey={TURNSTILE_PUBLIC_KEY} />
 	</form>
@@ -66,10 +67,10 @@
 		<FormError message={form.message} />
 	{/if}
 {:else}
-	<p>You are already logged in</p>
+	<p>{m.su_already_logged()}</p>
 {/if}
 {#if form?.success}
 	<p class="mt-4 text-lg font-semibold text-green-600">
-		Registration successful! Confirm your email address to activate your account.
+		{m.su_registration_ok()}
 	</p>
 {/if}

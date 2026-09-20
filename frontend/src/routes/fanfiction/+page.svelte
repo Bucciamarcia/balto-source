@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { m } from '$lib/paraglide/messages';
 	import type { PageProps } from './$types';
 	import FanficSearchBox from './FanficSearchBox.svelte';
 	import FanfictionGallery from './FanfictionGallery.svelte';
@@ -7,7 +8,7 @@
 </script>
 
 <svelte:head>
-	<title>Fanfictions - Balto Source</title>
+	<title>{m.ff_t}</title>
 </svelte:head>
 
 <FanficSearchBox action="?/filter" />

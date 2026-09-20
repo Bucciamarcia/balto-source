@@ -1,5 +1,6 @@
 <script lang="ts">
 	import FanartGallery from '$lib/components/layout/fanarts/FanartGallery.svelte';
+	import { m } from '$lib/paraglide/messages.js';
 	import HomeProfile from './HomeProfile.svelte';
 
 	let { data } = $props();
@@ -11,22 +12,26 @@
 </script>
 
 <svelte:head>
-	<title>{data.user.username}'s profile - Balto Source</title>
+	<title>{m.prof_title({ name: data.user.username })}</title>
 </svelte:head>
 <div class="mb-5 flex w-full justify-center gap-3">
 	<button
 		class={`btn ${pickColor('home')}`}
 		onclick={() => {
 			selectedTab = 'home';
-		}}>Home</button
+		}}
 	>
+		{m.prof_home()}
+	</button>
 	{#if data.fanarts.length !== 0}
 		<button
 			class={`btn ${pickColor('gallery')}`}
 			onclick={() => {
 				selectedTab = 'gallery';
-			}}>Gallery</button
+			}}
 		>
+			{m.prof_gallery()}
+		</button>
 	{/if}
 </div>
 
@@ -37,6 +42,7 @@
 		isSelf={data.isSelf}
 		comments={data.comments}
 		isVerified={data.isVerified}
+		language={data.language}
 	/>
 {/if}
 {#if selectedTab === 'gallery'}

@@ -2,6 +2,7 @@
 	import { enhance } from '$app/forms';
 	import { buildAvatarUrl } from '$lib/components/buildAvatarUrl';
 	import FormError from '$lib/components/formError.svelte';
+	import { m } from '$lib/paraglide/messages';
 	import type { UsersResponse } from '$lib/pocketbase-types';
 	let {
 		user,
@@ -34,7 +35,7 @@
 						await update();
 						isLoading = false;
 						if (result.type === 'failure') {
-							errorMessage = (result.data?.error as string) ?? 'Unknown error';
+							errorMessage = (result.data?.error as string) ?? m.p_error_unknown();
 						}
 					};
 				}}
@@ -51,21 +52,21 @@
 				{#if isLoading}
 					<span class="text-main loading loading-spinner"></span>
 				{:else}
-					<div><button class="btn" type="submit">Confirm new avatar</button></div>
+					<div><button class="btn" type="submit">{m.p_confirm_avatar()}</button></div>
 				{/if}
 			</form>
 			{#if !isLoading}
-				<button class="btn ml-5" type="button" onclick={() => (isEditingAvatar = false)}
-					>Close</button
-				>
+				<button class="btn ml-5" type="button" onclick={() => (isEditingAvatar = false)}>
+					{m.p_close_something()}
+				</button>
 			{/if}
 		{:else}
 			<button
-				aria-label="Change username"
+				aria-label={m.p_change_user()}
 				class="cursor-pointer"
 				onclick={() => (isEditingAvatar = true)}
 			>
-				<div class="tooltip self-center" data-tip="Change your avatar">
+				<div class="tooltip self-center" data-tip={m.p_change_avatar()}>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						fill="none"

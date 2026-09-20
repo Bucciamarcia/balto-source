@@ -10,6 +10,7 @@
 	import HeadMenu from '$lib/components/layout/head-menu/HeadMenu.svelte';
 	import Footer from '$lib/components/layout/footer.svelte';
 	import titleIcon from '$lib/assets/placeholderTitleIcon.png';
+	import { m } from '$lib/paraglide/messages.js';
 
 	let { children, data } = $props();
 	let newEmailVerificationYes: boolean = $state(false);
@@ -53,20 +54,20 @@
 				}}
 			>
 				<div class="mt-10 place-self-center text-lg font-bold text-error">
-					Your account is not active yet. Please verify your email address.
+					{m.account_inactive()}
 				</div>
 
 				<input name="email" type="hidden" value={data.user.email} />
 
 				<div class="mt-5 place-self-center">
-					<button class="btn cursor-pointer btn-primary" type="submit"
-						>Send new verification email</button
-					>
+					<button class="btn cursor-pointer btn-primary" type="submit">
+						{m.home_send_v()}
+					</button>
 				</div>
 
 				{#if newEmailVerificationYes}
 					<div class="mt-5 place-self-center text-lg font-bold text-black">
-						Email verification sent. Check your email address.
+						{m.home_v_sent()}
 					</div>
 				{/if}
 			</form>

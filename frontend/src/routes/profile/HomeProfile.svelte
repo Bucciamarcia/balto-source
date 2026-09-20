@@ -9,19 +9,23 @@
 	import TipTapEditor from '$lib/components/layout/comments/TipTapEditor.svelte';
 	import ShowComments from '$lib/components/layout/comments/ShowComments.svelte';
 	import type { CommentsResponse, UsersResponse } from '$lib/pocketbase-types';
+	import { m } from '$lib/paraglide/messages';
+	import type { Locale } from '$lib/paraglide/runtime';
 
 	let {
 		user,
 		isSelf,
 		isLoggedIn,
 		comments,
-		isVerified
+		isVerified,
+		language
 	}: {
 		user: UsersResponse;
 		isSelf: boolean;
 		isLoggedIn: boolean;
 		comments: CommentsResponse<{ author: UsersResponse }>[];
 		isVerified: boolean;
+		language: Locale;
 	} = $props();
 	let editMode = $state(false);
 	let newUsername: string = $state('');
@@ -38,9 +42,9 @@
 
 	function renderBio(v: string | undefined): string {
 		if (v === undefined) {
-			return "Can't find bio.";
+			return m.bio_no();
 		} else if (v === '') {
-			return "This user doesn't have any bio.";
+			return m.bio_no_find();
 		} else {
 			return v;
 		}
@@ -97,9 +101,9 @@
 {#if isSelf && isVerified}
 	<div class="mt-5 flex w-full justify-center">
 		<div class="mr-5">
-			<ProfileButton label="Change email" onClick={() => (showEmailModal = true)} />
+			<ProfileButton label={m.bio_change_mail()} onClick={() => (showEmailModal = true)} />
 		</div>
-		<div><ProfileButton label="Change password" onClick={() => (showPassModal = true)} /></div>
+		<div><ProfileButton label={m.bio_change_pass()} onClick={() => (showPassModal = true)} /></div>
 	</div>
 	<ChangeEmailDialog bind:open={showEmailModal}></ChangeEmailDialog>
 	<ChangePassDialog bind:open={showPassModal}></ChangePassDialog>
@@ -107,14 +111,14 @@
 <div>{@html renderBio(user?.bio)}</div>
 <div class="mt-8 grid place-items-center">
 	{#if isSelf && isVerified}
-		<button onclick={() => (showTipTapEditor = !showTipTapEditor)} class="btn btn-primary"
-			>{showTipTapEditor ? 'Close editor' : 'Edit bio'}</button
-		>
+		<button onclick={() => (showTipTapEditor = !showTipTapEditor)} class="btn btn-primary">
+			{showTipTapEditor ? m.bio_close_editor() : m.bio_edit_bio()}
+		</button>
 	{/if}
 </div>
 {#if isSelf && showTipTapEditor == true}
 	<div class="mx-auto">
-		<TipTapEditor content={user?.bio ?? ''} header="Edit your profile" bind:value={htmlBio} />
+		<TipTapEditor content={user?.bio ?? ''} header={m.bio_edit_profile()} bind:value={htmlBio} />
 	</div>
 	<form
 		method="POST"
@@ -137,7 +141,7 @@
 		class="flex w-full justify-center"
 	>
 		<input name="html" type="hidden" bind:value={htmlBio} />
-		<button class="btn cursor-pointer btn-primary" type="submit">Update your bio</button>
+		<button class="btn cursor-pointer btn-primary" type="submit">{m.submit_update_bio()}</button>
 	</form>
 {/if}
 {#if errorMessage !== ''}
@@ -149,5 +153,6 @@
 		targetId={profileId}
 		isLoggedIn={isLoggedIn ?? false}
 		isVerified
+		{language}
 	/>
 </div>

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { buildAvatarUrl } from '$lib/components/buildAvatarUrl';
 	import FormattedDate from '$lib/components/FormattedDate.svelte';
+	import { m } from '$lib/paraglide/messages';
 	import type { Locale } from '$lib/paraglide/runtime';
 	import type { ChatMessagesResponse, UsersResponse } from '$lib/pocketbase-types';
 
@@ -15,7 +16,7 @@
 			<a href={`/${language}/profile?id=${message.expand.author.id}`}>
 				<img
 					src={buildAvatarUrl(message.expand.author)}
-					alt="{message.expand.author.username} avatar"
+					alt={m.sb_avatar({ name: message.expand.author.username })}
 				/>
 			</a>
 		</div>

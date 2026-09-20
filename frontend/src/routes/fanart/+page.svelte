@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { m } from '$lib/paraglide/messages';
 	import FanartGallery from '$lib/components/layout/fanarts/FanartGallery.svelte';
 	import FanartSearchBox from './FanartSearchBox.svelte';
 	import type { PageProps } from './$types';
@@ -7,7 +8,7 @@
 </script>
 
 <svelte:head>
-	<title>Fanart - Balto Source</title>
+	<title>{m.fa_title()}</title>
 </svelte:head>
 <FanartSearchBox action="?/filter" />
 <FanartGallery
