@@ -1,6 +1,6 @@
 {
 	"$schema": "https://inlang.com/schema/inlang-message-format",
-	"home_message": "Welcome to Balto Source!",
+	"home_message": "Bienvenue sur Balto Source!",
 	"home_title": "Balto Source",
 	"comment_show": "Add a comment",
 	"comment_add_comment": "Add comment",
