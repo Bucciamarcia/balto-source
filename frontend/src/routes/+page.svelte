@@ -1,12 +1,10 @@
 <script lang="ts">
 	import ConfirmationSnackbar from '$lib/components/layout/confirmation-snackbar.svelte';
-	import { enhance } from '$app/forms';
 	import type { PageData } from './$types';
 	import SingleNews from './SingleNews.svelte';
 	import { m } from '$lib/paraglide/messages';
 
 	let { data }: { data: PageData } = $props();
-	let e: string = $state('');
 </script>
 
 <svelte:head>
@@ -27,23 +25,6 @@
 			<button type="submit">GOGO</button>
 		</form>
 	</div>
-	<form
-		method="POST"
-		action="?/testEnv"
-		use:enhance={() => {
-			return async ({ result, update }) => {
-				await update();
-				if (result.type === 'success') {
-					e = (result.data?.e as string) ?? '';
-				}
-			};
-		}}
-	>
-		<button type="submit">gogo2</button>
-	</form>
-	{#if e !== ''}
-		{e}
-	{/if}
 {/if}
 
 <div>
