@@ -141,7 +141,7 @@
 	"upload_character_tt_h": "Character bio",
 	"name_ch_req": "Error: name is required",
 	"ava_ch_req": "Error: profile picture is required",
-	"cc_no_create_wow": "Only the character name and profile picture are required",
+	"cc_no_create_wow": "Only the character name and profile picture are required.",
 	"pretty_bird": "This character name is not allowed",
 	"pretty_seal": "This character bio is not allowed",
 	"pretty_panda": "This character avatar is not allowed",
