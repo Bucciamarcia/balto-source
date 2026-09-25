@@ -6,6 +6,8 @@ import { moderateImageData, moderateText } from "$lib/components/moderateAi";
 import { FANART_TOO_LARGE_MESSAGE, MAX_FANART_BYTES } from "$lib/limits";
 import { getLocale } from "$lib/paraglide/runtime";
 
+export type CharacterSex = 'male' | 'female' | 'other';
+
 export const load: PageServerLoad = async ({ locals }) => {
 	const user = locals.auth;
 	if (user == null) {

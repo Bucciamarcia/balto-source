@@ -124,5 +124,17 @@
 	"home_send_v": "Send new verification email",
 	"home_v_sent": "Email verification sent. Check your email address.",
 	"menu_characters": "Characters",
-	"upload_character_t": "Create character"
+	"upload_character_t": "Create character",
+	"upload_character_h": "Create a new character",
+	"upload_ch_name": "Character name",
+	"upload_ch_de": "The name of your character",
+	"upload_ch_pp_n": "Profile picture",
+	"upload_ch_max": "Max size 5MB",
+	"upload_ch_ref_n": "Reference sheet",
+	"upload_ch_ref_max": "Max size 5 MB",
+	"upload_ch_sex": "Sex",
+	"upload_ch_sex_m": "Male",
+	"upload_ch_sex_f": "Female",
+	"upload_ch_sex_o": "Other",
+	"upload_character_bio": "Character bio"
 }
