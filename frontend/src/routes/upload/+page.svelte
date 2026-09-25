@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { m } from '$lib/paraglide/messages';
+	import CharacterUploader from './CharacterUploader.svelte';
 	import FanartUploader from './FanartUploader.svelte';
 	import FanfictionUploader from './FanfictionUploader.svelte';
 
@@ -22,9 +23,17 @@
 	>
 		{m.upload_fanfic_t()}
 	</button>
+	<button
+		class={`btn ${selected === 'character' ? 'btn-secondary' : 'btn-primary'}`}
+		onclick={() => (selected = 'character')}
+	>
+		{m.upload_character_t()}
+	</button>
 </div>
 {#if selected === 'fanart'}
 	<FanartUploader />
 {:else if selected === 'fanfiction'}
 	<FanfictionUploader />
+{:else if selected === 'character'}
+	<CharacterUploader />
 {/if}
