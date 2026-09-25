@@ -16,6 +16,14 @@ export const load: PageServerLoad = async ({ locals }) => {
 }
 
 export const actions = {
+	createCharacter: async ({ request, locals }) => {
+		let data: FormData;
+		try {
+			data = await request.formData();
+		} catch (e) {
+			return fail(400, { error: e instanceof Error ? e.message : "Unknown error occurred" })
+		}
+	},
 	uploadFanart: async ({ request, locals }) => {
 		let data: FormData;
 		try {
