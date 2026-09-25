@@ -137,5 +137,6 @@
 	"upload_ch_sex_f": "Female",
 	"upload_ch_sex_o": "Other",
 	"upload_character_bio": "Character bio",
-	"upload_character_ok": "Character created!"
+	"upload_character_ok": "Character created!",
+	"upload_character_tt_h": "Character bio"
 }
