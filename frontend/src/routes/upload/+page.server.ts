@@ -23,6 +23,16 @@ export const actions = {
 		} catch (e) {
 			return fail(400, { error: e instanceof Error ? e.message : "Unknown error occurred" })
 		}
+		const name = data.get("name") as string;
+		const avatar = data.get("avatar") as File;
+		const ref = data.get("ref") as File;
+		const sex = data.get("sex") as CharacterSex;
+		const bio = data.get("bio") as string;
+		console.log(name)
+		console.log(sex)
+		console.log(avatar.name)
+		console.log(ref.name)
+		console.log(bio)
 	},
 	uploadFanart: async ({ request, locals }) => {
 		let data: FormData;

@@ -7,11 +7,13 @@
 	let error: string = $state('');
 	let isLoading: boolean = $state(false);
 	let showSuccess: boolean = $state(false);
+	let files: FileList | undefined = $state();
 </script>
 
 <h1>{m.upload_character_h()}</h1>
 <form
 	method="POST"
+	enctype="multipart/form-data"
 	action="?/createCharacter"
 	use:enhance={() => {
 		error = '';
@@ -35,13 +37,13 @@
 	</fieldset>
 	<fieldset class="fieldset">
 		<legend class="fieldset-legend text-white">{m.upload_ch_pp_n()}</legend>
-		<input type="file" class="file-input text-black" />
+		<input type="file" name="avatar" class="file-input text-black" bind:files />
 		<label class="label" for="avatar">{m.upload_ch_max()}</label>
 	</fieldset>
 	<fieldset class="fieldset">
 		<legend class="fieldset-legend text-white">{m.upload_ch_ref_n()}</legend>
-		<input type="file" class="file-input text-black" />
-		<label class="label" for="avatar">{m.upload_ch_ref_max()}</label>
+		<input type="file" name="ref" class="file-input text-black" />
+		<label class="label" for="file">{m.upload_ch_ref_max()}</label>
 	</fieldset>
 	<p class="fieldset-legend text-white">{m.upload_ch_sex()}</p>
 	<div class="flex items-center">
