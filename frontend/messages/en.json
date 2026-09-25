@@ -122,5 +122,6 @@
 	"upload_ff_conf": "Your fanfiction has been uploaded successfully!",
 	"account_inactive": "Your account is not active yet. Please verify your email address.",
 	"home_send_v": "Send new verification email",
-	"home_v_sent": "Email verification sent. Check your email address."
+	"home_v_sent": "Email verification sent. Check your email address.",
+	"menu_characters": "Characters"
 }
