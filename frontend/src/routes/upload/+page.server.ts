@@ -5,6 +5,7 @@ import mammoth from "mammoth";
 import { moderateImageData, moderateText } from "$lib/components/moderateAi";
 import { FANART_TOO_LARGE_MESSAGE, MAX_FANART_BYTES } from "$lib/limits";
 import { getLocale } from "$lib/paraglide/runtime";
+import { m } from "$lib/paraglide/messages";
 
 export type CharacterSex = 'male' | 'female' | 'other';
 
@@ -18,21 +19,53 @@ export const load: PageServerLoad = async ({ locals }) => {
 export const actions = {
 	createCharacter: async ({ request, locals }) => {
 		let data: FormData;
+		if (locals.auth == null) {
+			return fail(401, { error: "Not logged in" })
+
+		}
 		try {
 			data = await request.formData();
 		} catch (e) {
 			return fail(400, { error: e instanceof Error ? e.message : "Unknown error occurred" })
 		}
-		const name = data.get("name") as string;
-		const avatar = data.get("avatar") as File;
-		const ref = data.get("ref") as File;
+		let name = data.get("name") as string;
+		const avatar = data.get("avatar") as File | null | undefined;
+		const ref = data.get("ref") as File | undefined | null;
 		const sex = data.get("sex") as CharacterSex;
-		const bio = data.get("bio") as string;
-		console.log(name)
-		console.log(sex)
-		console.log(avatar.name)
-		console.log(ref.name)
-		console.log(bio)
+		let bio = data.get("bio") as string;
+		if (name === "") {
+			return fail(400, { error: m.name_ch_req() })
+		}
+		if (avatar == null || avatar.size === 0) {
+			return fail(400, { error: m.ava_ch_req() })
+		}
+		const [r1, r2, r3, r4] = await Promise.all([
+			moderateText(name),
+			moderateText(bio),
+			moderateImageData(avatar),
+			moderateImageData(ref)
+		])
+		if (r1 === "remove") {
+			return fail(400, { error: m.pretty_bird() })
+		}
+		if (r2 === "remove") {
+			return fail(400, { error: m.pretty_seal() })
+		}
+		if (r3 === "remove") {
+			return fail(400, { error: m.pretty_panda() })
+		}
+		if (r4 === "remove") {
+			return fail(400, { error: m.pretty_sloth() })
+		}
+		name = sanitizeHtml(name)
+		bio = sanitizeHtml(bio)
+		try {
+			locals.pb.collection("characters").create({
+				name: name, profile_picture: avatar, ref_sheet: ref, bio: bio, owner: locals.auth!.id, official: false, sex: sex
+			})
+		} catch (e) {
+			return fail(400, { error: e instanceof Error ? e.message : "Unknown error occurred" })
+		}
 	},
 	uploadFanart: async ({ request, locals }) => {
 		let data: FormData;
