@@ -11,6 +11,8 @@ export const Collections = {
 	Mfas: "_mfas",
 	Otps: "_otps",
 	Superusers: "_superusers",
+	CharacterFavorites: "character_favorites",
+	Characters: "characters",
 	ChatMessages: "chat_messages",
 	Comments: "comments",
 	FanartFavorites: "fanart_favorites",
@@ -101,11 +103,44 @@ export type SuperusersRecord = {
 	verified?: boolean
 }
 
+export type CharacterFavoritesRecord = {
+	created: IsoAutoDateString
+	id: string
+	source: RecordIdString
+	target: RecordIdString
+	updated: IsoAutoDateString
+}
+
+export const CharactersSexOptions = {
+	"male": "male",
+	"female": "female",
+	"other": "other",
+} as const
+export type CharactersSexOptions = typeof CharactersSexOptions[keyof typeof CharactersSexOptions]
+export type CharactersRecord = {
+	bio?: string
+	created: IsoAutoDateString
+	id: string
+	name: string
+	official?: boolean
+	owner?: RecordIdString
+	profile_picture: FileNameString
+	ref_sheet?: FileNameString
+	sex?: CharactersSexOptions
+	updated: IsoAutoDateString
+}
+
+export const ChatMessagesLanguageOptions = {
+	"en": "en",
+	"fr": "fr",
+} as const
+export type ChatMessagesLanguageOptions = typeof ChatMessagesLanguageOptions[keyof typeof ChatMessagesLanguageOptions]
 export type ChatMessagesRecord = {
 	author?: RecordIdString
 	body?: string
 	created: IsoAutoDateString
 	id: string
+	language: ChatMessagesLanguageOptions
 	updated: IsoAutoDateString
 }
 
@@ -135,12 +170,18 @@ export type FanartFavoritesRecord = {
 	updated: IsoAutoDateString
 }
 
+export const FanartsLanguageOptions = {
+	"en": "en",
+	"fr": "fr",
+} as const
+export type FanartsLanguageOptions = typeof FanartsLanguageOptions[keyof typeof FanartsLanguageOptions]
 export type FanartsRecord = {
 	author: RecordIdString
 	created: IsoAutoDateString
 	description?: string
 	id: string
 	image: FileNameString
+	language?: FanartsLanguageOptions
 	title?: string
 	updated: IsoAutoDateString
 }
@@ -153,21 +194,33 @@ export type FanfictionFavoritesRecord = {
 	updated: IsoAutoDateString
 }
 
+export const FanfictionsLanguageOptions = {
+	"en": "en",
+	"fr": "fr",
+} as const
+export type FanfictionsLanguageOptions = typeof FanfictionsLanguageOptions[keyof typeof FanfictionsLanguageOptions]
 export type FanfictionsRecord = {
 	author: RecordIdString
 	content: string
 	created: IsoAutoDateString
 	description: string
 	id: string
+	language: FanfictionsLanguageOptions
 	title: string
 	updated: IsoAutoDateString
 }
 
+export const HomepageNewsLanguageOptions = {
+	"en": "en",
+	"fr": "fr",
+} as const
+export type HomepageNewsLanguageOptions = typeof HomepageNewsLanguageOptions[keyof typeof HomepageNewsLanguageOptions]
 export type HomepageNewsRecord = {
 	author: RecordIdString
 	body: string
 	created: IsoAutoDateString
 	id: string
+	language: HomepageNewsLanguageOptions
 	title: string
 	updated: IsoAutoDateString
 }
@@ -210,6 +263,8 @@ export type ExternalauthsResponse<Texpand = unknown> = Required<ExternalauthsRec
 export type MfasResponse<Texpand = unknown> = Required<MfasRecord> & BaseSystemFields<Texpand>
 export type OtpsResponse<Texpand = unknown> = Required<OtpsRecord> & BaseSystemFields<Texpand>
 export type SuperusersResponse<Texpand = unknown> = Required<SuperusersRecord> & AuthSystemFields<Texpand>
+export type CharacterFavoritesResponse<Texpand = unknown> = Required<CharacterFavoritesRecord> & BaseSystemFields<Texpand>
+export type CharactersResponse<Texpand = unknown> = Required<CharactersRecord> & BaseSystemFields<Texpand>
 export type ChatMessagesResponse<Texpand = unknown> = Required<ChatMessagesRecord> & BaseSystemFields<Texpand>
 export type CommentsResponse<Texpand = unknown> = Required<CommentsRecord> & BaseSystemFields<Texpand>
 export type FanartFavoritesResponse<Texpand = unknown> = Required<FanartFavoritesRecord> & BaseSystemFields<Texpand>
@@ -228,6 +283,8 @@ export type CollectionRecords = {
 	_mfas: MfasRecord
 	_otps: OtpsRecord
 	_superusers: SuperusersRecord
+	character_favorites: CharacterFavoritesRecord
+	characters: CharactersRecord
 	chat_messages: ChatMessagesRecord
 	comments: CommentsRecord
 	fanart_favorites: FanartFavoritesRecord
@@ -245,6 +302,8 @@ export type CollectionResponses = {
 	_mfas: MfasResponse
 	_otps: OtpsResponse
 	_superusers: SuperusersResponse
+	character_favorites: CharacterFavoritesResponse
+	characters: CharactersResponse
 	chat_messages: ChatMessagesResponse
 	comments: CommentsResponse
 	fanart_favorites: FanartFavoritesResponse
