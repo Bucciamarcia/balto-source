@@ -81,15 +81,12 @@
 		<!-- Left Column (Stays as small as SideMenu allows) -->
 		<div class="hidden md:block">
 		<SideMenu language={data.language} />
-<<<<<<< HEAD
 		</div>
 
 		<div class="flex md:hidden">
 		<HamburgerMenu language={data.language} />
 		</div>
 
-=======
->>>>>>> d253d0a3d3a00ae10d763975010c30ff28515f4f
 		<!-- Right Column (Fills the rest) -->
 
 		<main
