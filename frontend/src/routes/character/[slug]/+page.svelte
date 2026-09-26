@@ -28,8 +28,15 @@
 		})}
 	</title>
 </svelte:head>
+<a href={getAvatarFull()} target="_blank">
+	<img
+		class="mx-auto"
+		src={getAvatarThumb()}
+		alt={m.ch_avatar_alt({ name: data.character.name })}
+	/>
+</a>
 <div class="flex place-content-center">
-	<h1 class="mr-3 text-center">{data.character.name}</h1>
+	<h1 class="mr-3 mb-1 text-center">{data.character.name}</h1>
 	{#if data.character.sex !== 'other'}
 		<div class="center self-center inline-5">
 			<SexIcon sex={data.character.sex} />
@@ -43,14 +50,11 @@
 		userId: data.character.owner
 	})}
 </p>
-<a href={getAvatarFull()} target="_blank">
-	<img
-		class="mx-auto"
-		src={getAvatarThumb()}
-		alt={m.ch_avatar_alt({ name: data.character.name })}
-	/>
-</a>
-<h2 class="text-center">{m.ch_ref_text()}</h2>
 <a href={getRefFull()} target="_blank">
 	<img class="mx-auto" src={getRefThumb()} alt={m.ch_ref_alt({ name: data.character.name })} />
 </a>
+<div
+	class="width mx-auto mt-5 w-244 border-1 border-solid border-primary bg-neutral bg-white/3 p-5"
+>
+	{@html data.character.bio}
+</div>
