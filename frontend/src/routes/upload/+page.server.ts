@@ -61,7 +61,14 @@ export const actions = {
 		bio = sanitizeHtml(bio)
 		try {
 			locals.pb.collection("characters").create({
-				name: name, profile_picture: avatar, ref_sheet: ref, bio: bio, owner: locals.auth!.id, official: false, sex: sex
+				name: name,
+				profile_picture: avatar,
+				ref_sheet: ref,
+				bio: bio,
+				owner: locals.auth!.id,
+				official: false,
+				sex: sex,
+				language: getLocale()
 			})
 		} catch (e) {
 			return fail(400, { error: e instanceof Error ? e.message : "Unknown error occurred" })
