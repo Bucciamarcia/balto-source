@@ -44,14 +44,10 @@ export const actions = {
 		if (description === '') {
 			return fail(400, { error: 'You must provide a description' });
 		}
-		console.log('title');
-		console.log(title);
 		const titleMod = await moderateText(title);
 		if (titleMod === 'remove') {
 			return fail(400, { error: 'This title is not allowed' });
 		}
-		console.log('description');
-		console.log(description);
 		const desMod = await moderateText(description);
 		if (desMod === 'remove') {
 			return fail(400, { error: 'This description is not allowed' });
