@@ -117,10 +117,17 @@ export const CharactersSexOptions = {
 	"other": "other",
 } as const
 export type CharactersSexOptions = typeof CharactersSexOptions[keyof typeof CharactersSexOptions]
+
+export const CharactersLanguageOptions = {
+	"en": "en",
+	"fr": "fr",
+} as const
+export type CharactersLanguageOptions = typeof CharactersLanguageOptions[keyof typeof CharactersLanguageOptions]
 export type CharactersRecord = {
 	bio?: string
 	created: IsoAutoDateString
 	id: string
+	language: CharactersLanguageOptions
 	name: string
 	official?: boolean
 	owner?: RecordIdString

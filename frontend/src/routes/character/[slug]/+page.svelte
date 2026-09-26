@@ -7,8 +7,6 @@
 
 	let { data } = $props();
 
-	let favIds = $derived(data.favs.map((f) => f.id));
-
 	function getAvatarThumb() {
 		return `${PUBLIC_POCKETBASE_URL}/api/files/characters/${data.character.id}/${data.character.profile_picture}?thumb=300x200f`;
 	}
@@ -20,9 +18,6 @@
 	}
 	function getRefFull() {
 		return `${PUBLIC_POCKETBASE_URL}/api/files/characters/${data.character.id}/${data.character.ref_sheet}`;
-	}
-	function hasFaved(): boolean {
-		return favIds.includes(data.user?.id ?? 'No user');
 	}
 </script>
 
@@ -61,7 +56,7 @@
 </a>
 <p class="text-center">{m.ch_favs_page({ favs: data.favs.length })}</p>
 <div class="mt-3 place-self-center">
-	{#if hasFaved()}
+	{#if data.alreadyFaved}
 		<form method="POST" action="?/removeFromFavorites" use:enhance>
 			<button class="btn btn-primary"> Remove from favorites</button>
 		</form>
