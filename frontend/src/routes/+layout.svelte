@@ -6,6 +6,7 @@
 	import './layout.css';
 	import { enhance } from '$app/forms';
 	import SideMenu from '$lib/components/layout/SideMenu.svelte';
+	import HamburgerMenu from '$lib/components/layout/HamburgerMenu.svelte';
 	import HeadBanner from '$lib/components/layout/head-banner.svelte';
 	import HeadMenu from '$lib/components/layout/head-menu/HeadMenu.svelte';
 	import Footer from '$lib/components/layout/footer.svelte';
@@ -78,7 +79,14 @@
 
 	<div class="flex flex-1 flex-nowrap items-start">
 		<!-- Left Column (Stays as small as SideMenu allows) -->
+		<div class="hidden md:block">
 		<SideMenu language={data.language} />
+		</div>
+
+		<div class="flex md:hidden">
+		<HamburgerMenu language={data.language} />
+		</div>
+
 		<!-- Right Column (Fills the rest) -->
 
 		<main

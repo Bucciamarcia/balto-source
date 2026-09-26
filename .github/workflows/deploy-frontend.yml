@@ -41,7 +41,7 @@ jobs:
           target: "/home/ghactions/deploy_temp" 
           strip_components: 1
 
-      - name: Move files and Restart
+      - name: Move files, write .env and Restart
         uses: appleboy/ssh-action@master
         with:
           host: ${{secrets.SERVER_HOST}}
@@ -49,6 +49,13 @@ jobs:
           key: ${{secrets.SSH_PRIVATE_KEY}}
           script: |
             set -euo pipefail
+
+            sudo tee /srv/baltosource/frontend/.env > /dev/null <<EOF
+            TYPESAFE_API_KEY=${{secrets.TYPESAFE_API_KEY}}
+            EOF
+            sudo chown baltosource:baltosource /srv/baltosource/frontend/.env
+            sudo chmod 600 /srv/baltosource/frontend/.env
+            sudo systemctl restart baltosource-frontend
             
             TARGET_DIR="/srv/baltosource/frontend"
             TEMP_DIR="/home/ghactions/deploy_temp"
