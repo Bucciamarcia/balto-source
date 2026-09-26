@@ -153,5 +153,6 @@
 	"ch_single_title": "{name} by {owner} - Balto Source",
 	"ch_avatar_alt": "{name}'s profile picture",
 	"ch_ref_alt": "{name}'s reference sheet",
-	"ch_page_by_line": "by <a href='/{lang}/profile?id={userId}'>{username}</a>"
+	"ch_page_by_line": "by <a href='/{lang}/profile?id={userId}'>{username}</a>",
+	"ch_favs_page": "{favs} favorites"
 }

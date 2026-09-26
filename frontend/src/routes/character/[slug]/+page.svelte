@@ -1,10 +1,13 @@
 <script lang="ts">
+	import { enhance } from '$app/forms';
 	import { m } from '$lib/paraglide/messages';
 	import { getLocale } from '$lib/paraglide/runtime';
 	import { PUBLIC_POCKETBASE_URL } from '$lib/pocketbase/url';
 	import SexIcon from './SexIcon.svelte';
 
 	let { data } = $props();
+
+	let favIds = $derived(data.favs.map((f) => f.id));
 
 	function getAvatarThumb() {
 		return `${PUBLIC_POCKETBASE_URL}/api/files/characters/${data.character.id}/${data.character.profile_picture}?thumb=300x200f`;
@@ -17,6 +20,9 @@
 	}
 	function getRefFull() {
 		return `${PUBLIC_POCKETBASE_URL}/api/files/characters/${data.character.id}/${data.character.ref_sheet}`;
+	}
+	function hasFaved(): boolean {
+		return favIds.includes(data.user?.id ?? 'No user');
 	}
 </script>
 
@@ -53,6 +59,18 @@
 <a href={getRefFull()} target="_blank">
 	<img class="mx-auto" src={getRefThumb()} alt={m.ch_ref_alt({ name: data.character.name })} />
 </a>
+<p class="text-center">{m.ch_favs_page({ favs: data.favs.length })}</p>
+<div class="mt-3 place-self-center">
+	{#if hasFaved()}
+		<form method="POST" action="?/removeFromFavorites" use:enhance>
+			<button class="btn btn-primary"> Remove from favorites</button>
+		</form>
+	{:else}
+		<form method="POST" action="?/addToFavorites" use:enhance>
+			<button class="btn btn-primary"> Add to favorites</button>
+		</form>
+	{/if}
+</div>
 <div
 	class="width mx-auto mt-5 w-244 border-1 border-solid border-primary bg-neutral bg-white/3 p-5"
 >
