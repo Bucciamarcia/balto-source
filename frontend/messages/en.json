@@ -145,5 +145,8 @@
 	"pretty_bird": "This character name is not allowed",
 	"pretty_seal": "This character bio is not allowed",
 	"pretty_panda": "This character avatar is not allowed",
-	"pretty_sloth": "This character ref is not allowed"
+	"pretty_sloth": "This character ref is not allowed",
+	"ch_h1": "Characters",
+	"ch_title_by": "{name} by {owner}",
+	"ch_favs": "favorites"
 }
