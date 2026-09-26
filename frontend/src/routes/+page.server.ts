@@ -4,7 +4,6 @@ import { PUBLIC_POCKETBASE_URL } from '$lib/pocketbase/url';
 import PocketBase from "pocketbase";
 import { getLocale } from '$lib/paraglide/runtime';
 import type { PageServerLoad } from './$types';
-import { env } from "$env/dynamic/private";
 
 export const load: PageServerLoad = async ({ locals, cookies }) => {
 	const flash = cookies.get("flash");
@@ -30,10 +29,6 @@ export const load: PageServerLoad = async ({ locals, cookies }) => {
 }
 
 export const actions: Actions = {
-	testEnv: async () => {
-		const e = env.TYPESAFE_API_KEY;
-		return { e };
-	},
 	impersonateUser: async ({ locals, request }) => {
 		const data = await request.formData();
 		const email = data.get("email") as string;
