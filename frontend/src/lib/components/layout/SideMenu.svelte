@@ -8,6 +8,8 @@
 	let { language }: Props = $props();
 </script>
 
+<!-- Desktop Side Menu -->
+
 <div class="p-10">
 	<div>
 		<h2 class="menuTitle">Search</h2>
