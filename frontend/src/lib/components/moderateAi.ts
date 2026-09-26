@@ -30,7 +30,6 @@ export async function moderateText(t: string | null): Promise<ModerateResult> {
 	console.log(res);
 	const { answers } = await res.json();
 	try {
-		console.log(answers);
 		const r = answers.route.choice;
 		return r;
 	} catch (e) {
