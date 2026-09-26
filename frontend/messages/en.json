@@ -149,5 +149,7 @@
 	"ch_h1": "Characters",
 	"ch_title_by": "{name} by {owner}",
 	"ch_favs": "favorites",
-	"ch_head": "Characters - Balto Source"
+	"ch_head": "Characters - Balto Source",
+	"ch_single_title": "{name} by {owner} - Balto Source",
+	"ch_avatar_alt": "{name}'s profile picture"
 }
