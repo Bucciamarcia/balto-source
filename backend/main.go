@@ -3,6 +3,7 @@ package main
 import (
 	createuser "balto-source/backend/database/create_user"
 	"balto-source/backend/features/notifications"
+	_ "balto-source/backend/migrations"
 	"balto-source/backend/moderation"
 	turnstile "balto-source/backend/moderation/turnstyle"
 	"balto-source/backend/populate"

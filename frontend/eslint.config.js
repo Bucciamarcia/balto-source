@@ -22,7 +22,19 @@ export default defineConfig(
 		rules: {
 			// typescript-eslint strongly recommend that you do not use the no-undef lint rule on TypeScript projects.
 			// see: https://typescript-eslint.io/troubleshooting/faqs/eslint/#i-get-errors-from-the-no-undef-rule-about-global-variables-not-being-defined-even-though-there-are-no-typescript-errors
-			'no-undef': 'off'
+			'no-undef': 'off',
+			'no-restricted-imports': ['error', {
+				paths: [
+					{
+						name: '$env/static/private',
+						message: 'Use $env/dynamic/private — static vars are not available during the CI build step, only at server runtime.'
+					},
+					{
+						name: '$env/static/public',
+						message: 'Use $env/dynamic/public — static vars are not available during the CI build step, only at server runtime.'
+					}
+				]
+			}]
 		}
 	},
 	{

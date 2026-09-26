@@ -1,4 +1,8 @@
 <script lang="ts">
+	import type { Pathname } from '$app/types';
+	import { resolve } from '$app/paths';
+	import { page } from '$app/state';
+	import { locales, localizeHref } from '$lib/paraglide/runtime';
 	import './layout.css';
 	import { enhance } from '$app/forms';
 	import SideMenu from '$lib/components/layout/SideMenu.svelte';
@@ -7,6 +11,7 @@
 	import HeadMenu from '$lib/components/layout/head-menu/HeadMenu.svelte';
 	import Footer from '$lib/components/layout/footer.svelte';
 	import titleIcon from '$lib/assets/placeholderTitleIcon.png';
+	import { m } from '$lib/paraglide/messages.js';
 
 	let { children, data } = $props();
 	let newEmailVerificationYes: boolean = $state(false);
@@ -18,10 +23,13 @@
 </svelte:head>
 
 <!-- Outer Container: Stacks things vertically -->
+
 <div class="mainbg flex min-h-screen flex-col overflow-x-auto">
 	<!-- Top Bar: Takes up 100% width automatically -->
-	<div class="self-center p-4 pl-10 pr-10 text-white min-w-[780px] mx-auto">
+
+	<div class="mx-auto min-w-[780px] self-center p-4 pr-10 pl-10 text-white">
 		<HeadBanner />
+
 		<HeadMenu
 			isLoggedIn={data.isLoggedIn}
 			isVerified={data.user?.verified == true}
@@ -29,14 +37,17 @@
 			latestNotifications={data.latestNotifications}
 			language={data.language}
 		/>
+
 		{#if data.user?.verified === false}
 			<form
 				method="POST"
 				action="/?/resendVerificationEmail"
 				use:enhance={() => {
 					newEmailVerificationYes = false;
+
 					return async ({ result, update }) => {
 						await update();
+
 						if (result.type === 'success') {
 							newEmailVerificationYes = true;
 						}
@@ -44,17 +55,20 @@
 				}}
 			>
 				<div class="mt-10 place-self-center text-lg font-bold text-error">
-					Your account is not active yet. Please verify your email address.
+					{m.account_inactive()}
 				</div>
+
 				<input name="email" type="hidden" value={data.user.email} />
+
 				<div class="mt-5 place-self-center">
-					<button class="btn cursor-pointer btn-primary" type="submit"
-						>Send new verification email</button
-					>
+					<button class="btn cursor-pointer btn-primary" type="submit">
+						{m.home_send_v()}
+					</button>
 				</div>
+
 				{#if newEmailVerificationYes}
 					<div class="mt-5 place-self-center text-lg font-bold text-black">
-						Email verification sent. Check your email address.
+						{m.home_v_sent()}
 					</div>
 				{/if}
 			</form>
@@ -62,26 +76,36 @@
 	</div>
 
 	<!-- Bottom Section: Holds the columns side-by-side -->
+
 	<div class="flex flex-1 flex-nowrap items-start">
 		<!-- Left Column (Stays as small as SideMenu allows) -->
 		<div class="hidden md:block">
 		<SideMenu language={data.language} />
+<<<<<<< HEAD
 		</div>
 
 		<div class="flex md:hidden">
 		<HamburgerMenu language={data.language} />
 		</div>
 
+=======
+>>>>>>> d253d0a3d3a00ae10d763975010c30ff28515f4f
 		<!-- Right Column (Fills the rest) -->
+
 		<main
 			class="container m-20 rounded-md border-3 border-solid border-primary bg-neutral/75 px-20 py-10"
 		>
 			{@render children()}
 		</main>
 	</div>
-	<div class="flex flex-1">
-		<Footer />
-	</div>
+
+	<div class="flex flex-1"><Footer /></div>
+</div>
+
+<div style="display:none">
+	{#each locales as locale (locale)}
+		<a href={resolve(localizeHref(page.url.pathname, { locale }) as Pathname)}>{locale}</a>
+	{/each}
 </div>
 
 <style>
