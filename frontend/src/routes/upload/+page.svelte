@@ -4,7 +4,7 @@
 	import FanartUploader from './FanartUploader.svelte';
 	import FanfictionUploader from './FanfictionUploader.svelte';
 
-	let selected: string = $state('character');
+	let selected: string = $state('fanart');
 </script>
 
 <svelte:head>

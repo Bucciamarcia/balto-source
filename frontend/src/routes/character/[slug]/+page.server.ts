@@ -1,10 +1,13 @@
 import type {
+	CommentsResponse,
 	CharacterFavoritesResponse,
 	CharactersResponse,
 	UsersResponse
 } from '$lib/pocketbase-types';
 import { fail, type Actions } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
+import { moderateText } from '$lib/components/moderateAi';
+import sanitizeHtml from 'sanitize-html';
 
 export const load: PageServerLoad = async ({ locals, params }) => {
 	const id = params.slug;
@@ -19,7 +22,13 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 		});
 	const favIds = favs.map((f) => f.source);
 	const alreadyFaved: boolean = favIds.includes(userId ?? 'noep');
-	return { character, favs, alreadyFaved };
+	const comments = await locals.pb
+		.collection('comments')
+		.getFullList<CommentsResponse<{ author: UsersResponse }>>({
+			filter: locals.pb.filter('target_id = {:id}', { id }),
+			expand: 'author'
+		});
+	return { character, favs, alreadyFaved, comments, id };
 };
 
 export const actions = {
@@ -53,6 +62,36 @@ export const actions = {
 			await locals.pb.collection('character_favorites').create({ source: userId, target: id });
 		} catch (e) {
 			return fail(400, { error: e instanceof Error ? e.message : 'Unknown error occurred' });
+		}
+	},
+	addComment: async ({ locals, request }) => {
+		const user = locals.pb.authStore.record;
+		if (!user) {
+			return fail(401, { error: 'Not logged in' });
+		}
+		const data = await request.formData();
+		const comment = data.get('comment');
+		if (comment == null) {
+			return fail(400, { error: 'Data invalid' });
+		}
+		const moderation = await moderateText(comment.toString());
+		if (moderation === 'remove') {
+			return fail(400, { error: 'This comment is not allowed' });
+		}
+		const targetId = data.get('targetId');
+		const parent = data.get('parent');
+		const clean = sanitizeHtml(comment.toString());
+		const r = {
+			target_id: targetId,
+			parent: parent,
+			content: clean,
+			type: 'character',
+			author: user.id
+		};
+		try {
+			await locals.pb.collection('comments').create(r);
+		} catch (e) {
+			return fail(400, { error: e instanceof Error ? e.message : 'Unknown error' });
 		}
 	}
 } satisfies Actions;
