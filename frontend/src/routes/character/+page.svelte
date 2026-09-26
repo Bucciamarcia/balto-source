@@ -6,6 +6,9 @@
 	let { data }: PageProps = $props();
 </script>
 
+<svelte:head>
+	<title>{m.ch_head()}</title>
+</svelte:head>
 <h1>{m.ch_h1()}</h1>
 
 <div class="flex flex-wrap gap-2">

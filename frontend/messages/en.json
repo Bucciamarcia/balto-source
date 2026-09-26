@@ -148,5 +148,6 @@
 	"pretty_sloth": "This character ref is not allowed",
 	"ch_h1": "Characters",
 	"ch_title_by": "{name} by {owner}",
-	"ch_favs": "favorites"
+	"ch_favs": "favorites",
+	"ch_head": "Characters - Balto Source"
 }
