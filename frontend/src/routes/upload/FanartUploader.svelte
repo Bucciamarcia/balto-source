@@ -65,7 +65,7 @@
 			</fieldset>
 		</div>
 		<div>
-			<textarea class="textarea text-black" placeholder={m.upload_fa_desc()} name={m.upload_fa_dn()}
+			<textarea class="textarea text-black" placeholder={m.upload_fa_desc()} name="description"
 			></textarea>
 		</div>
 		<div>
