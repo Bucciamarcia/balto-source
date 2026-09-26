@@ -2,7 +2,10 @@ import { dev } from '$app/env';
 import { PUBLIC_POCKETBASE_URL } from '$lib/pocketbase/url';
 import { env } from '$env/dynamic/private';
 
-export async function moderateText(t: string): Promise<ModerateResult> {
+export async function moderateText(t: string | null): Promise<ModerateResult> {
+	if (t === '' || t == null) {
+		return 'allow';
+	}
 	const k = env.TYPESAFE_API_KEY;
 	const res = await fetch('https://jevtypesafeai.com/api/v1/decide', {
 		method: 'POST',
@@ -24,8 +27,15 @@ export async function moderateText(t: string): Promise<ModerateResult> {
 			}
 		})
 	});
+	console.log(res);
 	const { answers } = await res.json();
-	return answers.route.choice;
+	try {
+		console.log(answers);
+		const r = answers.route.choice;
+		return r;
+	} catch (e) {
+		throw e;
+	}
 }
 export async function moderateImageUrl(url: string): Promise<ModerateResult> {
 	if (dev) {
