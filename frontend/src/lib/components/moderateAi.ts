@@ -1,15 +1,13 @@
 import { dev } from '$app/env';
 import { PUBLIC_POCKETBASE_URL } from '$lib/pocketbase/url';
-import { TypeSafeClient } from '@typesafe-ai/sdk';
 import { env } from '$env/dynamic/private';
 
-export async function moderateText(t: string, category?: string): Promise<ModerateResult> {
+export async function moderateText(t: string): Promise<ModerateResult> {
 	const k = env.TYPESAFE_API_KEY;
-	console.log(k);
 	const res = await fetch('https://jevtypesafeai.com/api/v1/decide', {
 		method: 'POST',
 		headers: {
-			Authorization: `Bearer jv_live_Jn9GGyagPqgyjJkGg2IfPrGZU4nzZFuPU51MMVyiMJU`,
+			Authorization: `Bearer ${k}`,
 			'Content-Type': 'application/json'
 		},
 		body: JSON.stringify({
@@ -27,8 +25,7 @@ export async function moderateText(t: string, category?: string): Promise<Modera
 		})
 	});
 	const { answers } = await res.json();
-	console.log(answers);
-	return 'allow';
+	return answers.route.choice;
 }
 export async function moderateImageUrl(url: string): Promise<ModerateResult> {
 	if (dev) {
