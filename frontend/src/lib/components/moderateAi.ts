@@ -60,9 +60,12 @@ export async function moderateImageUrl(url: string): Promise<ModerateResult> {
 	console.log(toReturn);
 	return toReturn;
 }
-export async function moderateImageData(file: File): Promise<ModerateResult> {
+export async function moderateImageData(file: File | null | undefined): Promise<ModerateResult> {
 	if (dev) {
 		console.log('Skipping in dev mode');
+		return 'allow';
+	}
+	if (file == null) {
 		return 'allow';
 	}
 	const imageType = file.type;

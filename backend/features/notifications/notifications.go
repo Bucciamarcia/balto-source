@@ -52,6 +52,13 @@ func getFanficLanguageFromid(app core.App, id string) (string, error) {
 	}
 	return fanfic.GetString("language"), nil
 }
+func getCharacterLanguageFromid(app core.App, id string) (string, error) {
+	character, err := app.FindRecordById("characters", id)
+	if err != nil {
+		return "", err
+	}
+	return character.GetString("language"), nil
+}
 
 func NotifyOnFanfictionFavorite(app core.App, record *core.Record) error {
 	sourceId := record.GetString("source")
@@ -77,6 +84,38 @@ func NotifyOnFanfictionFavorite(app core.App, record *core.Record) error {
 	newNotification.Set("for_user", targetFanfiction.Author)
 	newNotification.Set("is_read", false)
 	newNotification.Set("url", "/"+language+"/fanfiction/"+targetFanfiction.Id)
+	newNotification.Set("source_user", sourceId)
+
+	err = app.Save(newNotification)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+func NotifyOnCharacterFavorite(app core.App, record *core.Record) error {
+	sourceId := record.GetString("source")
+	targetId := record.GetString("target")
+	language, err := getCharacterLanguageFromid(app, targetId)
+	if err != nil {
+		return err
+	}
+	sourceUsername, sourceId, err := getUsernameFromId(sourceId, app)
+	if err != nil {
+		return err
+	}
+	targetCharacter, err := getCharacterFromId(targetId, app)
+	if err != nil {
+		return err
+	}
+	c, err := app.FindCollectionByNameOrId("notifications")
+	if err != nil {
+		return err
+	}
+	newNotification := core.NewRecord(c)
+	newNotification.Set("content", sourceUsername+" added your character to their favorites")
+	newNotification.Set("for_user", targetCharacter.Owner)
+	newNotification.Set("is_read", false)
+	newNotification.Set("url", "/"+language+"/character/"+targetCharacter.Id)
 	newNotification.Set("source_user", sourceId)
 
 	err = app.Save(newNotification)
@@ -128,6 +167,22 @@ func getFanfictionFromId(id string, app core.App) (Fanfiction, error) {
 	}
 	return fanfiction, nil
 }
+func getCharacterFromId(id string, app core.App) (Character, error) {
+	record, err := app.FindRecordById("characters", id)
+	if err != nil {
+		return Character{}, err
+	}
+	bytes, err := record.MarshalJSON()
+	if err != nil {
+		return Character{}, err
+	}
+	var character Character
+	err = json.Unmarshal(bytes, &character)
+	if err != nil {
+		return Character{}, err
+	}
+	return character, nil
+}
 
 type Fanart struct {
 	Id          string `json:"id"`
@@ -143,4 +198,15 @@ type Fanfiction struct {
 	Content     string `json:"content"`
 	Title       string `json:"title"`
 	Description string `json:"description"`
+}
+type Character struct {
+	Id             string `json:"id"`
+	Name           string `json:"name"`
+	ProfilePicture string `json:"profile_picture"`
+	RefSheet       string `json:"ref_sheet"`
+	Bio            string `json:"bio"`
+	Owner          string `json:"owner"`
+	Official       bool   `json:"official"`
+	Sex            string `json:"sex"`
+	Language       string `json:"language"`
 }
