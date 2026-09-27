@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { m } from '$lib/paraglide/messages';
 	import baltoSectionImage from '$lib/assets/balto-1-menu-image.avif';
+	import backgroundImage from '$lib/assets/side-menu-bg-gradient.avif';
 	import type { Locale } from '$lib/paraglide/runtime';
 	interface Props {
 		language: Locale;
@@ -10,7 +11,8 @@
 
 <!-- Desktop Side Menu -->
 
-<div class="p-10">
+<div class="pl-10">
+<div class="h-full w-full pl-10 pr-10 pb-10 container rounded-md border-2 border-solid border-primary bg-[url('$lib/assets/side-menu-bg-gradient.avif')] bg-cover bg-center">
 	<div>
 		<h2 class="menuTitle">Search</h2>
 
@@ -146,4 +148,5 @@
 		<h2><strong>Partners</strong></h2>
 		<p>Partners go here</p>
 	</div>
+</div>
 </div>
