@@ -90,7 +90,7 @@
 		<!-- Right Column (Fills the rest) -->
 
 		<main
-			class="container m-20 rounded-md border-3 border-solid border-primary bg-neutral/75 px-20 py-10"
+			class="container m-20 rounded-md border-3 border-solid border-[#70abbb] bg-neutral/75 px-20 py-10"
 		>
 			{@render children()}
 		</main>
