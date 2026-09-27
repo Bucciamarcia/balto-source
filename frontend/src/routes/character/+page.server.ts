@@ -11,7 +11,8 @@ export const load: PageServerLoad = async ({ locals }) => {
 		.collection('characters')
 		.getFullList<CharactersResponse<{ owner: UsersResponse }>>({
 			expand: 'owner',
-			filter: locals.pb.filter('language = {:language}', { language: getLocale() })
+			filter: locals.pb.filter('language = {:language}', { language: getLocale() }),
+			sort: '-created'
 		});
 	const allFavs = await locals.pb
 		.collection('character_favorites')
