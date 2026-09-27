@@ -11,8 +11,8 @@
 	let bio: string = $state('');
 </script>
 
-<h1>{m.upload_character_h()}</h1>
-<p>{m.cc_no_create_wow()}</p>
+<h1 class="text-center">{m.upload_character_h()}</h1>
+<p class="text-center">{m.cc_no_create_wow()}</p>
 <form
 	method="POST"
 	enctype="multipart/form-data"

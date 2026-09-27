@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import ShowComments from '$lib/components/layout/comments/ShowComments.svelte';
-	import TipTapEditor from '$lib/components/layout/comments/TipTapEditor.svelte';
 	import { m } from '$lib/paraglide/messages';
 	import { getLocale } from '$lib/paraglide/runtime';
 	import { PUBLIC_POCKETBASE_URL } from '$lib/pocketbase/url';
