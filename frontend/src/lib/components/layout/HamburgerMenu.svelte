@@ -2,18 +2,17 @@
 	import SideMenu from '$lib/components/layout/SideMenu.svelte';
     import HamburgerMenuIcon from '$lib/assets/Hamburger-Menu-Icon.avif';
     import CloseIcon from '$lib/assets/X-Close-Icon.avif';
-    import type { Locale } from '$lib/paraglide/runtime';
 
     interface Props {
-	language: Locale;
+	language: LanguageStub;
 	}
 	let { language }: Props = $props();
 
 	let isOpen: boolean = $state(false);
 
-    function toggleMenu() {
-        isOpen = !isOpen;
-    }
+	function toggleMenu() {
+		isOpen = !isOpen;
+	}
 </script>
 
 <!-- Mobile Hamburger Side Menu -->
@@ -23,13 +22,14 @@
 
     {#if !isOpen}
     <!-- Hamburger Icon -->
-	    <img src={HamburgerMenuIcon} alt="Hamburger Menu Icon" class="min-w-30px max-w-none" />
+	    <img src={HamburgerMenuIcon} alt="Hamburger Menu Icon" class="max-w-none" />
      {:else}
      <!-- X Close Icon -->
-	    <img src={CloseIcon} alt="X Close Icon" class="min-w-30px max-w-none" />
-            <div class="md:hidden dropdown-content h-full text-left">
+	    <img src={CloseIcon} alt="X Close Icon" class="max-w-none" />
+            <div class="md:hidden dropdown-content h-full text-left bg-base-transparent">
             <SideMenu language={language} />
             </div>
     {/if}
     </button>
 </div>
+

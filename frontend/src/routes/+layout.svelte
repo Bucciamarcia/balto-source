@@ -80,11 +80,11 @@
 	<div class="flex flex-1 flex-nowrap items-start">
 		<!-- Left Column (Stays as small as SideMenu allows) -->
 		<div class="hidden md:block">
-		<SideMenu language={data.language} />
+			<SideMenu language={data.language} />
 		</div>
 
 		<div class="flex md:hidden">
-		<HamburgerMenu language={data.language} />
+			<HamburgerMenu />
 		</div>
 
 		<!-- Right Column (Fills the rest) -->

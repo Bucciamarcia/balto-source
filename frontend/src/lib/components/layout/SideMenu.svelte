@@ -72,7 +72,7 @@
 			<li>Gamebooks</li>
 			<li>Projects</li>
 			<li>Contests</li>
-			<li>Characters</li>
+			<a href="/{language}/character"><li>{m.menu_characters()}</li></a>
 			<li>Ask Questions</li>
 		</ul>
 	</div>

@@ -84,7 +84,7 @@
 	</form>
 {/if}
 {#if showCommentSuccess}
-	<p class="text-green-300">{m.comment_sent_ok}</p>
+	<p class="text-green-300">{m.comment_sent_ok()}</p>
 {/if}
 {#if comments?.length == 0 || !comments}
 	<p>{m.no_comments_comment()}</p>
