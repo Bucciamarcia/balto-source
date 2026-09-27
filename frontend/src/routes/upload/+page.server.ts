@@ -29,7 +29,10 @@ export const actions = {
 		}
 		let name = data.get('name') as string;
 		const avatar = data.get('avatar') as File | null | undefined;
-		const ref = data.get('ref') as File | undefined | null;
+		let ref = data.get('ref') as File | undefined | null;
+		if (ref != null && ref.size === 0) {
+			ref = null;
+		}
 		const sex = data.get('sex') as CharacterSex;
 		let bio = data.get('bio') as string;
 		if (name === '') {
@@ -59,7 +62,7 @@ export const actions = {
 		name = sanitizeHtml(name);
 		bio = sanitizeHtml(bio);
 		try {
-			locals.pb.collection('characters').create({
+			await locals.pb.collection('characters').create({
 				name: name,
 				profile_picture: avatar,
 				ref_sheet: ref,
