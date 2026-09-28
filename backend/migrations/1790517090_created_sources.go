@@ -80,9 +80,17 @@ func init() {
 		}
 		defaultRecord := core.NewRecord(collection)
 		defaultRecord.Set("name", "default")
+		defaultRecord.Set("language", "en")
+		defaultRecordfr := core.NewRecord(collection)
+		defaultRecordfr.Set("name", "default")
+		defaultRecordfr.Set("language", "fr")
 
 		baltoRecord := core.NewRecord(collection)
 		baltoRecord.Set("name", "balto")
+		baltoRecord.Set("language", "en")
+		baltoRecordfr := core.NewRecord(collection)
+		baltoRecordfr.Set("name", "balto")
+		baltoRecordfr.Set("language", "fr")
 
 		err := app.Save(collection)
 		if err != nil {
