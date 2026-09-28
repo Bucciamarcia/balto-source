@@ -8,7 +8,7 @@
 </script>
 
 <svelte:head>
-	<title>{m.ff_t}</title>
+	<title>{m.ff_t()}</title>
 </svelte:head>
 
 <FanficSearchBox action="?/filter" />
