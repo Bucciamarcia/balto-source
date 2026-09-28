@@ -143,57 +143,6 @@ func init() {
 			return err
 		}
 
-		// Assign everhthing to Balto Source
-		bsRecord, err := app.FindFirstRecordByData("sources", "name", "balto")
-		if err != nil {
-			return err
-		}
-		bsId := bsRecord.Id
-		records, err := app.FindAllRecords("characters")
-		if err != nil {
-			return err
-		}
-		err = setBs(records, bsId, app)
-		if err != nil {
-			return err
-		}
-
-		records, err = app.FindAllRecords("chat_messages")
-		if err != nil {
-			return err
-		}
-		err = setBs(records, bsId, app)
-		if err != nil {
-			return err
-		}
-
-		records, err = app.FindAllRecords("fanarts")
-		if err != nil {
-			return err
-		}
-		err = setBs(records, bsId, app)
-		if err != nil {
-			return err
-		}
-
-		records, err = app.FindAllRecords("fanfictions")
-		if err != nil {
-			return err
-		}
-		err = setBs(records, bsId, app)
-		if err != nil {
-			return err
-		}
-
-		records, err = app.FindAllRecords("homepage_news")
-		if err != nil {
-			return err
-		}
-		err = setBs(records, bsId, app)
-		if err != nil {
-			return err
-		}
-
 		return nil
 	}, func(app core.App) error {
 		collection, err := app.FindCollectionByNameOrId("pbc_3298390430")
@@ -254,18 +203,4 @@ func init() {
 
 		return app.Save(collection)
 	})
-}
-
-func setBs(records []*core.Record, bsId string, app core.App) error {
-	err := app.RunInTransaction(func(txApp core.App) error {
-		for _, record := range records {
-			record.Set("source", bsId)
-			err := txApp.Save(record)
-			if err != nil {
-				return err
-			}
-		}
-		return nil
-	})
-	return err
 }

@@ -1,6 +1,7 @@
 package migrations
 
 import (
+	"github.com/pocketbase/dbx"
 	"github.com/pocketbase/pocketbase/core"
 	m "github.com/pocketbase/pocketbase/migrations"
 )
@@ -56,17 +57,81 @@ func init() {
 			return err
 		}
 
-		records, err := app.FindAllRecords("sources")
+		defaultRecord := core.NewRecord(collection)
+		defaultRecord.Set("name", "default")
+		defaultRecord.Set("language", "en")
+		defaultRecordfr := core.NewRecord(collection)
+		defaultRecordfr.Set("name", "default")
+		defaultRecordfr.Set("language", "fr")
 
+		baltoRecord := core.NewRecord(collection)
+		baltoRecord.Set("name", "balto")
+		baltoRecord.Set("language", "en")
+		baltoRecordfr := core.NewRecord(collection)
+		baltoRecordfr.Set("name", "balto")
+		baltoRecordfr.Set("language", "fr")
+
+		err = app.Save(defaultRecord)
 		if err != nil {
 			return err
 		}
-		for _, record := range records {
-			record.Set("language", "en")
-			err = app.Save(record)
-			if err != nil {
-				return err
-			}
+		err = app.Save(defaultRecordfr)
+		if err != nil {
+			return err
+		}
+		err = app.Save(baltoRecordfr)
+		if err != nil {
+			return err
+		}
+		err = app.Save(baltoRecord)
+		if err != nil {
+			return err
+		}
+
+		// Assign everhthing to Balto Source
+		records, err := app.FindAllRecords("characters")
+		if err != nil {
+			return err
+		}
+		err = setBs(records, app)
+		if err != nil {
+			return err
+		}
+
+		records, err = app.FindAllRecords("chat_messages")
+		if err != nil {
+			return err
+		}
+		err = setBs(records, app)
+		if err != nil {
+			return err
+		}
+
+		records, err = app.FindAllRecords("fanarts")
+		if err != nil {
+			return err
+		}
+		err = setBs(records, app)
+		if err != nil {
+			return err
+		}
+
+		records, err = app.FindAllRecords("fanfictions")
+		if err != nil {
+			return err
+		}
+		err = setBs(records, app)
+		if err != nil {
+			return err
+		}
+
+		records, err = app.FindAllRecords("homepage_news")
+		if err != nil {
+			return err
+		}
+		err = setBs(records, app)
+		if err != nil {
+			return err
 		}
 		return nil
 	}, func(app core.App) error {
@@ -99,4 +164,23 @@ func init() {
 
 		return app.Save(collection)
 	})
+}
+
+func setBs(records []*core.Record, app core.App) error {
+	err := app.RunInTransaction(func(txApp core.App) error {
+		for _, record := range records {
+			language := record.GetString("language")
+			sourceRecord, err := txApp.FindFirstRecordByFilter("sources", "language = {:language}  && name = 'balto'", dbx.Params{"language": language})
+			if err != nil {
+				return err
+			}
+			record.Set("source", sourceRecord.Id)
+			err = txApp.Save(record)
+			if err != nil {
+				return err
+			}
+		}
+		return nil
+	})
+	return err
 }
