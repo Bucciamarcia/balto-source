@@ -3,6 +3,7 @@ import { fail } from '@sveltejs/kit';
 import type { PageServerLoad, Actions } from './$types';
 import { moderateText } from '$lib/components/moderateAi';
 import { getLocale } from '$lib/paraglide/runtime';
+import { getSourceId } from '$lib/components/getSourceId';
 
 export const load: PageServerLoad = async ({ locals }) => {
 	const lang = getLocale();
@@ -45,7 +46,7 @@ export const actions: Actions = {
 				body: message,
 				author: uid,
 				language: lang,
-				source: 'balto'
+				source: await getSourceId(locals.pb)
 			});
 		} catch (e) {
 			const err = e as Error;

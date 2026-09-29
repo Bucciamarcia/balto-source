@@ -6,6 +6,7 @@ import { moderateImageData, moderateText } from '$lib/components/moderateAi';
 import { FANART_TOO_LARGE_MESSAGE, MAX_FANART_BYTES } from '$lib/limits';
 import { getLocale } from '$lib/paraglide/runtime';
 import { m } from '$lib/paraglide/messages';
+import { getSourceId } from '$lib/components/getSourceId';
 
 export type CharacterSex = 'male' | 'female' | 'other';
 
@@ -18,6 +19,9 @@ export const load: PageServerLoad = async ({ locals }) => {
 
 export const actions = {
 	createCharacter: async ({ request, locals }) => {
+		if (!locals.isVerified) {
+			return fail(403, { error: 'Your account must be verified to create characters.' });
+		}
 		let data: FormData;
 		if (locals.auth == null) {
 			return fail(401, { error: 'Not logged in' });
@@ -59,7 +63,7 @@ export const actions = {
 		name = sanitizeHtml(name);
 		bio = sanitizeHtml(bio);
 		try {
-			locals.pb.collection('characters').create({
+			await locals.pb.collection('characters').create({
 				name: name,
 				profile_picture: avatar,
 				ref_sheet: ref,
@@ -68,13 +72,16 @@ export const actions = {
 				official: false,
 				sex: sex,
 				language: getLocale(),
-				source: 'balto'
+				source: await getSourceId(locals.pb)
 			});
 		} catch (e) {
 			return fail(400, { error: e instanceof Error ? e.message : 'Unknown error occurred' });
 		}
 	},
 	uploadFanart: async ({ request, locals }) => {
+		if (!locals.isVerified) {
+			return fail(403, { error: 'Your account must be verified to create characters.' });
+		}
 		let data: FormData;
 		try {
 			data = await request.formData();
@@ -127,7 +134,7 @@ export const actions = {
 				title: title,
 				description: clean,
 				language: language,
-				source: 'balto'
+				source: await getSourceId(locals.pb)
 			});
 		} catch (e) {
 			return fail(500, { error: e instanceof Error ? e.message : 'Unknown error' });
@@ -135,6 +142,9 @@ export const actions = {
 	},
 
 	uploadFanfiction: async ({ request, locals }) => {
+		if (!locals.isVerified) {
+			return fail(403, { error: 'Your account must be verified to create characters.' });
+		}
 		const user = locals.user;
 		if (user == null) {
 			return fail(500, { error: 'You are not logged in' });
@@ -171,7 +181,7 @@ export const actions = {
 				title: title,
 				description: clean,
 				language: getLocale(),
-				source: 'balto'
+				source: await getSourceId(locals.pb)
 			});
 		} catch (e) {
 			return fail(500, { error: e instanceof Error ? e.message : 'Unknown error' });
