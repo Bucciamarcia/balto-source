@@ -7,13 +7,14 @@ import { getSourceId } from '$lib/components/getSourceId';
 
 export const load: PageServerLoad = async ({ locals }) => {
 	const lang = getLocale();
+	const source = await getSourceId(locals.pb);
 	const authenticated = locals.user != null;
 	const isVerified = locals.user?.verified ?? false;
 	const resultList = await locals.pb
 		.collection('chat_messages')
 		.getList<
 			ChatMessagesResponse<{ author: UsersResponse }>
-		>(1, 20, { expand: 'author', sort: '-created', filter: `language = "${lang}"` });
+		>(1, 20, { expand: 'author', sort: '-created', filter: `source = "${source}"` });
 	const items = resultList.items;
 
 	return {
@@ -27,7 +28,6 @@ export const load: PageServerLoad = async ({ locals }) => {
 
 export const actions: Actions = {
 	sendMessage: async ({ request, locals }) => {
-		const lang = getLocale();
 		const data = await request.formData();
 		const message = data.get('message');
 		const uid = locals.auth?.id;
@@ -45,7 +45,6 @@ export const actions: Actions = {
 			await locals.pb.collection('chat_messages').create({
 				body: message,
 				author: uid,
-				language: lang,
 				source: await getSourceId(locals.pb)
 			});
 		} catch (e) {
