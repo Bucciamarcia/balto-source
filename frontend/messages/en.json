@@ -154,5 +154,9 @@
 	"ch_avatar_alt": "{name}'s profile picture",
 	"ch_ref_alt": "{name}'s reference sheet",
 	"ch_page_by_line": "by <a href='/{lang}/profile?id={userId}'>{username}</a>",
-	"ch_favs_page": "{favs} favorites"
+	"ch_favs_page": "{favs} favorites",
+	"ch_edit_head": "Edit {character}",
+	"ch_edit_h1": "Edit {character}",
+	"ch_edit_avatar_head": "Edit character profile picture",
+	"ch_edit_avatar_desc": "Leave empty if you don't want to change"
 }
