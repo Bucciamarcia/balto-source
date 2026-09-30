@@ -1,4 +1,4 @@
-import { getLocale } from '$lib/paraglide/runtime';
+import { getSourceId } from '$lib/components/getSourceId';
 import type {
 	CharacterFavoritesResponse,
 	CharactersResponse,
@@ -7,11 +7,12 @@ import type {
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ locals }) => {
+	const source = await getSourceId(locals.pb);
 	const characters = await locals.pb
 		.collection('characters')
 		.getFullList<CharactersResponse<{ owner: UsersResponse }>>({
 			expand: 'owner',
-			filter: locals.pb.filter('language = {:language}', { language: getLocale() }),
+			filter: locals.pb.filter('source = {:source}', { source }),
 			sort: '-created'
 		});
 	const allFavs = await locals.pb

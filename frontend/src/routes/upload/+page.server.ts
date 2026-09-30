@@ -2,10 +2,10 @@ import { error, fail, type Actions } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import sanitizeHtml from 'sanitize-html';
 import mammoth from 'mammoth';
-import { moderateImageData, moderateText } from '$lib/components/moderateAi';
+import { moderateImageData, moderateText, type ModerateResult } from '$lib/components/moderateAi';
 import { FANART_TOO_LARGE_MESSAGE, MAX_FANART_BYTES } from '$lib/limits';
-import { getLocale } from '$lib/paraglide/runtime';
 import { m } from '$lib/paraglide/messages';
+import { getSourceId } from '$lib/components/getSourceId';
 
 export type CharacterSex = 'male' | 'female' | 'other';
 
@@ -18,6 +18,9 @@ export const load: PageServerLoad = async ({ locals }) => {
 
 export const actions = {
 	createCharacter: async ({ request, locals }) => {
+		if (!locals.isVerified) {
+			return fail(403, { error: 'Your account must be verified to create characters.' });
+		}
 		let data: FormData;
 		if (locals.auth == null) {
 			return fail(401, { error: 'Not logged in' });
@@ -70,13 +73,16 @@ export const actions = {
 				owner: locals.auth!.id,
 				official: false,
 				sex: sex,
-				language: getLocale()
+				source: await getSourceId(locals.pb)
 			});
 		} catch (e) {
 			return fail(400, { error: e instanceof Error ? e.message : 'Unknown error occurred' });
 		}
 	},
 	uploadFanart: async ({ request, locals }) => {
+		if (!locals.isVerified) {
+			return fail(403, { error: 'Your account must be verified to create characters.' });
+		}
 		let data: FormData;
 		try {
 			data = await request.formData();
@@ -90,7 +96,6 @@ export const actions = {
 		const description = data.get('description') as string;
 		const clean = sanitizeHtml(description);
 		const user = locals.auth;
-		const language = getLocale();
 		if (fanart.size === 0) {
 			return fail(400, { error: 'You must upload an image' });
 		}
@@ -128,7 +133,7 @@ export const actions = {
 				image: fanart,
 				title: title,
 				description: clean,
-				language: language
+				source: await getSourceId(locals.pb)
 			});
 		} catch (e) {
 			return fail(500, { error: e instanceof Error ? e.message : 'Unknown error' });
@@ -136,6 +141,9 @@ export const actions = {
 	},
 
 	uploadFanfiction: async ({ request, locals }) => {
+		if (!locals.isVerified) {
+			return fail(403, { error: 'Your account must be verified to create characters.' });
+		}
 		const user = locals.user;
 		if (user == null) {
 			return fail(500, { error: 'You are not logged in' });
@@ -149,7 +157,10 @@ export const actions = {
 		}
 		const description = data.get('description') as string;
 		const clean = sanitizeHtml(description);
-		const descriptionMod = await moderateText(clean);
+		let descriptionMod: ModerateResult = 'allow';
+		if (clean.trim() !== '') {
+			descriptionMod = await moderateText(clean);
+		}
 		if (descriptionMod === 'remove') {
 			return fail(400, { error: 'This description is now allowed' });
 		}
@@ -171,7 +182,7 @@ export const actions = {
 				content: html,
 				title: title,
 				description: clean,
-				language: getLocale()
+				source: await getSourceId(locals.pb)
 			});
 		} catch (e) {
 			return fail(500, { error: e instanceof Error ? e.message : 'Unknown error' });

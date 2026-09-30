@@ -21,6 +21,7 @@ export const Collections = {
 	Fanfictions: "fanfictions",
 	HomepageNews: "homepage_news",
 	Notifications: "notifications",
+	Sources: "sources",
 	Users: "users",
 } as const
 export type Collections = typeof Collections[keyof typeof Collections]
@@ -117,37 +118,26 @@ export const CharactersSexOptions = {
 	"other": "other",
 } as const
 export type CharactersSexOptions = typeof CharactersSexOptions[keyof typeof CharactersSexOptions]
-
-export const CharactersLanguageOptions = {
-	"en": "en",
-	"fr": "fr",
-} as const
-export type CharactersLanguageOptions = typeof CharactersLanguageOptions[keyof typeof CharactersLanguageOptions]
 export type CharactersRecord = {
 	bio?: string
 	created: IsoAutoDateString
 	id: string
-	language: CharactersLanguageOptions
 	name: string
 	official?: boolean
 	owner?: RecordIdString
 	profile_picture: FileNameString
 	ref_sheet?: FileNameString
 	sex?: CharactersSexOptions
+	source: RecordIdString
 	updated: IsoAutoDateString
 }
 
-export const ChatMessagesLanguageOptions = {
-	"en": "en",
-	"fr": "fr",
-} as const
-export type ChatMessagesLanguageOptions = typeof ChatMessagesLanguageOptions[keyof typeof ChatMessagesLanguageOptions]
 export type ChatMessagesRecord = {
 	author?: RecordIdString
 	body?: string
 	created: IsoAutoDateString
 	id: string
-	language: ChatMessagesLanguageOptions
+	source: RecordIdString
 	updated: IsoAutoDateString
 }
 
@@ -156,6 +146,7 @@ export const CommentsTypeOptions = {
 	"profile": "profile",
 	"fanart": "fanart",
 	"fanfiction": "fanfiction",
+	"character": "character",
 } as const
 export type CommentsTypeOptions = typeof CommentsTypeOptions[keyof typeof CommentsTypeOptions]
 export type CommentsRecord = {
@@ -177,18 +168,13 @@ export type FanartFavoritesRecord = {
 	updated: IsoAutoDateString
 }
 
-export const FanartsLanguageOptions = {
-	"en": "en",
-	"fr": "fr",
-} as const
-export type FanartsLanguageOptions = typeof FanartsLanguageOptions[keyof typeof FanartsLanguageOptions]
 export type FanartsRecord = {
 	author: RecordIdString
 	created: IsoAutoDateString
 	description?: string
 	id: string
 	image: FileNameString
-	language?: FanartsLanguageOptions
+	source: RecordIdString
 	title?: string
 	updated: IsoAutoDateString
 }
@@ -201,33 +187,23 @@ export type FanfictionFavoritesRecord = {
 	updated: IsoAutoDateString
 }
 
-export const FanfictionsLanguageOptions = {
-	"en": "en",
-	"fr": "fr",
-} as const
-export type FanfictionsLanguageOptions = typeof FanfictionsLanguageOptions[keyof typeof FanfictionsLanguageOptions]
 export type FanfictionsRecord = {
 	author: RecordIdString
 	content: string
 	created: IsoAutoDateString
 	description: string
 	id: string
-	language: FanfictionsLanguageOptions
+	source: RecordIdString
 	title: string
 	updated: IsoAutoDateString
 }
 
-export const HomepageNewsLanguageOptions = {
-	"en": "en",
-	"fr": "fr",
-} as const
-export type HomepageNewsLanguageOptions = typeof HomepageNewsLanguageOptions[keyof typeof HomepageNewsLanguageOptions]
 export type HomepageNewsRecord = {
 	author: RecordIdString
 	body: string
 	created: IsoAutoDateString
 	id: string
-	language: HomepageNewsLanguageOptions
+	source: RecordIdString
 	title: string
 	updated: IsoAutoDateString
 }
@@ -241,6 +217,19 @@ export type NotificationsRecord = {
 	source_user?: RecordIdString
 	updated: IsoAutoDateString
 	url?: string
+}
+
+export const SourcesLanguageOptions = {
+	"en": "en",
+	"fr": "fr",
+} as const
+export type SourcesLanguageOptions = typeof SourcesLanguageOptions[keyof typeof SourcesLanguageOptions]
+export type SourcesRecord = {
+	created: IsoAutoDateString
+	id: string
+	language: SourcesLanguageOptions
+	name: string
+	updated: IsoAutoDateString
 }
 
 export const UsersRoleOptions = {
@@ -280,6 +269,7 @@ export type FanfictionFavoritesResponse<Texpand = unknown> = Required<Fanfiction
 export type FanfictionsResponse<Texpand = unknown> = Required<FanfictionsRecord> & BaseSystemFields<Texpand>
 export type HomepageNewsResponse<Texpand = unknown> = Required<HomepageNewsRecord> & BaseSystemFields<Texpand>
 export type NotificationsResponse<Texpand = unknown> = Required<NotificationsRecord> & BaseSystemFields<Texpand>
+export type SourcesResponse<Texpand = unknown> = Required<SourcesRecord> & BaseSystemFields<Texpand>
 export type UsersResponse<Texpand = unknown> = Required<UsersRecord> & AuthSystemFields<Texpand>
 
 // Types containing all Records and Responses, useful for creating typing helper functions
@@ -300,6 +290,7 @@ export type CollectionRecords = {
 	fanfictions: FanfictionsRecord
 	homepage_news: HomepageNewsRecord
 	notifications: NotificationsRecord
+	sources: SourcesRecord
 	users: UsersRecord
 }
 
@@ -319,6 +310,7 @@ export type CollectionResponses = {
 	fanfictions: FanfictionsResponse
 	homepage_news: HomepageNewsResponse
 	notifications: NotificationsResponse
+	sources: SourcesResponse
 	users: UsersResponse
 }
 

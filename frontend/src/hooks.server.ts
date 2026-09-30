@@ -27,8 +27,7 @@ const originalHandle: Handle = async ({ event, resolve }) => {
 		}
 	}
 
-	const response = await resolve(event, {
-	});
+	const response = await resolve(event, {});
 
 	response.headers.append(
 		'set-cookie',
