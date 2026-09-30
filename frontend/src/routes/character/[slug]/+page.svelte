@@ -37,6 +37,13 @@
 		alt={m.ch_avatar_alt({ name: data.character.name })}
 	/>
 </a>
+{#if data.character.owner === data.user?.id}
+	<div class="mx-3 mt-5 place-self-center">
+		<a href="/character/{data.character.id}/edit"
+			><button class="btn btn-primary">Edit character</button></a
+		>
+	</div>
+{/if}
 <div class="flex place-content-center">
 	<h1 class="mr-3 mb-1 text-center">{data.character.name}</h1>
 	{#if data.character.sex !== 'other'}
