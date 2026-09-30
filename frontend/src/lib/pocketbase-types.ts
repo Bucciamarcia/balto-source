@@ -118,17 +118,10 @@ export const CharactersSexOptions = {
 	"other": "other",
 } as const
 export type CharactersSexOptions = typeof CharactersSexOptions[keyof typeof CharactersSexOptions]
-
-export const CharactersLanguageOptions = {
-	"en": "en",
-	"fr": "fr",
-} as const
-export type CharactersLanguageOptions = typeof CharactersLanguageOptions[keyof typeof CharactersLanguageOptions]
 export type CharactersRecord = {
 	bio?: string
 	created: IsoAutoDateString
 	id: string
-	language: CharactersLanguageOptions
 	name: string
 	official?: boolean
 	owner?: RecordIdString
@@ -139,17 +132,11 @@ export type CharactersRecord = {
 	updated: IsoAutoDateString
 }
 
-export const ChatMessagesLanguageOptions = {
-	"en": "en",
-	"fr": "fr",
-} as const
-export type ChatMessagesLanguageOptions = typeof ChatMessagesLanguageOptions[keyof typeof ChatMessagesLanguageOptions]
 export type ChatMessagesRecord = {
 	author?: RecordIdString
 	body?: string
 	created: IsoAutoDateString
 	id: string
-	language: ChatMessagesLanguageOptions
 	source: RecordIdString
 	updated: IsoAutoDateString
 }
@@ -181,18 +168,12 @@ export type FanartFavoritesRecord = {
 	updated: IsoAutoDateString
 }
 
-export const FanartsLanguageOptions = {
-	"en": "en",
-	"fr": "fr",
-} as const
-export type FanartsLanguageOptions = typeof FanartsLanguageOptions[keyof typeof FanartsLanguageOptions]
 export type FanartsRecord = {
 	author: RecordIdString
 	created: IsoAutoDateString
 	description?: string
 	id: string
 	image: FileNameString
-	language?: FanartsLanguageOptions
 	source: RecordIdString
 	title?: string
 	updated: IsoAutoDateString
@@ -206,34 +187,22 @@ export type FanfictionFavoritesRecord = {
 	updated: IsoAutoDateString
 }
 
-export const FanfictionsLanguageOptions = {
-	"en": "en",
-	"fr": "fr",
-} as const
-export type FanfictionsLanguageOptions = typeof FanfictionsLanguageOptions[keyof typeof FanfictionsLanguageOptions]
 export type FanfictionsRecord = {
 	author: RecordIdString
 	content: string
 	created: IsoAutoDateString
 	description: string
 	id: string
-	language: FanfictionsLanguageOptions
 	source: RecordIdString
 	title: string
 	updated: IsoAutoDateString
 }
 
-export const HomepageNewsLanguageOptions = {
-	"en": "en",
-	"fr": "fr",
-} as const
-export type HomepageNewsLanguageOptions = typeof HomepageNewsLanguageOptions[keyof typeof HomepageNewsLanguageOptions]
 export type HomepageNewsRecord = {
 	author: RecordIdString
 	body: string
 	created: IsoAutoDateString
 	id: string
-	language: HomepageNewsLanguageOptions
 	source: RecordIdString
 	title: string
 	updated: IsoAutoDateString
