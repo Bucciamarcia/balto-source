@@ -17,10 +17,10 @@
 	<button onclick={toggleMenu}>
 		{#if !isOpen}
 			<!-- Hamburger Icon -->
-			<img src={HamburgerMenuIcon} alt="Hamburger Menu Icon" class="min-w-30px max-w-none" />
+			<img src={HamburgerMenuIcon} alt="Hamburger Menu Icon" class="min-w-[30px] max-w-none" />
 		{:else}
 			<!-- X Close Icon -->
-			<img src={CloseIcon} alt="X Close Icon" class="min-w-30px max-w-none" />
+			<img src={CloseIcon} alt="X Close Icon" class="min-w-[30px] max-w-none" />
 			<div class="dropdown-content bg-base-transparent h-full text-left md:hidden">
 				<SideMenu language={getLocale()} />
 			</div>

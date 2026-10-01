@@ -12,7 +12,7 @@
 <!-- Desktop Side Menu -->
 
 <div class="pl-10">
-<div class="h-full w-full pl-10 pr-10 pb-10 container rounded-md border-2 border-solid border-[#70abbb] bg-[url('$lib/assets/side-menu-bg-gradient.avif')] bg-contain bg-center">
+<div class="h-full w-full min-w-[240px] pl-5 pr-5 pb-5 container rounded-md border-2 border-solid border-[#70abbb] bg-[url('$lib/assets/side-menu-bg-gradient.avif')] bg-contain bg-center">
 	<div>
 		<h2 class="menuTitle">Search</h2>
 
