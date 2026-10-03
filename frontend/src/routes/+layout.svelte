@@ -90,13 +90,13 @@
 		<!-- Right Column (Fills the rest) -->
 
 		<main
-			class="container m-20 rounded-md border-3 border-solid border-[#70abbb] bg-neutral/75 px-20 py-10"
+			class="container m-10 rounded-md border-3 border-solid border-[#70abbb] bg-neutral/75 px-20 py-10 min-w-[600px]"
 		>
 			{@render children()}
 		</main>
 	</div>
 
-	<div class="flex flex-1"><Footer /></div>
+	<div class="flex flex-1 mx-auto min-w-[780px]"><Footer /></div>
 </div>
 
 <div style="display:none">
