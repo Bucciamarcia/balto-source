@@ -5,6 +5,7 @@ import { choice, TypeSafeClient } from '@typesafe-ai/sdk';
 
 export async function moderateText(t: string | null): Promise<ModerateResult> {
 	if (t === '' || t == null) {
+		return 'allow';
 	}
 	const k = env.TYPESAFE_API_KEY;
 	const client = new TypeSafeClient({
@@ -20,8 +21,6 @@ export async function moderateText(t: string | null): Promise<ModerateResult> {
 		}
 	});
 	const r = response.answers.category.choice;
-	console.log('jev said');
-	console.log(r);
 	try {
 		return r;
 	} catch (e) {
