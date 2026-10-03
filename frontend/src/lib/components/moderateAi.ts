@@ -1,36 +1,28 @@
 import { dev } from '$app/env';
 import { PUBLIC_POCKETBASE_URL } from '$lib/pocketbase/url';
 import { env } from '$env/dynamic/private';
+import { choice, TypeSafeClient } from '@typesafe-ai/sdk';
 
 export async function moderateText(t: string | null): Promise<ModerateResult> {
 	if (t === '' || t == null) {
-		return 'allow';
 	}
 	const k = env.TYPESAFE_API_KEY;
-	const res = await fetch('https://jevtypesafeai.com/api/v1/decide', {
-		method: 'POST',
-		headers: {
-			Authorization: `Bearer ${k}`,
-			'Content-Type': 'application/json'
-		},
-		body: JSON.stringify({
-			state: t,
-			questions: {
-				route: {
-					type: 'choice',
-					instructions: 'Is this content to be allowed under a PG rating?',
-					criteria: {
-						allow: 'This content respects a PG rating',
-						remove: 'This content is not within PG rating or is blatant spam'
-					}
-				}
-			}
-		})
+	const client = new TypeSafeClient({
+		apiKey: k
 	});
-	console.log(res);
-	const { answers } = await res.json();
+	const response = await client.systemOne({
+		state: t,
+		questions: {
+			category: choice('Is this content to be allowed under a PG rating?', {
+				allow: 'This content respects a PG rating',
+				remove: 'This content is not within PG rating or is obvious spam'
+			})
+		}
+	});
+	const r = response.answers.category.choice;
+	console.log('jev said');
+	console.log(r);
 	try {
-		const r = answers.route.choice;
 		return r;
 	} catch (e) {
 		throw e;
