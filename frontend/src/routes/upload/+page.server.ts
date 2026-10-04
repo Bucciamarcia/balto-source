@@ -73,7 +73,8 @@ export const actions = {
 				owner: locals.auth!.id,
 				official: false,
 				sex: sex,
-				source: await getSourceId(locals.pb)
+				source: await getSourceId(locals.pb),
+				visible: true
 			});
 		} catch (e) {
 			return fail(400, { error: e instanceof Error ? e.message : 'Unknown error occurred' });
