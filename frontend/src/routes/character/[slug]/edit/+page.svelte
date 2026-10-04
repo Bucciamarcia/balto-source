@@ -6,6 +6,7 @@
 	let { data } = $props();
 	let characterSex: CharacterSex = $derived(data.character.sex);
 	let bio = $derived(data.character.bio);
+	let isLoading: boolean = $state(false);
 </script>
 
 <svelte:head><title>{m.ch_edit_head({ character: data.character.name })}</title></svelte:head>
@@ -54,11 +55,16 @@
 	<h2>{m.ch_edit_bio()}</h2>
 	<TipTapEditor header={m.ch_edit_tiptap()} content={data.character.bio} bind:value={bio} />
 	<input type="hidden" name="bio" bind:value={bio} />
-	<div class="flex gap-4">
-		<button class="btn" type="submit" formaction="?/cancel">{m.ch_edit_cancel()}</button>
-		<button class="btn btn-error" type="submit" formaction="?/remove">{m.ch_edit_remove()}</button>
-		<button class="btn btn-primary" type="submit" formaction="?/edit"
-			>{m.ch_edit_confirm_btn()}</button
-		>
-	</div>
+	{#if isLoading}
+		<span class="loading loading-spinner text-primary"></span>
+	{:else}
+		<div class="flex gap-4">
+			<button class="btn" type="submit" formaction="?/cancel">{m.ch_edit_cancel()}</button>
+			<button class="btn btn-error" type="submit" formaction="?/remove">{m.ch_edit_remove()}</button
+			>
+			<button class="btn btn-primary" type="submit" formaction="?/edit"
+				>{m.ch_edit_confirm_btn()}</button
+			>
+		</div>
+	{/if}
 </form>

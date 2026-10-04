@@ -1,5 +1,5 @@
 import type { CharactersResponse } from '$lib/pocketbase-types';
-import { error, redirect, type Actions } from '@sveltejs/kit';
+import { error, fail, redirect, type Actions } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ locals, params }) => {
@@ -28,7 +28,7 @@ export const actions = {
 		const remove = `/character/${slug}/remove`;
 		redirect(303, remove);
 	},
-	edit: async ({ params, request }) => {
+	edit: async ({ params, request, locals }) => {
 		const slug = params.slug;
 		if (slug == undefined) {
 			redirect(303, '/');
@@ -38,9 +38,20 @@ export const actions = {
 		const avatar = data.get('avatar') as File;
 		const ref = data.get('ref_sheet') as File;
 		const bio = data.get('bio') as string;
-		console.log(sex);
-		console.log(avatar);
-		console.log(ref);
-		console.log(bio);
+		const update = new FormData();
+		update.set('sex', sex);
+		update.set('bio', bio);
+		if (avatar.size !== 0) {
+			update.set('profile_picture', avatar);
+		}
+		if (ref.size !== 0) {
+			update.set('ref_sheet', ref);
+		}
+		try {
+			await locals.pb.collection('characters').update(slug, update);
+		} catch (e) {
+			return fail(400, { error: e instanceof Error ? e.message : 'Unknown error occurred' });
+		}
+		redirect(303, `/character/${slug}`);
 	}
 } satisfies Actions;
