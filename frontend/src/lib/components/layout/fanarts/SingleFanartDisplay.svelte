@@ -50,7 +50,7 @@
 		{#if fanart.author === user?.id}
 			<div class="mx-3 mt-5 mb-4 place-self-center">
 				<a href="/{locale}/fanart/{fanart.id}/edit"
-					><button class="btn btn-primary">{m.ch_edit_btn()}</button></a
+					><button class="btn btn-primary">{m.fa_edit_btn()}</button></a
 				>
 			</div>
 		{/if}
