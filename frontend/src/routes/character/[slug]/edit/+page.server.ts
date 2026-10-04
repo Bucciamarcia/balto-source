@@ -27,5 +27,20 @@ export const actions = {
 		}
 		const remove = `/character/${slug}/remove`;
 		redirect(303, remove);
+	},
+	edit: async ({ params, request }) => {
+		const slug = params.slug;
+		if (slug == undefined) {
+			redirect(303, '/');
+		}
+		const data = await request.formData();
+		const sex = data.get('sex') as string;
+		const avatar = data.get('avatar') as File;
+		const ref = data.get('ref_sheet') as File;
+		const bio = data.get('bio') as string;
+		console.log(sex);
+		console.log(avatar);
+		console.log(ref);
+		console.log(bio);
 	}
 } satisfies Actions;

@@ -12,13 +12,7 @@
 <h1 class="text-center">{m.ch_edit_h1({ character: data.character.name })}</h1>
 <h2 class="text-center">{m.ch_edit_avatar_head()}</h2>
 <p class="text-center">{m.ch_edit_avatar_desc()}</p>
-<form
-	method="POST"
-	action="?/editCharacter"
-	use:enhance
-	enctype="multipart/form-data"
-	class="flex flex-col items-center"
->
+<form method="POST" use:enhance enctype="multipart/form-data" class="flex flex-col items-center">
 	<input type="file" class="file-input mt-5 self-center text-black" name="avatar" />
 	<h2 class="text-center">{m.ch_edit_ref()}</h2>
 	<p class="text-center">{m.ch_edit_ref_desc()}</p>
@@ -59,8 +53,12 @@
 	</div>
 	<h2>{m.ch_edit_bio()}</h2>
 	<TipTapEditor header={m.ch_edit_tiptap()} content={data.character.bio} bind:value={bio} />
+	<input type="hidden" name="bio" bind:value={bio} />
 	<div class="flex gap-4">
 		<button class="btn" type="submit" formaction="?/cancel">{m.ch_edit_cancel()}</button>
 		<button class="btn btn-error" type="submit" formaction="?/remove">{m.ch_edit_remove()}</button>
+		<button class="btn btn-primary" type="submit" formaction="?/edit"
+			>{m.ch_edit_confirm_btn()}</button
+		>
 	</div>
 </form>

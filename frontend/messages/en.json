@@ -173,5 +173,6 @@
 	"ch_remove_btn_cancel": "Cancel and go back",
 	"ch_remove_btn_confirm": "Confirm and delete character",
 	"ch_removed_ok_title": "Character removed",
-	"ch_removed_ok_head": "This character has been removed"
+	"ch_removed_ok_head": "This character has been removed",
+	"ch_edit_confirm_btn": "Confirm changes"
 }
