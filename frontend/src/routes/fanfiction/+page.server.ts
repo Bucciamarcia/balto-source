@@ -5,7 +5,7 @@ import type {
 } from '$lib/pocketbase-types';
 import Pocketbase from 'pocketbase';
 import { fail, type Actions } from '@sveltejs/kit';
-import type { PageServerLoad } from '../$types';
+import type { PageServerLoad } from './$types';
 import { getLocale } from '$lib/paraglide/runtime';
 import { getSourceId } from '$lib/components/getSourceId';
 
