@@ -4,7 +4,7 @@ import type {
 	CharactersResponse,
 	UsersResponse
 } from '$lib/pocketbase-types';
-import { fail, type Actions } from '@sveltejs/kit';
+import { fail, redirect, type Actions } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import { moderateText } from '$lib/components/moderateAi';
 import sanitizeHtml from 'sanitize-html';
@@ -15,6 +15,9 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 	const character = await locals.pb
 		.collection('characters')
 		.getOne<CharactersResponse<{ owner: UsersResponse }>>(id, { expand: 'owner' });
+	if (!character.visible) {
+		throw redirect(307, '/404');
+	}
 	const favs = await locals.pb
 		.collection('character_favorites')
 		.getFullList<CharacterFavoritesResponse>({

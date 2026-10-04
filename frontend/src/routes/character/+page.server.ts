@@ -12,7 +12,10 @@ export const load: PageServerLoad = async ({ locals }) => {
 		.collection('characters')
 		.getFullList<CharactersResponse<{ owner: UsersResponse }>>({
 			expand: 'owner',
-			filter: locals.pb.filter('source = {:source}', { source }),
+			filter: locals.pb.filter('source = {:source} && visible = {:visible}', {
+				source,
+				visible: true
+			}),
 			sort: '-created'
 		});
 	const allFavs = await locals.pb

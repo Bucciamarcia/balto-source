@@ -40,7 +40,7 @@
 {#if data.character.owner === data.user?.id}
 	<div class="mx-3 mt-5 place-self-center">
 		<a href="/character/{data.character.id}/edit"
-			><button class="btn btn-primary">Edit character</button></a
+			><button class="btn btn-primary">{m.ch_edit_btn()}</button></a
 		>
 	</div>
 {/if}

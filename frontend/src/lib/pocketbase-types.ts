@@ -130,6 +130,7 @@ export type CharactersRecord = {
 	sex?: CharactersSexOptions
 	source: RecordIdString
 	updated: IsoAutoDateString
+	visible?: boolean
 }
 
 export type ChatMessagesRecord = {
