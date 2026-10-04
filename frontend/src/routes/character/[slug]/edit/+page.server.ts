@@ -1,6 +1,7 @@
 import type { CharactersResponse } from '$lib/pocketbase-types';
 import { error, fail, redirect, type Actions } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
+import { getLocale } from '$lib/paraglide/runtime';
 
 export const load: PageServerLoad = async ({ locals, params }) => {
 	const slug = params.slug;
@@ -15,23 +16,23 @@ export const actions = {
 	cancel: async ({ params }) => {
 		const slug = params.slug;
 		if (slug == undefined) {
-			redirect(303, '/');
+			redirect(303, `/${getLocale()}`);
 		}
-		const back = `/character/${slug}`;
+		const back = `/${getLocale()}/character/${slug}`;
 		redirect(303, back);
 	},
 	remove: async ({ params }) => {
 		const slug = params.slug;
 		if (slug == undefined) {
-			redirect(303, '/');
+			redirect(303, `/${getLocale()}`);
 		}
-		const remove = `/character/${slug}/remove`;
+		const remove = `/${getLocale()}/character/${slug}/remove`;
 		redirect(303, remove);
 	},
 	edit: async ({ params, request, locals }) => {
 		const slug = params.slug;
 		if (slug == undefined) {
-			redirect(303, '/');
+			redirect(303, `/${getLocale()}`);
 		}
 		const data = await request.formData();
 		const sex = data.get('sex') as string;
@@ -52,6 +53,6 @@ export const actions = {
 		} catch (e) {
 			return fail(400, { error: e instanceof Error ? e.message : 'Unknown error occurred' });
 		}
-		redirect(303, `/character/${slug}`);
+		redirect(303, `${getLocale()}/character/${slug}`);
 	}
 } satisfies Actions;

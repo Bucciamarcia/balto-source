@@ -1,6 +1,7 @@
 import type { CharactersResponse, UsersResponse } from '$lib/pocketbase-types';
 import { fail, redirect, type Actions } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
+import { getLocale } from '$lib/paraglide/runtime';
 
 export const load: PageServerLoad = async ({ locals, params }) => {
 	const id = params.slug;
@@ -14,9 +15,9 @@ export const actions = {
 	cancel: async ({ params }) => {
 		const slug = params.slug;
 		if (slug == undefined) {
-			redirect(303, '/');
+			redirect(303, `/${getLocale()}`);
 		}
-		const back = `/character/${slug}`;
+		const back = `/${getLocale()}/character/${slug}`;
 		redirect(303, back);
 	},
 	remove: async ({ params, locals }) => {
@@ -31,6 +32,6 @@ export const actions = {
 		} catch (e) {
 			return fail(500, { error: e instanceof Error ? e.message : 'Unknown error' });
 		}
-		redirect(303, `/character/${id}/remove/confirmed`);
+		redirect(303, `/${getLocale()}/character/${id}/remove/confirmed`);
 	}
 } satisfies Actions;
