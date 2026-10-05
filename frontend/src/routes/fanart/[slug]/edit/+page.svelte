@@ -27,7 +27,8 @@
 			bind:value={description}
 		></textarea>
 	</fieldset>
-	<div class="flex">
-		<button class="btn" type="submit" formaction="?/cancel">Cancel</button>
+	<div class="mt-3 flex gap-4">
+		<button class="btn" type="submit" formaction="?/cancel">{m.fa_edit_cancel()}</button>
+		<button class="btn btn-error" type="submit" formaction="?/remove">{m.fa_edit_remove()}</button>
 	</div>
 </form>

@@ -1,6 +1,6 @@
 import type { FanartsResponse, UsersResponse } from '$lib/pocketbase-types';
 import { redirect, type Actions } from '@sveltejs/kit';
-import type { PageServerLoad } from '../$types';
+import type { PageServerLoad } from './$types';
 import { getLocale } from '$lib/paraglide/runtime';
 
 export const load: PageServerLoad = async ({ locals, params }) => {
@@ -19,5 +19,13 @@ export const actions = {
 			redirect(303, `/${locale}`);
 		}
 		redirect(303, `/${locale}/fanart/${id}`);
+	},
+	remove: async ({ params }) => {
+		const locale = getLocale();
+		const id = params.slug;
+		if (id == undefined) {
+			redirect(303, `/${locale}`);
+		}
+		redirect(303, `/${locale}/fanart/${id}/remove`);
 	}
 } satisfies Actions;
