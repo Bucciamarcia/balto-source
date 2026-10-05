@@ -3,7 +3,6 @@ import Pocketbase from 'pocketbase';
 import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { getFanartFavorites } from '$lib/components/getFanartFavorites';
-import { getLocale } from '$lib/paraglide/runtime';
 import { getSourceId } from '$lib/components/getSourceId';
 export const load: PageServerLoad = async ({ locals }) => {
 	const source = await getSourceId(locals.pb);

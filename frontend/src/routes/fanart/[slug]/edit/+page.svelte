@@ -27,4 +27,7 @@
 			bind:value={description}
 		></textarea>
 	</fieldset>
+	<div class="flex">
+		<button class="btn" type="submit" formaction="?/cancel">Cancel</button>
+	</div>
 </form>
