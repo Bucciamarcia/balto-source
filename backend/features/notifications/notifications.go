@@ -43,21 +43,41 @@ func getFanartLanguageFromid(app core.App, id string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	return fanart.GetString("language"), nil
+	language, err := getLanguageFromSourceId(app, fanart.GetString("source"))
+	if err != nil {
+		return "", err
+	}
+	return language, nil
 }
 func getFanficLanguageFromid(app core.App, id string) (string, error) {
 	fanfic, err := app.FindRecordById("fanfictions", id)
 	if err != nil {
 		return "", err
 	}
-	return fanfic.GetString("language"), nil
-}
-func getCharacterLanguageFromid(app core.App, id string) (string, error) {
-	character, err := app.FindRecordById("characters", id)
+	language, err := getLanguageFromSourceId(app, fanfic.GetString("source"))
 	if err != nil {
 		return "", err
 	}
-	return character.GetString("language"), nil
+	return language, nil
+}
+func getCharacterLanguageFromid(app core.App, id string) (string, error) {
+	char, err := app.FindRecordById("char", id)
+	if err != nil {
+		return "", err
+	}
+	language, err := getLanguageFromSourceId(app, char.GetString("source"))
+	if err != nil {
+		return "", err
+	}
+	return language, nil
+}
+
+func getLanguageFromSourceId(app core.App, id string) (string, error) {
+	sourceRecord, err := app.FindRecordById("sources", id)
+	if err != nil {
+		return "", err
+	}
+	return sourceRecord.GetString("language"), nil
 }
 
 func NotifyOnFanfictionFavorite(app core.App, record *core.Record) error {
