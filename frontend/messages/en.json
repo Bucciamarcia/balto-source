@@ -191,5 +191,15 @@
 	"fa_edit_button_cta": "Edit fanart",
 	"ff_edit_main_button": "Edit",
 	"ff_edit_title": "Edit {title}",
-	"ff_edit_head": "Edit {title}"
+	"ff_edit_head": "Edit {title}",
+	"ff_edit_cta_page": "Confirm edits",
+	"ff_edit_cta_cancel": "Cancel and go back",
+	"ff_edit_cta_remove": "Remove this fanfiction",
+	"ff_remove_title": "Remove {name}",
+	"ff_remove_h1_conf": "Do you want to remove {name}",
+	"ff_remove_text": "The fanfiction will be removed from the site",
+	"ff_remove_btn_cancel": "Cancel and go back",
+	"ff_remove_btn_confirm": "Confirm and delete fanfiction",
+	"ff_removed_ok_title": "Fanfiction removed",
+	"ff_removed_ok_head": "This fanfiction has been removed"
 }

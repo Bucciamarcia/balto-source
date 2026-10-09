@@ -17,11 +17,13 @@
 </svelte:head>
 
 <h1 class="text-center">{fanfiction.title}</h1>
-<div class="flex justify-center">
-	<a href="/{data.language}/fanfiction/{fanfiction.id}/edit" class="btn no-underline btn-primary"
-		>{m.ff_edit_main_button()}</a
-	>
-</div>
+{#if data.fanfiction.author === data.user?.id}
+	<div class="flex justify-center">
+		<a href="/{data.language}/fanfiction/{fanfiction.id}/edit" class="btn no-underline btn-primary"
+			>{m.ff_edit_main_button()}</a
+		>
+	</div>
+{/if}
 <p class="text-center">
 	{m.ff_by()}
 	<a href="/{data.language}/profile?id={fanfiction.author}">

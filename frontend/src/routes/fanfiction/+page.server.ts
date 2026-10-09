@@ -16,7 +16,7 @@ export const load: PageServerLoad = async ({ locals }) => {
 		.collection('fanfictions')
 		.getFullList<
 			FanfictionsResponse<{ author: UsersResponse }>
-		>({ expand: 'author', sort: '-created', filter: locals.pb.filter(`source = {:source}`, { source }) });
+		>({ expand: 'author', sort: '-created', filter: locals.pb.filter(`source = {:source} && visible = {:visible}`, { source, visible: true }) });
 
 	const favorites: FavoriteByFanfiction[] = await Promise.all(
 		fanfictions.map(async (fanfic) => ({
