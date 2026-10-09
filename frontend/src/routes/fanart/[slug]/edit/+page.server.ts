@@ -1,5 +1,5 @@
 import type { FanartsResponse, UsersResponse } from '$lib/pocketbase-types';
-import { redirect, type Actions } from '@sveltejs/kit';
+import { fail, redirect, type Actions } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import { getLocale } from '$lib/paraglide/runtime';
 
@@ -27,5 +27,24 @@ export const actions = {
 			redirect(303, `/${locale}`);
 		}
 		redirect(303, `/${locale}/fanart/${id}/remove`);
+	},
+	edit: async ({ params, request, locals }) => {
+		const locale = getLocale();
+		const data = await request.formData();
+		const title = data.get('title') as string;
+		const description = data.get('description') as string;
+		const id = params.slug;
+		if (id == undefined) {
+			redirect(303, `/${locale}`);
+		}
+		try {
+			await locals.pb.collection('fanarts').update(id, {
+				title: title,
+				description: description
+			});
+		} catch (e) {
+			return fail(400, { error: e instanceof Error ? e.message : 'Unknown error' });
+		}
+		redirect(303, `/${locale}/fanart/${id}`);
 	}
 } satisfies Actions;

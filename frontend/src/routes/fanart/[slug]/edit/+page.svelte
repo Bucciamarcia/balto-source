@@ -24,11 +24,15 @@
 		<textarea
 			class="textarea h-24 text-black"
 			placeholder="Insert the new description here"
+			name="description"
 			bind:value={description}
 		></textarea>
 	</fieldset>
 	<div class="mt-3 flex gap-4">
 		<button class="btn" type="submit" formaction="?/cancel">{m.fa_edit_cancel()}</button>
 		<button class="btn btn-error" type="submit" formaction="?/remove">{m.fa_edit_remove()}</button>
+		<button class="btn btn-primary" type="submit" formaction="?/edit"
+			>{m.fa_edit_button_cta()}</button
+		>
 	</div>
 </form>
