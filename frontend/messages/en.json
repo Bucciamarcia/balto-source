@@ -174,5 +174,19 @@
 	"ch_remove_btn_confirm": "Confirm and delete character",
 	"ch_removed_ok_title": "Character removed",
 	"ch_removed_ok_head": "This character has been removed",
-	"ch_edit_confirm_btn": "Confirm changes"
+	"ch_edit_confirm_btn": "Confirm changes",
+	"fa_edit_title": "Edit {name} - Balto Source",
+	"fa_edit_head": "Edit {name} - Balto Source",
+	"fa_edit_image_head": "Edit the image",
+	"fa_edit_btn": "Edit fanart",
+	"fa_edit_cancel": "Cancel",
+	"fa_edit_remove": "Remove fanart",
+	"fa_remove_title": "Remove fanart {name}",
+	"fa_remove_h1_conf": "Are you sure you want to remove {name}?",
+	"fa_remove_text": "The fanart will be removed from the site",
+	"fa_remove_btn_cancel": "Cancel and go back",
+	"fa_remove_btn_confirm": "Confirm and delete fanart",
+	"fa_removed_ok_title": "Fanart removed",
+	"fa_removed_ok_head": "This fanart has been removed",
+	"fa_edit_button_cta": "Edit fanart"
 }

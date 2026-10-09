@@ -3,7 +3,6 @@ import Pocketbase from 'pocketbase';
 import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { getFanartFavorites } from '$lib/components/getFanartFavorites';
-import { getLocale } from '$lib/paraglide/runtime';
 import { getSourceId } from '$lib/components/getSourceId';
 export const load: PageServerLoad = async ({ locals }) => {
 	const source = await getSourceId(locals.pb);
@@ -12,7 +11,10 @@ export const load: PageServerLoad = async ({ locals }) => {
 		.getFullList<FanartsResponse<{ author: UsersResponse }>>({
 			expand: 'author',
 			sort: '-created',
-			filter: locals.pb.filter(`source = {:source}`, { source })
+			filter: locals.pb.filter(`source = {:source} && visible = {:visible}`, {
+				source,
+				visible: true
+			})
 		});
 
 	const favorites: FavoriteByFanart[] = await Promise.all(
@@ -31,7 +33,7 @@ export type FavoriteByFanart = {
 
 export const actions = {
 	filter: async ({ request, locals }) => {
-		const language = getLocale();
+		const source = await getSourceId(locals.pb);
 		const data = await request.formData();
 		const filter = data.get('filter');
 		if (filter == null) {
@@ -42,8 +44,8 @@ export const actions = {
 			.getFullList<FanartsResponse<{ author: UsersResponse }>>({
 				expand: 'author',
 				filter: locals.pb.filter(
-					`language = {:language} && (author ~ {:filter} || title ~ {:filter})`,
-					{ language, filter }
+					`visible = {:visible} && source = {:source} && (author ~ {:filter} || title ~ {:filter})`,
+					{ visible: true, source, filter }
 				)
 			});
 		const users = await findUsersByFilter(filter.toString(), locals.pb);
@@ -52,10 +54,14 @@ export const actions = {
 				.collection('fanarts')
 				.getFullList<FanartsResponse<{ author: UsersResponse }>>({
 					expand: 'author',
-					filter: locals.pb.filter(`author ~ {:uid} && language = {:language}`, {
-						uid: user.id,
-						language
-					})
+					filter: locals.pb.filter(
+						`visible = {:visible} && author ~ {:uid} && source = {:source}`,
+						{
+							visible: true,
+							uid: user.id,
+							source
+						}
+					)
 				});
 			results = [...results, ...r];
 		}

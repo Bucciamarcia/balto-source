@@ -47,6 +47,13 @@
 		<div>
 			<h1 class="mb-3 text-center">{fanart.title}</h1>
 		</div>
+		{#if fanart.author === user?.id}
+			<div class="mx-3 mt-5 mb-4 place-self-center">
+				<a href="/{locale}/fanart/{fanart.id}/edit"
+					><button class="btn btn-primary">{m.fa_edit_btn()}</button></a
+				>
+			</div>
+		{/if}
 		<div>
 			<img
 				class="mb-3"

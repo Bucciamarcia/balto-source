@@ -178,6 +178,7 @@ export type FanartsRecord = {
 	source: RecordIdString
 	title?: string
 	updated: IsoAutoDateString
+	visible?: boolean
 }
 
 export type FanfictionFavoritesRecord = {
