@@ -188,5 +188,6 @@
 	"fa_remove_btn_confirm": "Confirm and delete fanart",
 	"fa_removed_ok_title": "Fanart removed",
 	"fa_removed_ok_head": "This fanart has been removed",
-	"fa_edit_button_cta": "Edit fanart"
+	"fa_edit_button_cta": "Edit fanart",
+	"ff_edit_main_button": "Edit"
 }
