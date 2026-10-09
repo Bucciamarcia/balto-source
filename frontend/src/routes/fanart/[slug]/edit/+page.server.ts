@@ -1,13 +1,20 @@
 import type { FanartsResponse, UsersResponse } from '$lib/pocketbase-types';
-import { fail, redirect, type Actions } from '@sveltejs/kit';
+import { error, fail, redirect, type Actions } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import { getLocale } from '$lib/paraglide/runtime';
 
 export const load: PageServerLoad = async ({ locals, params }) => {
 	const id = params.slug;
+	if (id == undefined) {
+		error(404, "Fanfiction id doesn't exist");
+	}
 	const fanart = await locals.pb
 		.collection('fanarts')
 		.getOne<FanartsResponse<{ author: UsersResponse }>>(id);
+	const userId = locals.user?.id;
+	if (userId !== fanart.author) {
+		error(403, 'You are not authorized to view this page');
+	}
 	return { fanart };
 };
 
