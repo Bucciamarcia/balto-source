@@ -7,5 +7,5 @@ export function getSourceSlug(source: string | undefined): Source {
 	if (SOURCES.includes(normalized as Source)) {
 		return normalized as Source;
 	}
-	return 'hub';
+	return 'balto';
 }

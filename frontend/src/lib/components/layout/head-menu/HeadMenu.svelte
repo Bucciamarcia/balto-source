@@ -43,7 +43,7 @@
 </script>
 
 <div class="mt-4 flex gap-4 place-self-center">
-	<LinkElement label={m.menu_home()} destination="/{language}" logOut={false} />
+	<LinkElement label={m.menu_home()} destination="/{language}/{source}" logOut={false} />
 	{#if !isLoggedIn}
 		<LinkElement label={m.menu_login()} destination="/{language}/{source}/login" logOut={false} />
 		<LinkElement label={m.menu_signup()} destination="/{language}/{source}/signup" logOut={false} />
