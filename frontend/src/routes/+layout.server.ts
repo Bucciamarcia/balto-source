@@ -20,12 +20,13 @@ export const load: LayoutServerLoad = async ({ locals, params }) => {
 	const newNotifications = latestNotifications.filter((n) => n.is_read === false);
 	const newNotificationsCount = newNotifications.length;
 	const language = getLocale();
+	const source = getSourceSlug(params.source);
 	return {
 		user,
 		isLoggedIn,
 		newNotificationsCount,
 		latestNotifications,
 		language,
-		source: getSourceSlug(params.source)
+		source
 	};
 };
