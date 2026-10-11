@@ -49,8 +49,5 @@ export const actions: Actions = {
 		} catch (e) {
 			return fail(500, { error: e instanceof Error ? e.message : 'Unknown error' });
 		}
-	},
-	logout: async ({ locals }) => {
-		locals.pb.authStore.clear();
 	}
 };

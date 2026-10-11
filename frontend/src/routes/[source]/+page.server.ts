@@ -43,5 +43,8 @@ export const actions: Actions = {
 		await pb.collection('_superusers').authWithPassword(email, password);
 		const impersonateClient = await pb.collection('users').impersonate(uid, 3600);
 		locals.pb.authStore.save(impersonateClient.authStore.token, impersonateClient.authStore.record);
+	},
+	logout: async ({ locals }) => {
+		locals.pb.authStore.clear();
 	}
 };
