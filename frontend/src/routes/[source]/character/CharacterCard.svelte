@@ -23,7 +23,7 @@
 </script>
 
 <div class="flex flex-col">
-	<a href={`/${language}/character/${character.id}`}>
+	<a href={`/${language}/${source}/character/${character.id}`}>
 		<img
 			src={getImage()}
 			alt={m.ch_title_by({ name: character.name, owner: character.expand.owner.username })}
@@ -34,7 +34,9 @@
 	</a>
 	<p class="text-center">
 		{m.fa_by()}
-		<a href={`/${language}/profile?id=${character.owner}`}>{character.expand.owner.username}</a>
+		<a href={`/${language}/${source}/profile?id=${character.owner}`}
+			>{character.expand.owner.username}</a
+		>
 	</p>
 	<p class="text-center">
 		{favs.length}

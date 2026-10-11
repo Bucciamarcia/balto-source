@@ -15,4 +15,5 @@
 	fanarts={filteredFanart == null ? data.fanarts : filteredFanart}
 	fanartsFavorites={data.favorites}
 	language={data.language}
+	source={data.source}
 />

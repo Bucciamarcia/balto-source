@@ -51,5 +51,6 @@
 		fanarts={data.fanarts}
 		fanartsFavorites={data.fanartFavorites}
 		language={data.language}
+		source={data.source}
 	/>
 {/if}
