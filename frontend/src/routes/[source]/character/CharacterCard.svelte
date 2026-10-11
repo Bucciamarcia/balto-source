@@ -1,5 +1,6 @@
 <script lang="ts">
 	import FormattedDate from '$lib/components/FormattedDate.svelte';
+	import type { Source } from '$lib/components/getSourceSlug';
 	import { m } from '$lib/paraglide/messages';
 	import { getLocale } from '$lib/paraglide/runtime';
 	import type { CharactersResponse, UsersResponse } from '$lib/pocketbase-types';
@@ -7,10 +8,12 @@
 
 	let {
 		character,
-		favs
+		favs,
+		source
 	}: {
 		character: CharactersResponse<{ owner: UsersResponse }>;
 		favs: string[];
+		source: Source;
 	} = $props();
 	const language = getLocale();
 
@@ -26,7 +29,7 @@
 			alt={m.ch_title_by({ name: character.name, owner: character.expand.owner.username })}
 		/>
 	</a>
-	<a href={`/${language}/character/${character.id}`}>
+	<a href={`/${language}/${source}/character/${character.id}`}>
 		<p class="mt-2 text-center">{character.name}</p>
 	</a>
 	<p class="text-center">

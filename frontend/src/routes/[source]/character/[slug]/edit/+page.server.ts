@@ -2,6 +2,7 @@ import type { CharactersResponse } from '$lib/pocketbase-types';
 import { error, fail, redirect, type Actions } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import { getLocale } from '$lib/paraglide/runtime';
+import { getSourceSlug } from '$lib/components/getSourceSlug';
 
 export const load: PageServerLoad = async ({ locals, params }) => {
 	const slug = params.slug;
@@ -15,24 +16,27 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 export const actions = {
 	cancel: async ({ params }) => {
 		const slug = params.slug;
+		const source = getSourceSlug(params.source);
 		if (slug == undefined) {
-			redirect(303, `/${getLocale()}`);
+			redirect(303, `/${getLocale()}/${source}`);
 		}
-		const back = `/${getLocale()}/character/${slug}`;
+		const back = `/${getLocale()}/${source}character/${slug}`;
 		redirect(303, back);
 	},
 	remove: async ({ params }) => {
+		const source = getSourceSlug(params.source);
 		const slug = params.slug;
 		if (slug == undefined) {
-			redirect(303, `/${getLocale()}`);
+			redirect(303, `/${getLocale()}/${source}`);
 		}
-		const remove = `/${getLocale()}/character/${slug}/remove`;
+		const remove = `/${getLocale()}/${source}/character/${slug}/remove`;
 		redirect(303, remove);
 	},
 	edit: async ({ params, request, locals }) => {
 		const slug = params.slug;
+		const source = getSourceSlug(params.source);
 		if (slug == undefined) {
-			redirect(303, `/${getLocale()}`);
+			redirect(303, `/${getLocale()}/${source}`);
 		}
 		const data = await request.formData();
 		const sex = data.get('sex') as string;
@@ -53,6 +57,6 @@ export const actions = {
 		} catch (e) {
 			return fail(400, { error: e instanceof Error ? e.message : 'Unknown error occurred' });
 		}
-		redirect(303, `${getLocale()}/character/${slug}`);
+		redirect(303, `${getLocale()}/${source}/character/${slug}`);
 	}
 } satisfies Actions;

@@ -13,6 +13,6 @@
 
 <div class="flex flex-wrap gap-2">
 	{#each data.characters as character}
-		<CharacterCard {character} favs={data.favorites.get(character.id) ?? []} />
+		<CharacterCard {character} favs={data.favorites.get(character.id) ?? []} source={data.source} />
 	{/each}
 </div>
