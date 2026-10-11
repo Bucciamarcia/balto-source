@@ -61,11 +61,11 @@ func getFanficLanguageFromid(app core.App, id string) (string, error) {
 	return language, nil
 }
 func getCharacterLanguageFromid(app core.App, id string) (string, error) {
-	char, err := app.FindRecordById("char", id)
+	character, err := app.FindRecordById("characters", id)
 	if err != nil {
 		return "", err
 	}
-	language, err := getLanguageFromSourceId(app, char.GetString("source"))
+	language, err := getLanguageFromSourceId(app, character.GetString("source"))
 	if err != nil {
 		return "", err
 	}
