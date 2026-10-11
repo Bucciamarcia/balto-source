@@ -1,28 +1,30 @@
-import { fail, redirect } from "@sveltejs/kit";
-import type { Actions, PageServerLoad } from "./$types";
-import { getLocale } from "$lib/paraglide/runtime";
+import { fail, redirect } from '@sveltejs/kit';
+import type { Actions, PageServerLoad } from './$types';
+import { getLocale } from '$lib/paraglide/runtime';
+import { getSourceSlug } from '$lib/components/getSourceSlug';
 
 export const actions: Actions = {
-	login: async ({ request, locals, cookies }) => {
+	login: async ({ request, locals, cookies, params }) => {
 		const data = await request.formData();
-		const email = data.get("email");
-		const password = data.get("password");
-		const language = getLocale()
+		const email = data.get('email');
+		const password = data.get('password');
+		const source = getSourceSlug(params.source);
+		const language = getLocale();
 		if (email == null || password == null) {
-			return fail(400, "Email or password empty");
+			return fail(400, 'Email or password empty');
 		}
 		try {
-			await locals.pb.collection("users").authWithPassword(email.toString(), password.toString());
+			await locals.pb.collection('users').authWithPassword(email.toString(), password.toString());
 		} catch (e) {
-			return fail(400, { message: "Username or password is wrong" });
+			return fail(400, { message: 'Username or password is wrong' });
 		}
-		cookies.set("flash", "Logged in successfully!", { path: "/", maxAge: 5 });
-		throw redirect(303, `/${language}`);
+		cookies.set('flash', 'Logged in successfully!', { path: '/', maxAge: 5 });
+		throw redirect(303, `/${language}/${source}`);
 	}
-}
+};
 
 export const load: PageServerLoad = async ({ locals }) => {
 	return {
 		loggedUser: locals.auth?.id ?? null
-	}
-}
+	};
+};

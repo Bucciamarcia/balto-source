@@ -4,6 +4,12 @@ import { PUBLIC_POCKETBASE_URL } from '$lib/pocketbase/url';
 import { moderateText } from '$lib/components/moderateAi';
 import { verifyTurnstile } from '$lib/verifyTurnstile';
 
+export const load: PageServerLoad = async ({ locals }) => {
+	return {
+		loggedUser: locals.auth?.id ?? null
+	};
+};
+
 export const actions: Actions = {
 	createUser: async ({ request, locals }) => {
 		const data = await request.formData();
@@ -11,13 +17,13 @@ export const actions: Actions = {
 		const username = data.get('username') as string;
 		const password = data.get('password') as string;
 		const passwordConfirm = data.get('passwordConfirm') as string;
-		const turnStyle = data.get("cf-turnstile-response")
+		const turnStyle = data.get('cf-turnstile-response');
 		if (!turnStyle) {
-			return fail(400, { message: "Couldn't find verification token" })
+			return fail(400, { message: "Couldn't find verification token" });
 		}
-		const tsValidation = await verifyTurnstile(turnStyle.toString())
+		const tsValidation = await verifyTurnstile(turnStyle.toString());
 		if (!tsValidation) {
-			return fail(400, { message: "Captcha not passed" })
+			return fail(400, { message: 'Captcha not passed' });
 		}
 		const email = data.get('email') as string;
 
@@ -26,8 +32,8 @@ export const actions: Actions = {
 		}
 
 		const moderation = await moderateText(username);
-		if (moderation === "remove") {
-			return fail(400, { message: "This username is not allowed" })
+		if (moderation === 'remove') {
+			return fail(400, { message: 'This username is not allowed' });
 		}
 
 		if (locals.auth != null) {
@@ -60,9 +66,4 @@ export const actions: Actions = {
 		}
 		return { success: true };
 	}
-};
-export const load: PageServerLoad = async ({ locals }) => {
-	return {
-		loggedUser: locals.auth?.id ?? null
-	};
 };

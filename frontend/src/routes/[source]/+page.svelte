@@ -37,6 +37,7 @@
 		comments={data.loadedComments.get(news.id)!}
 		showCommentsLine={true}
 		language={data.language}
+		source={data.source}
 	/>
 {/each}
 
