@@ -4,6 +4,7 @@ import type { FanfictionsResponse } from '$lib/pocketbase-types';
 import mammoth from 'mammoth';
 import sanitize from 'sanitize-html';
 import { getLocale } from '$lib/paraglide/runtime';
+import { getSourceSlug } from '$lib/components/getSourceSlug';
 
 export const load: PageServerLoad = async ({ params, locals }) => {
 	const id = params.slug;
@@ -30,6 +31,7 @@ export const actions = {
 		const data = await request.formData();
 		const title = data.get('title') as string;
 		const description = data.get('description') as string;
+		const source = getSourceSlug(params.source);
 		const fanfic = data.get('fanfiction') as File;
 		const update = new FormData();
 		update.set('title', title);
@@ -46,21 +48,23 @@ export const actions = {
 		} catch (e) {
 			return fail(400, { error: e instanceof Error ? e.message : 'Unknown error occurred' });
 		}
-		redirect(303, `/${getLocale()}/fanfiction/${id}`);
+		redirect(303, `/${getLocale()}/${source}/fanfiction/${id}`);
 	},
 	cancel: async ({ params }) => {
 		const id = params.slug;
+		const source = getSourceSlug(params.source);
 		if (id == undefined) {
-			redirect(303, `/${getLocale()}/fanfiction`);
+			redirect(303, `/${getLocale()}/${source}/fanfiction`);
 		}
-		redirect(303, `/${getLocale()}/fanfiction/${id}`);
+		redirect(303, `/${getLocale()}/${source}/fanfiction/${id}`);
 	},
 	remove: async ({ params }) => {
 		const locale = getLocale();
+		const source = getSourceSlug(params.source);
 		const id = params.slug;
 		if (id == undefined) {
 			redirect(303, `/${locale}`);
 		}
-		redirect(303, `/${locale}/fanfiction/${id}/remove`);
+		redirect(303, `/${locale}/${source}/fanfiction/${id}/remove`);
 	}
 } satisfies Actions;

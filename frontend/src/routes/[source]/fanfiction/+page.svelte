@@ -16,4 +16,5 @@
 	fanfictions={filteredFanfiction == null ? data.fanfictions : filteredFanfiction}
 	fanfictionsFavorites={data.favorites}
 	language={data.language}
+	source={data.source}
 />

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import FormattedDate from '$lib/components/FormattedDate.svelte';
+	import type { Source } from '$lib/components/getSourceSlug';
 	import { m } from '$lib/paraglide/messages';
 	import type { Locale } from '$lib/paraglide/runtime';
 	import type { FanfictionsResponse, UsersResponse } from '$lib/pocketbase-types';
@@ -8,11 +9,13 @@
 	let {
 		fanfictions,
 		fanfictionsFavorites,
-		language
+		language,
+		source
 	}: {
 		fanfictions: FanfictionsResponse<{ author: UsersResponse }>[];
 		fanfictionsFavorites: FavoriteByFanfiction[];
 		language: Locale;
+		source: Source;
 	} = $props();
 
 	function getFavs(id: string): number {
@@ -30,7 +33,7 @@
 <div class="flex flex-wrap gap-2">
 	{#each fanfictions as fanfiction}
 		<div class="flex flex-col">
-			<a href={`/${language}/fanfiction/${fanfiction.id}`}>
+			<a href={`/${language}/${source}/fanfiction/${fanfiction.id}`}>
 				<p class="mt-2 text-center">{fanfiction.title}</p>
 			</a>
 			<p class="text-center">
