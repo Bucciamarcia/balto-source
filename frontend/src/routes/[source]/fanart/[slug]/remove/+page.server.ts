@@ -2,6 +2,7 @@ import { error, fail, redirect, type Actions } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import type { FanartsResponse } from '$lib/pocketbase-types';
 import { getLocale } from '$lib/paraglide/runtime';
+import { getSourceSlug } from '$lib/components/getSourceSlug';
 
 export const load: PageServerLoad = async ({ locals, params }) => {
 	const id = params.slug;
@@ -23,14 +24,16 @@ export const actions = {
 	cancel: async ({ params }) => {
 		const id = params.slug;
 		const locale = getLocale();
+		const source = getSourceSlug(params.source);
 		if (id == undefined) {
-			redirect(303, `/${locale}`);
+			redirect(303, `/${locale}/${source}`);
 		}
-		redirect(303, `/${locale}/fanart/${id}`);
+		redirect(303, `/${locale}/${source}/fanart/${id}`);
 	},
 	remove: async ({ params, locals }) => {
 		const id = params.slug;
 		const locale = getLocale();
+		const source = getSourceSlug(params.source);
 		if (id == undefined) {
 			return fail(400, { error: 'There is no fanart to remove' });
 		}
@@ -39,6 +42,6 @@ export const actions = {
 		} catch (e) {
 			return fail(400, { error: e instanceof Error ? e.message : 'Failed to remove fanart' });
 		}
-		redirect(303, `/${locale}/fanart/${id}/remove/confirmed`);
+		redirect(303, `/${locale}/${source}/fanart/${id}/remove/confirmed`);
 	}
 } satisfies Actions;
