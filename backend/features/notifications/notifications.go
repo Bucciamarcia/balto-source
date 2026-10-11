@@ -24,11 +24,15 @@ func NotifyOnFanartFavorite(app core.App, record *core.Record) error {
 	if err != nil {
 		return err
 	}
+	source, err := getSourceNameFromId(app, targetFanart.Source)
+	if err != nil {
+		return err
+	}
 	newNotification := core.NewRecord(c)
 	newNotification.Set("content", sourceUsername+" added your fanart to their favorites")
 	newNotification.Set("for_user", targetFanart.Author)
 	newNotification.Set("is_read", false)
-	newNotification.Set("url", "/"+language+"/fanart/"+targetFanart.Id)
+	newNotification.Set("url", "/"+language+"/"+source+"/fanart/"+targetFanart.Id)
 	newNotification.Set("source_user", sourceId)
 
 	err = app.Save(newNotification)
@@ -107,11 +111,15 @@ func NotifyOnFanfictionFavorite(app core.App, record *core.Record) error {
 	if err != nil {
 		return err
 	}
+	source, err := getSourceNameFromId(app, targetFanfiction.Source)
+	if err != nil {
+		return err
+	}
 	newNotification := core.NewRecord(c)
 	newNotification.Set("content", sourceUsername+" added your fanfiction to their favorites")
 	newNotification.Set("for_user", targetFanfiction.Author)
 	newNotification.Set("is_read", false)
-	newNotification.Set("url", "/"+language+"/fanfiction/"+targetFanfiction.Id)
+	newNotification.Set("url", "/"+language+"/"+source+"/fanfiction/"+targetFanfiction.Id)
 	newNotification.Set("source_user", sourceId)
 
 	err = app.Save(newNotification)
@@ -139,11 +147,15 @@ func NotifyOnCharacterFavorite(app core.App, record *core.Record) error {
 	if err != nil {
 		return err
 	}
+	source, err := getSourceNameFromId(app, targetCharacter.Source)
+	if err != nil {
+		return err
+	}
 	newNotification := core.NewRecord(c)
 	newNotification.Set("content", sourceUsername+" added your character to their favorites")
 	newNotification.Set("for_user", targetCharacter.Owner)
 	newNotification.Set("is_read", false)
-	newNotification.Set("url", "/"+language+"/character/"+targetCharacter.Id)
+	newNotification.Set("url", "/"+language+"/"+source+"/character/"+targetCharacter.Id)
 	newNotification.Set("source_user", sourceId)
 
 	err = app.Save(newNotification)
@@ -218,6 +230,7 @@ type Fanart struct {
 	Image       string `json:"image"`
 	Title       string `json:"title"`
 	Description string `json:"description"`
+	Source      string `json:"source"`
 }
 
 type Fanfiction struct {
@@ -226,6 +239,7 @@ type Fanfiction struct {
 	Content     string `json:"content"`
 	Title       string `json:"title"`
 	Description string `json:"description"`
+	Source      string `json:"source"`
 }
 type Character struct {
 	Id             string `json:"id"`
@@ -236,5 +250,5 @@ type Character struct {
 	Owner          string `json:"owner"`
 	Official       bool   `json:"official"`
 	Sex            string `json:"sex"`
-	Language       string `json:"language"`
+	Source         string `json:"source"`
 }
