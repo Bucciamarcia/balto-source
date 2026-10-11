@@ -4,18 +4,24 @@
 	import type { Locale } from '$lib/paraglide/runtime';
 	import type { CommentsResponse, UsersResponse } from '$lib/pocketbase-types';
 	import { m } from '$lib/paraglide/messages';
+	import type { Source } from '$lib/components/getSourceSlug';
 
 	let {
 		comment,
-		language
-	}: { comment: CommentsResponse<{ author: UsersResponse }>; language: Locale } = $props();
+		language,
+		source
+	}: { comment: CommentsResponse<{ author: UsersResponse }>; language: Locale; source: Source } =
+		$props();
 </script>
 
 <div class="flex">
-	<a class="mr-5 self-center" href={`/${language}/profile?id=${comment.expand.author.id}`}
+	<a class="mr-5 self-center" href={`/${language}/${source}/profile?id=${comment.expand.author.id}`}
 		>{comment.expand.author.username}</a
 	>
-	<a class="mr-5 self-center" href={`/${language}/profile?id=${comment.expand.author.id}`}>
+	<a
+		class="mr-5 self-center"
+		href={`/${language}/${source}/profile?id=${comment.expand.author.id}`}
+	>
 		<img
 			height="40"
 			width="40"

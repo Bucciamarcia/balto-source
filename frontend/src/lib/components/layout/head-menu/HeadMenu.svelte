@@ -6,18 +6,21 @@
 	import Notifications from './Notifications.svelte';
 	import type { Action } from 'svelte/action';
 	import type { Locale } from '$lib/paraglide/runtime';
+	import type { Source } from '$lib/components/getSourceSlug';
 	let {
 		isLoggedIn,
 		isVerified,
 		newNotifications,
 		latestNotifications,
-		language
+		language,
+		source
 	}: {
 		isLoggedIn: boolean;
 		isVerified: boolean;
 		newNotifications: number;
 		latestNotifications: NotificationsResponse<{ source_user: UsersResponse }>[];
 		language: Locale;
+		source: Source;
 	} = $props();
 	const clickOutside: Action<HTMLElement, () => void> = (node, callback) => {
 		function handleClick(event: MouseEvent) {
@@ -42,14 +45,18 @@
 <div class="mt-4 flex gap-4 place-self-center">
 	<LinkElement label={m.menu_home()} destination="/{language}" logOut={false} />
 	{#if !isLoggedIn}
-		<LinkElement label={m.menu_login()} destination="/{language}/login" logOut={false} />
-		<LinkElement label={m.menu_signup()} destination="/{language}/signup" logOut={false} />
+		<LinkElement label={m.menu_login()} destination="/{language}/{source}/login" logOut={false} />
+		<LinkElement label={m.menu_signup()} destination="/{language}/{source}/signup" logOut={false} />
 	{/if}
-	<LinkElement label={m.menu_shout()} destination="/{language}/shoutbox" logOut={false} />
+	<LinkElement label={m.menu_shout()} destination="/{language}/{source}/shoutbox" logOut={false} />
 	{#if isLoggedIn && isVerified}
-		<LinkElement label={m.menu_profile()} destination="/{language}/profile" logOut={false} />
-		<LinkElement label={m.menu_upload()} destination="/{language}/upload" logOut={false} />
-		<LinkElement label={m.menu_logout()} destination="/{language}/" logOut={true} />
+		<LinkElement
+			label={m.menu_profile()}
+			destination="/{language}/{source}/profile"
+			logOut={false}
+		/>
+		<LinkElement label={m.menu_upload()} destination="/{language}/{source}/upload" logOut={false} />
+		<LinkElement label={m.menu_logout()} destination="/{language}/{source}/" logOut={true} />
 		<div class="tooltip" use:clickOutside={() => (isOpen = false)} data-tip={m.menu_noti()}>
 			<div class="indicator">
 				<span

@@ -2,10 +2,12 @@
 	import { m } from '$lib/paraglide/messages';
 	import baltoSectionImage from '$lib/assets/balto-1-menu-image.avif';
 	import type { Locale } from '$lib/paraglide/runtime';
+	import type { Source } from '../getSourceSlug';
+	let { language, source }: Props = $props();
 	interface Props {
 		language: Locale;
+		source: Source;
 	}
-	let { language }: Props = $props();
 </script>
 
 <!-- Desktop Side Menu -->
@@ -65,15 +67,15 @@
 			<h2><strong>Fans</strong></h2>
 
 			<ul>
-				<a href="/{language}/fanart"><li>{m.menu_fanart()}</li></a>
-				<a href="/{language}/fanfiction"><li>{m.m_fanfic()}</li></a>
+				<a href="/{language}/{source}/fanart"><li>{m.menu_fanart()}</li></a>
+				<a href="/{language}/{source}/fanfiction"><li>{m.m_fanfic()}</li></a>
 				<li>Images</li>
 				<li>Videos</li>
 				<li>Music</li>
 				<li>Gamebooks</li>
 				<li>Projects</li>
 				<li>Contests</li>
-				<a href="/{language}/character"><li>{m.menu_characters()}</li></a>
+				<a href="/{language}/{source}/character"><li>{m.menu_characters()}</li></a>
 				<li>Ask Questions</li>
 			</ul>
 		</div>
@@ -151,4 +153,3 @@
 		</div>
 	</div>
 </div>
-
