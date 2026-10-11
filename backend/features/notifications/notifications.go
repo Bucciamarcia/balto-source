@@ -80,6 +80,14 @@ func getLanguageFromSourceId(app core.App, id string) (string, error) {
 	return sourceRecord.GetString("language"), nil
 }
 
+func getSourceNameFromId(app core.App, id string) (string, error) {
+	sourceRecord, err := app.FindRecordById("sources", id)
+	if err != nil {
+		return "", err
+	}
+	return sourceRecord.GetString("name"), nil
+}
+
 func NotifyOnFanfictionFavorite(app core.App, record *core.Record) error {
 	sourceId := record.GetString("source")
 	targetId := record.GetString("target")

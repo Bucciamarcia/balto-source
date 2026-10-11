@@ -62,12 +62,20 @@ func notifyOnFanart(app core.App, comment Comment) error {
 		return err
 	}
 	fanartAuthor := fanart.GetString("author")
-	language := fanart.GetString("language")
+	sourceId := fanart.GetString("source")
+	language, err := getFanartLanguageFromid(app, fanart.Id)
+	if err != nil {
+		return err
+	}
+	source, err := getSourceNameFromId(app, sourceId)
+	if err != nil {
+		return err
+	}
 	author := data.GetString("username")
 	n.Set("content", author+" commented on your fanart")
 	n.Set("for_user", fanartAuthor)
 	n.Set("is_read", false)
-	n.Set("url", "/"+language+"/"+"fanart/"+comment.TargetId)
+	n.Set("url", "/"+language+"/"+source+"/"+"fanart/"+comment.TargetId)
 	n.Set("source_user", comment.Author)
 	err = app.Save(n)
 	if err != nil {
