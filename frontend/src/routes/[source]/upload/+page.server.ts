@@ -137,7 +137,8 @@ export const actions = {
 				image: fanart,
 				title: title,
 				description: clean,
-				source: await getSourceId(locals.pb, sourceName)
+				source: await getSourceId(locals.pb, sourceName),
+				visible: true
 			});
 		} catch (e) {
 			return fail(500, { error: e instanceof Error ? e.message : 'Unknown error' });
@@ -187,7 +188,8 @@ export const actions = {
 				content: html,
 				title: title,
 				description: clean,
-				source: await getSourceId(locals.pb, sourceName)
+				source: await getSourceId(locals.pb, sourceName),
+				visible: true
 			});
 		} catch (e) {
 			return fail(500, { error: e instanceof Error ? e.message : 'Unknown error' });
