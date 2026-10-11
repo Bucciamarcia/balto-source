@@ -8,9 +8,11 @@ import { fail, type Actions } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import { getLocale } from '$lib/paraglide/runtime';
 import { getSourceId } from '$lib/components/getSourceId';
+import { getSourceSlug } from '$lib/components/getSourceSlug';
 
-export const load: PageServerLoad = async ({ locals }) => {
-	const source = await getSourceId(locals.pb);
+export const load: PageServerLoad = async ({ locals, params }) => {
+	const sourceName = getSourceSlug(params.source);
+	const source = await getSourceId(locals.pb, sourceName);
 	const language = getLocale();
 	const fanfictions = await locals.pb
 		.collection('fanfictions')

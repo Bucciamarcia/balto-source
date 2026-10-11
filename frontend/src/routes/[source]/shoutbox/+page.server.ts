@@ -4,10 +4,12 @@ import type { PageServerLoad, Actions } from './$types';
 import { moderateText } from '$lib/components/moderateAi';
 import { getLocale } from '$lib/paraglide/runtime';
 import { getSourceId } from '$lib/components/getSourceId';
+import { getSourceSlug } from '$lib/components/getSourceSlug';
 
-export const load: PageServerLoad = async ({ locals }) => {
+export const load: PageServerLoad = async ({ locals, params }) => {
 	const lang = getLocale();
-	const source = await getSourceId(locals.pb);
+	const sourceName = getSourceSlug(params.source);
+	const source = await getSourceId(locals.pb, sourceName);
 	const authenticated = locals.user != null;
 	const isVerified = locals.user?.verified ?? false;
 	const resultList = await locals.pb
@@ -27,10 +29,11 @@ export const load: PageServerLoad = async ({ locals }) => {
 };
 
 export const actions: Actions = {
-	sendMessage: async ({ request, locals }) => {
+	sendMessage: async ({ request, locals, params }) => {
 		const data = await request.formData();
 		const message = data.get('message');
 		const uid = locals.auth?.id;
+		const sourceName = getSourceSlug(params.source);
 		if (uid == null) {
 			return fail(401, { error: 'User not authenticated' });
 		}
@@ -45,7 +48,7 @@ export const actions: Actions = {
 			await locals.pb.collection('chat_messages').create({
 				body: message,
 				author: uid,
-				source: await getSourceId(locals.pb)
+				source: await getSourceId(locals.pb, sourceName)
 			});
 		} catch (e) {
 			const err = e as Error;

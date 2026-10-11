@@ -4,8 +4,10 @@ import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { getFanartFavorites } from '$lib/components/getFanartFavorites';
 import { getSourceId } from '$lib/components/getSourceId';
-export const load: PageServerLoad = async ({ locals }) => {
-	const source = await getSourceId(locals.pb);
+import { getSourceSlug } from '$lib/components/getSourceSlug';
+export const load: PageServerLoad = async ({ locals, params }) => {
+	const sourceName = getSourceSlug(params.source);
+	const source = await getSourceId(locals.pb, sourceName);
 	const fanarts = await locals.pb
 		.collection('fanarts')
 		.getFullList<FanartsResponse<{ author: UsersResponse }>>({
@@ -32,8 +34,9 @@ export type FavoriteByFanart = {
 };
 
 export const actions = {
-	filter: async ({ request, locals }) => {
-		const source = await getSourceId(locals.pb);
+	filter: async ({ request, locals, params }) => {
+		const sourceName = getSourceSlug(params.source);
+		const source = await getSourceId(locals.pb, sourceName);
 		const data = await request.formData();
 		const filter = data.get('filter');
 		if (filter == null) {

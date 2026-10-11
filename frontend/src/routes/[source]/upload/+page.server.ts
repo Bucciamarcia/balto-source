@@ -6,6 +6,7 @@ import { moderateImageData, moderateText, type ModerateResult } from '$lib/compo
 import { FANART_TOO_LARGE_MESSAGE, MAX_FANART_BYTES } from '$lib/limits';
 import { m } from '$lib/paraglide/messages';
 import { getSourceId } from '$lib/components/getSourceId';
+import { getSourceSlug } from '$lib/components/getSourceSlug';
 
 export type CharacterSex = 'male' | 'female' | 'other';
 
@@ -17,7 +18,7 @@ export const load: PageServerLoad = async ({ locals }) => {
 };
 
 export const actions = {
-	createCharacter: async ({ request, locals }) => {
+	createCharacter: async ({ request, locals, params }) => {
 		if (!locals.isVerified) {
 			return fail(403, { error: 'Your account must be verified to create characters.' });
 		}
@@ -64,6 +65,7 @@ export const actions = {
 		}
 		name = sanitizeHtml(name);
 		bio = sanitizeHtml(bio);
+		const sourceName = getSourceSlug(params.source);
 		try {
 			await locals.pb.collection('characters').create({
 				name: name,
@@ -73,14 +75,15 @@ export const actions = {
 				owner: locals.auth!.id,
 				official: false,
 				sex: sex,
-				source: await getSourceId(locals.pb),
+				source: await getSourceId(locals.pb, sourceName),
 				visible: true
 			});
 		} catch (e) {
 			return fail(400, { error: e instanceof Error ? e.message : 'Unknown error occurred' });
 		}
 	},
-	uploadFanart: async ({ request, locals }) => {
+	uploadFanart: async ({ request, locals, params }) => {
+		const sourceName = getSourceSlug(params.source);
 		if (!locals.isVerified) {
 			return fail(403, { error: 'Your account must be verified to create characters.' });
 		}
@@ -134,14 +137,15 @@ export const actions = {
 				image: fanart,
 				title: title,
 				description: clean,
-				source: await getSourceId(locals.pb)
+				source: await getSourceId(locals.pb, sourceName)
 			});
 		} catch (e) {
 			return fail(500, { error: e instanceof Error ? e.message : 'Unknown error' });
 		}
 	},
 
-	uploadFanfiction: async ({ request, locals }) => {
+	uploadFanfiction: async ({ request, locals, params }) => {
+		const sourceName = getSourceSlug(params.source);
 		if (!locals.isVerified) {
 			return fail(403, { error: 'Your account must be verified to create characters.' });
 		}
@@ -183,7 +187,7 @@ export const actions = {
 				content: html,
 				title: title,
 				description: clean,
-				source: await getSourceId(locals.pb)
+				source: await getSourceId(locals.pb, sourceName)
 			});
 		} catch (e) {
 			return fail(500, { error: e instanceof Error ? e.message : 'Unknown error' });

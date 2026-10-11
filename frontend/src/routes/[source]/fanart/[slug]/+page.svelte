@@ -21,4 +21,5 @@
 	alreadyFaved={data.alreadyFaved}
 	isVerified={data.isVerified}
 	locale={data.locale}
+	source={data.source}
 />

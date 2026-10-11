@@ -1,4 +1,5 @@
 import { getSourceId } from '$lib/components/getSourceId';
+import { getSourceSlug } from '$lib/components/getSourceSlug';
 import type {
 	CharacterFavoritesResponse,
 	CharactersResponse,
@@ -6,8 +7,9 @@ import type {
 } from '$lib/pocketbase-types';
 import type { PageServerLoad } from './$types';
 
-export const load: PageServerLoad = async ({ locals }) => {
-	const source = await getSourceId(locals.pb);
+export const load: PageServerLoad = async ({ locals, params }) => {
+	const sourceName = getSourceSlug(params.source);
+	const source = await getSourceId(locals.pb, sourceName);
 	const characters = await locals.pb
 		.collection('characters')
 		.getFullList<CharactersResponse<{ owner: UsersResponse }>>({

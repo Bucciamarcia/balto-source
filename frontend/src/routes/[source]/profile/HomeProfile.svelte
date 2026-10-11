@@ -11,6 +11,7 @@
 	import type { CommentsResponse, UsersResponse } from '$lib/pocketbase-types';
 	import { m } from '$lib/paraglide/messages';
 	import type { Locale } from '$lib/paraglide/runtime';
+	import type { Source } from '$lib/components/getSourceSlug';
 
 	let {
 		user,
@@ -18,7 +19,8 @@
 		isLoggedIn,
 		comments,
 		isVerified,
-		language
+		language,
+		source
 	}: {
 		user: UsersResponse;
 		isSelf: boolean;
@@ -26,6 +28,7 @@
 		comments: CommentsResponse<{ author: UsersResponse }>[];
 		isVerified: boolean;
 		language: Locale;
+		source: Source;
 	} = $props();
 	let editMode = $state(false);
 	let newUsername: string = $state('');
@@ -154,5 +157,6 @@
 		isLoggedIn={isLoggedIn ?? false}
 		isVerified
 		{language}
+		{source}
 	/>
 </div>

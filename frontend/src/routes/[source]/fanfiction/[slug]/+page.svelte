@@ -50,5 +50,6 @@
 		targetId={fanfiction.id}
 		isVerified={data.isVerified}
 		language={data.language}
+		source={data.source}
 	/>
 {/if}

@@ -5,11 +5,13 @@ import PocketBase from 'pocketbase';
 import { getLocale } from '$lib/paraglide/runtime';
 import type { PageServerLoad } from './$types';
 import { getSourceId } from '$lib/components/getSourceId';
+import { getSourceSlug } from '$lib/components/getSourceSlug';
 
-export const load: PageServerLoad = async ({ locals, cookies }) => {
+export const load: PageServerLoad = async ({ locals, cookies, params }) => {
+	const sourceName = getSourceSlug(params.source);
 	const flash = cookies.get('flash');
 	if (flash) cookies.delete('flash', { path: '/' });
-	const source = await getSourceId(locals.pb);
+	const source = await getSourceId(locals.pb, sourceName);
 	const language = getLocale();
 	const resultList = await locals.pb
 		.collection('homepage_news')

@@ -23,5 +23,6 @@
 		comments={data.comments}
 		isVerified={data.isVerified}
 		language={data.language}
+		source={data.source}
 	/>
 </div>
