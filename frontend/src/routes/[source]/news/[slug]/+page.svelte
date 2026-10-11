@@ -14,6 +14,7 @@
 	comments={data.comments}
 	showCommentsLine={false}
 	language={data.language}
+	source={data.source}
 />
 <div class="w-full max-w-3xl">
 	<ShowComments
