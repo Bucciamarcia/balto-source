@@ -6,19 +6,22 @@
 	import SingleCommentDisplay from './SingleCommentDisplay.svelte';
 	import TipTapEditor from './TipTapEditor.svelte';
 	import { m } from '$lib/paraglide/messages';
+	import type { Source } from '$lib/components/getSourceSlug';
 
 	let {
 		comments,
 		targetId,
 		isLoggedIn,
 		isVerified,
-		language
+		language,
+		source
 	}: {
 		comments: CommentsResponse<{ author: UsersResponse }>[];
 		targetId: string;
 		isLoggedIn: boolean;
 		isVerified: boolean;
 		language: Locale;
+		source: Source;
 	} = $props();
 	let replyId: string = $state('');
 	let replyValue: string = $state('');
@@ -91,7 +94,7 @@
 {:else}
 	{#each rootComments() as comment}
 		<div class="mt-5 border-2 border-accent p-5">
-			<SingleCommentDisplay {comment} {language} />
+			<SingleCommentDisplay {comment} {language} {source} />
 			{#if isLoggedIn && isVerified}
 				<button
 					class="btn mt-5 btn-primary"
@@ -146,7 +149,7 @@
 			{/if}
 			{#each childComments(comment.id) as child}
 				<div class="mt-5 border-2 border-accent p-5">
-					<SingleCommentDisplay comment={child} {language} />
+					<SingleCommentDisplay comment={child} {language} {source} />
 				</div>
 			{/each}
 		</div>

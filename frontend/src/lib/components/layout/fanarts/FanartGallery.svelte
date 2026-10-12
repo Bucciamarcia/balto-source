@@ -3,8 +3,9 @@
 	import type { Locale } from '$lib/paraglide/runtime';
 	import type { FanartsResponse, UsersResponse } from '$lib/pocketbase-types';
 	import { PUBLIC_POCKETBASE_URL } from '$lib/pocketbase/url';
-	import type { FavoriteByFanart } from '../../../../routes/fanart/+page.server';
 	import { m } from '$lib/paraglide/messages';
+	import type { FavoriteByFanart } from '../../../../routes/[source]/fanart/+page.server';
+	import type { Source } from '$lib/components/getSourceSlug';
 
 	function getFanartUrl(id: string, image: string): string {
 		return `${PUBLIC_POCKETBASE_URL}/api/files/fanarts/${id}/${image}?thumb=300x200f`;
@@ -12,11 +13,13 @@
 	let {
 		fanarts,
 		fanartsFavorites,
-		language
+		language,
+		source
 	}: {
 		fanarts: FanartsResponse<{ author: UsersResponse }>[];
 		fanartsFavorites: FavoriteByFanart[];
 		language: Locale;
+		source: Source;
 	} = $props();
 
 	function getFavs(id: string): number {
@@ -34,18 +37,20 @@
 <div class="flex flex-wrap gap-2">
 	{#each fanarts as fanart}
 		<div class="flex flex-col">
-			<a href={`/${language}/fanart/${fanart.id}`}>
+			<a href={`/${language}/${source}/fanart/${fanart.id}`}>
 				<img
 					src={getFanartUrl(fanart.id, fanart.image)}
 					alt={m.fanart_g_alt({ title: fanart.title, author: fanart.expand.author.username })}
 				/>
 			</a>
-			<a href={`/${language}/fanart/${fanart.id}`}>
+			<a href={`/${language}/${source}/fanart/${fanart.id}`}>
 				<p class="mt-2 text-center">{fanart.title}</p>
 			</a>
 			<p class="text-center">
 				{m.fa_by()}
-				<a href={`/${language}/profile?id=${fanart.author}`}>{fanart.expand.author.username}</a>
+				<a href={`/${language}/${source}/profile?id=${fanart.author}`}
+					>{fanart.expand.author.username}</a
+				>
 			</p>
 			<p class="text-center">
 				{getFavs(fanart.id)}

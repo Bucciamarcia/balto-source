@@ -62,12 +62,20 @@ func notifyOnFanart(app core.App, comment Comment) error {
 		return err
 	}
 	fanartAuthor := fanart.GetString("author")
-	language := fanart.GetString("language")
+	sourceId := fanart.GetString("source")
+	language, err := getFanartLanguageFromid(app, fanart.Id)
+	if err != nil {
+		return err
+	}
+	source, err := getSourceNameFromId(app, sourceId)
+	if err != nil {
+		return err
+	}
 	author := data.GetString("username")
 	n.Set("content", author+" commented on your fanart")
 	n.Set("for_user", fanartAuthor)
 	n.Set("is_read", false)
-	n.Set("url", "/"+language+"/"+"fanart/"+comment.TargetId)
+	n.Set("url", "/"+language+"/"+source+"/fanart/"+comment.TargetId)
 	n.Set("source_user", comment.Author)
 	err = app.Save(n)
 	if err != nil {
@@ -85,17 +93,25 @@ func notifyOnFanfiction(app core.App, comment Comment) error {
 	if err != nil {
 		return err
 	}
-	fanfiction, err := app.FindRecordById("fanfictions", comment.TargetId)
+	fanfic, err := app.FindRecordById("fanfictions", comment.TargetId)
 	if err != nil {
 		return err
 	}
-	fanfictionAuthor := fanfiction.GetString("author")
-	language := fanfiction.GetString("language")
+	fanficAuthor := fanfic.GetString("author")
+	sourceId := fanfic.GetString("source")
+	language, err := getFanficLanguageFromid(app, fanfic.Id)
+	if err != nil {
+		return err
+	}
+	source, err := getSourceNameFromId(app, sourceId)
+	if err != nil {
+		return err
+	}
 	author := data.GetString("username")
-	n.Set("content", author+" commented on your fanfiction")
-	n.Set("for_user", fanfictionAuthor)
+	n.Set("content", author+" commented on your fanart")
+	n.Set("for_user", fanficAuthor)
 	n.Set("is_read", false)
-	n.Set("url", "/"+language+"/"+"fanfiction/"+comment.TargetId)
+	n.Set("url", "/"+language+"/"+source+"/fanfiction/"+comment.TargetId)
 	n.Set("source_user", comment.Author)
 	err = app.Save(n)
 	if err != nil {
@@ -117,13 +133,21 @@ func notifyOnCharacter(app core.App, comment Comment) error {
 	if err != nil {
 		return err
 	}
-	characterAuthor := character.GetString("owner")
-	language := character.GetString("language")
+	characterOwner := character.GetString("owner")
+	sourceId := character.GetString("source")
+	language, err := getCharacterLanguageFromid(app, character.Id)
+	if err != nil {
+		return err
+	}
+	source, err := getSourceNameFromId(app, sourceId)
+	if err != nil {
+		return err
+	}
 	author := data.GetString("username")
-	n.Set("content", author+" commented on your character page")
-	n.Set("for_user", characterAuthor)
+	n.Set("content", author+" commented on your fanart")
+	n.Set("for_user", characterOwner)
 	n.Set("is_read", false)
-	n.Set("url", "/"+language+"/"+"character/"+comment.TargetId)
+	n.Set("url", "/"+language+"/"+source+"/character/"+comment.TargetId)
 	n.Set("source_user", comment.Author)
 	err = app.Save(n)
 	if err != nil {

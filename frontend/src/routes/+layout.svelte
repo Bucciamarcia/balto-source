@@ -36,12 +36,13 @@
 			newNotifications={data.newNotificationsCount}
 			latestNotifications={data.latestNotifications}
 			language={data.language}
+			source={data.source}
 		/>
 
 		{#if data.user?.verified === false}
 			<form
 				method="POST"
-				action="/?/resendVerificationEmail"
+				action={localizeHref('/hub/profile?/resendVerificationEmail')}
 				use:enhance={() => {
 					newEmailVerificationYes = false;
 
@@ -80,23 +81,23 @@
 	<div class="flex flex-1 flex-nowrap items-start">
 		<!-- Left Column (Stays as small as SideMenu allows) -->
 		<div class="hidden md:block">
-			<SideMenu language={data.language} />
+			<SideMenu language={data.language} source={data.source} />
 		</div>
 
 		<div class="flex md:hidden">
-			<HamburgerMenu />
+			<HamburgerMenu source={data.source} />
 		</div>
 
 		<!-- Right Column (Fills the rest) -->
 
 		<main
-			class="container m-10 rounded-md border-3 border-solid border-[#70abbb] bg-neutral/75 px-20 py-10 min-w-[600px]"
+			class="container m-10 min-w-[600px] rounded-md border-3 border-solid border-[#70abbb] bg-neutral/75 px-20 py-10"
 		>
 			{@render children()}
 		</main>
 	</div>
 
-	<div class="flex flex-1 mx-auto min-w-[780px]"><Footer /></div>
+	<div class="mx-auto flex min-w-[780px] flex-1"><Footer /></div>
 </div>
 
 <div style="display:none">

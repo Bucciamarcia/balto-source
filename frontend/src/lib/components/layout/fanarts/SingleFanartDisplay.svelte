@@ -12,6 +12,7 @@
 	import { PUBLIC_POCKETBASE_URL } from '$lib/pocketbase/url';
 	import type { AuthRecord } from 'pocketbase';
 	import { m } from '$lib/paraglide/messages';
+	import type { Source } from '$lib/components/getSourceSlug';
 
 	let {
 		fanart,
@@ -20,7 +21,8 @@
 		alreadyFaved,
 		comments,
 		isVerified,
-		locale
+		locale,
+		source
 	}: {
 		fanart: FanartsResponse<{ author: UsersResponse }>;
 		user: AuthRecord;
@@ -29,6 +31,7 @@
 		comments: CommentsResponse<{ author: UsersResponse }>[];
 		isVerified: boolean;
 		locale: Locale;
+		source: Source;
 	} = $props();
 	// svelte-ignore state_referenced_locally
 	const author: UsersResponse = fanart.expand.author;
@@ -49,7 +52,7 @@
 		</div>
 		{#if fanart.author === user?.id}
 			<div class="mx-3 mt-5 mb-4 place-self-center">
-				<a href="/{locale}/fanart/{fanart.id}/edit"
+				<a href="/{locale}/{source}/fanart/{fanart.id}/edit"
 					><button class="btn btn-primary">{m.fa_edit_btn()}</button></a
 				>
 			</div>
@@ -119,6 +122,13 @@
 				</form>
 			{/if}
 		{/if}
-		<ShowComments {isLoggedIn} targetId={fanart.id} {comments} {isVerified} language={locale} />
+		<ShowComments
+			{isLoggedIn}
+			targetId={fanart.id}
+			{comments}
+			{isVerified}
+			language={locale}
+			{source}
+		/>
 	</div>
 </div>
