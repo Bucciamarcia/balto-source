@@ -43,20 +43,46 @@
 </script>
 
 <div class="mt-4 flex gap-4 place-self-center">
-	<LinkElement label={m.menu_home()} destination="/{language}/{source}" logOut={false} />
+	<LinkElement label={m.menu_home()} destination="/{language}/{source}" logOut={false} {source} />
 	{#if !isLoggedIn}
-		<LinkElement label={m.menu_login()} destination="/{language}/{source}/login" logOut={false} />
-		<LinkElement label={m.menu_signup()} destination="/{language}/{source}/signup" logOut={false} />
+		<LinkElement
+			label={m.menu_login()}
+			destination="/{language}/{source}/login"
+			logOut={false}
+			{source}
+		/>
+		<LinkElement
+			label={m.menu_signup()}
+			destination="/{language}/{source}/signup"
+			logOut={false}
+			{source}
+		/>
 	{/if}
-	<LinkElement label={m.menu_shout()} destination="/{language}/{source}/shoutbox" logOut={false} />
+	<LinkElement
+		label={m.menu_shout()}
+		destination="/{language}/{source}/shoutbox"
+		logOut={false}
+		{source}
+	/>
 	{#if isLoggedIn && isVerified}
 		<LinkElement
 			label={m.menu_profile()}
 			destination="/{language}/{source}/profile"
 			logOut={false}
+			{source}
 		/>
-		<LinkElement label={m.menu_upload()} destination="/{language}/{source}/upload" logOut={false} />
-		<LinkElement label={m.menu_logout()} destination="/{language}/{source}/" logOut={true} />
+		<LinkElement
+			label={m.menu_upload()}
+			destination="/{language}/{source}/upload"
+			logOut={false}
+			{source}
+		/>
+		<LinkElement
+			label={m.menu_logout()}
+			destination="/{language}/{source}/"
+			logOut={true}
+			{source}
+		/>
 		<div class="tooltip" use:clickOutside={() => (isOpen = false)} data-tip={m.menu_noti()}>
 			<div class="indicator">
 				<span
@@ -66,7 +92,7 @@
 				<details bind:open={isOpen} class="dropdown dropdown-end">
 					<summary class="btn btn-primary"><BellIcon /></summary>
 					<div class="dropdown-content grid h-120 w-100 content-start overflow-y-auto bg-base-300">
-						<Notifications notifications={latestNotifications} />
+						<Notifications notifications={latestNotifications} {source} />
 					</div>
 				</details>
 			</div>
