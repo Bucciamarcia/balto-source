@@ -3,10 +3,13 @@
 	import { buildAvatarUrl } from '$lib/components/buildAvatarUrl';
 	import type { NotificationsResponse, UsersResponse } from '$lib/pocketbase-types';
 	import { localizeHref } from '$lib/paraglide/runtime';
+	import { type Source } from '$lib/components/getSourceSlug';
 
 	let {
-		notifications
-	}: { notifications: NotificationsResponse<{ source_user: UsersResponse }>[] } = $props();
+		notifications,
+		source
+	}: { notifications: NotificationsResponse<{ source_user: UsersResponse }>[]; source: Source } =
+		$props();
 
 	function unreadNotifications(): boolean {
 		for (const n of notifications) {
@@ -19,7 +22,7 @@
 </script>
 
 {#each notifications as notification}
-	<form method="POST" action={localizeHref('/hub/profile?/singleNotificationRead')}>
+	<form method="POST" action={localizeHref(`/${source}/profile?/singleNotificationRead`)}>
 		<input type="hidden" name="id" value={notification.id} />
 		<input type="hidden" name="url" value={notification.url} />
 		<button type="submit" class="w-full cursor-pointer text-left">
@@ -42,7 +45,7 @@
 	</form>
 {/each}
 {#if unreadNotifications()}
-	<form method="POST" action={localizeHref('/hub/profile?/markNotificationsAsRead')}>
+	<form method="POST" action={localizeHref(`/${source}/profile?/markNotificationsAsRead`)}>
 		<button type="submit" class="cursor-pointer text-center text-black underline"
 			>{m.noti_read()}</button
 		>
