@@ -42,7 +42,7 @@
 		{#if data.user?.verified === false}
 			<form
 				method="POST"
-				action="/?/resendVerificationEmail"
+				action={localizeHref('/hub/profile?/resendVerificationEmail')}
 				use:enhance={() => {
 					newEmailVerificationYes = false;
 

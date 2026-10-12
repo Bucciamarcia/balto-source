@@ -2,6 +2,7 @@
 	import { m } from '$lib/paraglide/messages';
 	import { buildAvatarUrl } from '$lib/components/buildAvatarUrl';
 	import type { NotificationsResponse, UsersResponse } from '$lib/pocketbase-types';
+	import { localizeHref } from '$lib/paraglide/runtime';
 
 	let {
 		notifications
@@ -18,7 +19,7 @@
 </script>
 
 {#each notifications as notification}
-	<form method="POST" action="/?/singleNotificationRead">
+	<form method="POST" action={localizeHref('/hub/profile?/singleNotificationRead')}>
 		<input type="hidden" name="id" value={notification.id} />
 		<input type="hidden" name="url" value={notification.url} />
 		<button type="submit" class="w-full cursor-pointer text-left">
@@ -41,7 +42,7 @@
 	</form>
 {/each}
 {#if unreadNotifications()}
-	<form method="POST" action="/?/markNotificationsAsRead">
+	<form method="POST" action={localizeHref('/hub/profile?/markNotificationsAsRead')}>
 		<button type="submit" class="cursor-pointer text-center text-black underline"
 			>{m.noti_read()}</button
 		>

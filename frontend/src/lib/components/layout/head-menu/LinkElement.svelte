@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import { localizeHref } from '$lib/paraglide/runtime';
 
 	interface Props {
 		label: string;
@@ -15,7 +16,7 @@
 {:else}
 	<form
 		method="POST"
-		action="/?/logout"
+		action={localizeHref('/hub/profile?/logout')}
 		use:enhance={() => {
 			return async ({ update }) => {
 				await update();

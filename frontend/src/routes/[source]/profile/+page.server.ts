@@ -1,9 +1,10 @@
 import {
 	type CommentsResponse,
 	type FanartsResponse,
+	type NotificationsResponse,
 	type UsersResponse
 } from '$lib/pocketbase-types';
-import { error, fail } from '@sveltejs/kit';
+import { error, fail, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { PUBLIC_POCKETBASE_URL } from '$lib/pocketbase/url';
 import type Client from 'pocketbase';
@@ -80,6 +81,57 @@ export const load: PageServerLoad = async ({ locals, url }) => {
 };
 
 export const actions: Actions = {
+	resendVerificationEmail: async ({ locals, request }) => {
+		const data = await request.formData();
+		const email = data.get('email') as string;
+		try {
+			await locals.pb.collection('users').requestVerification(email);
+		} catch (e) {
+			return fail(500, { error: e instanceof Error ? e.message : 'Unknown error' });
+		}
+	},
+	logout: async ({ locals }) => {
+		locals.pb.authStore.clear();
+	},
+	singleNotificationRead: async ({ locals, request }) => {
+		const data = await request.formData();
+		const nid = data.get('id') as string;
+		const url = data.get('url') as string;
+		try {
+			await locals.pb.collection('notifications').update(nid, {
+				is_read: true
+			});
+		} catch (e) {
+			return fail(500, { error: e instanceof Error ? e.message : 'Unknown error' });
+		}
+		throw redirect(303, url);
+	},
+	markNotificationsAsRead: async ({ locals }) => {
+		const user = locals.user;
+		if (user == null) {
+			return fail(401, { error: 'Not logged in' });
+		}
+		let notifications: NotificationsResponse[] = [];
+		try {
+			notifications = await locals.pb
+				.collection('notifications')
+				.getFullList<NotificationsResponse>({
+					filter: `for_user="${user.id}" && is_read=false`
+				});
+		} catch (e) {
+			return fail(500, { error: e instanceof Error ? e.message : 'Unknown error' });
+		}
+
+		for (const n of notifications) {
+			try {
+				await locals.pb.collection('notifications').update(n.id, {
+					is_read: true
+				});
+			} catch (e) {
+				return fail(500, { error: e instanceof Error ? e.message : 'Unknown error' });
+			}
+		}
+	},
 	changeUsername: async ({ locals, request }) => {
 		const id = locals.auth?.id;
 		if (id == null || id === undefined) {
