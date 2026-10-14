@@ -17,6 +17,7 @@
 	fanart={data.fanart}
 	comments={data.comments}
 	user={data.user}
+	usersResponse={data.usersResponse}
 	favs={data.favs}
 	alreadyFaved={data.alreadyFaved}
 	isVerified={data.isVerified}

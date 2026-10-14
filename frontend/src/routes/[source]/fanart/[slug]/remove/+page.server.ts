@@ -3,6 +3,7 @@ import type { PageServerLoad } from './$types';
 import type { FanartsResponse } from '$lib/pocketbase-types';
 import { getLocale } from '$lib/paraglide/runtime';
 import { getSourceSlug } from '$lib/components/getSourceSlug';
+import { canModerate } from '$lib/components/canModerate';
 
 export const load: PageServerLoad = async ({ locals, params }) => {
 	const id = params.slug;
@@ -14,7 +15,7 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 	if (user == undefined) {
 		throw error(401, 'Not logged in');
 	}
-	if (fanart.author !== user.id) {
+	if (fanart.author !== user.id && !canModerate(user)) {
 		throw error(401, 'You are not authorized to edit this');
 	}
 	return { fanart };
