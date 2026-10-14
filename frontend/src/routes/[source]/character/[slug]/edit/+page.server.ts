@@ -58,6 +58,6 @@ export const actions = {
 		} catch (e) {
 			return fail(400, { error: e instanceof Error ? e.message : 'Unknown error occurred' });
 		}
-		redirect(303, `${getLocale()}/${source}/character/${slug}`);
+		redirect(303, `/${getLocale()}/${source}/character/${slug}`);
 	}
 } satisfies Actions;
