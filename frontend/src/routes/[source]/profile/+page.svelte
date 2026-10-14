@@ -44,6 +44,7 @@
 		isVerified={data.isVerified}
 		language={data.language}
 		source={data.source}
+		myself={data.myself}
 	/>
 {/if}
 {#if selectedTab === 'gallery'}
