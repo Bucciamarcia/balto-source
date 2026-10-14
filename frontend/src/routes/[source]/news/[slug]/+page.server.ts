@@ -1,9 +1,13 @@
-import type { CommentsResponse, HomepageNewsResponse, UsersResponse } from '$lib/pocketbase-types';
+import type {
+	CommentsResponse,
+	HomepageNewsResponse,
+	UsersResponse
+} from '#lib/pocketbase-types.js';
 import { fail, type Actions } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import sanitizeHtml from 'sanitize-html';
-import { moderateText } from '$lib/components/moderateAi';
-import { getLocale } from '$lib/paraglide/runtime';
+import { moderateText } from '#lib/components/moderateAi.js';
+import { getLocale } from '#lib/paraglide/runtime.js';
 
 export const load: PageServerLoad = async ({ locals, params }) => {
 	const newsId = params.slug;

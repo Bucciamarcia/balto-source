@@ -1,8 +1,8 @@
-import type { NotificationsResponse, UsersResponse } from '$lib/pocketbase-types';
+import type { NotificationsResponse, UsersResponse } from '#lib/pocketbase-types.js';
 import type { ListResult } from 'pocketbase';
 import type { LayoutServerLoad } from './$types';
-import { getLocale } from '$lib/paraglide/runtime';
-import { getSourceSlug } from '$lib/components/getSourceSlug';
+import { getLocale } from '#lib/paraglide/runtime.js';
+import { getSourceSlug } from '#lib/components/getSourceSlug.js';
 
 export const load: LayoutServerLoad = async ({ locals, params }) => {
 	const auth = locals.auth;

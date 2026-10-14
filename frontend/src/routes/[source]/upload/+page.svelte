@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { m } from '$lib/paraglide/messages';
+	import { m } from '#lib/paraglide/messages.js';
 	import CharacterUploader from './CharacterUploader.svelte';
 	import FanartUploader from './FanartUploader.svelte';
 	import FanfictionUploader from './FanfictionUploader.svelte';

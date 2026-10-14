@@ -1,8 +1,8 @@
 import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
-import { PUBLIC_POCKETBASE_URL } from '$lib/pocketbase/url';
-import { moderateText } from '$lib/components/moderateAi';
-import { verifyTurnstile } from '$lib/verifyTurnstile';
+import { PUBLIC_POCKETBASE_URL } from '#lib/pocketbase/url.js';
+import { moderateText } from '#lib/components/moderateAi.js';
+import { verifyTurnstile } from '#lib/verifyTurnstile.js';
 
 export const load: PageServerLoad = async ({ locals }) => {
 	return {

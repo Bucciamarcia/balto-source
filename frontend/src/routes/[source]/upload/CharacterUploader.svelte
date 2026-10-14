@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import FormError from '$lib/components/formError.svelte';
-	import TipTapEditor from '$lib/components/layout/comments/TipTapEditor.svelte';
-	import { m } from '$lib/paraglide/messages';
+	import FormError from '#lib/components/formError.svelte';
+	import TipTapEditor from '#lib/components/layout/comments/TipTapEditor.svelte';
+	import { m } from '#lib/paraglide/messages.js';
 	import type { CharacterSex } from './+page.server';
 	let characterSex: CharacterSex = $state('male');
 	let error: string = $state('');

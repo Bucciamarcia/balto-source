@@ -1,8 +1,8 @@
 import { sequence, type Handle } from '@sveltejs/kit/hooks';
-import { getTextDirection } from '$lib/paraglide/runtime';
-import { paraglideMiddleware } from '$lib/paraglide/server';
+import { getTextDirection } from '#lib/paraglide/runtime.js';
+import { paraglideMiddleware } from '#lib/paraglide/server.js';
 import PocketBase from 'pocketbase';
-import { PUBLIC_POCKETBASE_URL } from '$lib/pocketbase/url';
+import { PUBLIC_POCKETBASE_URL } from '#lib/pocketbase/url.js';
 
 const originalHandle: Handle = async ({ event, resolve }) => {
 	event.locals.pb = new PocketBase(PUBLIC_POCKETBASE_URL);

@@ -3,10 +3,10 @@ import type {
 	CharacterFavoritesResponse,
 	CharactersResponse,
 	UsersResponse
-} from '$lib/pocketbase-types';
+} from '#lib/pocketbase-types.js';
 import { fail, redirect, type Actions } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
-import { moderateText } from '$lib/components/moderateAi';
+import { moderateText } from '#lib/components/moderateAi.js';
 import sanitizeHtml from 'sanitize-html';
 
 export const load: PageServerLoad = async ({ locals, params }) => {

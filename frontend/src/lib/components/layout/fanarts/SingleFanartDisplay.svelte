@@ -1,19 +1,19 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import FormError from '$lib/components/formError.svelte';
-	import ShowComments from '$lib/components/layout/comments/ShowComments.svelte';
-	import type { Locale } from '$lib/paraglide/runtime';
+	import FormError from '#lib/components/formError.svelte';
+	import ShowComments from '#lib/components/layout/comments/ShowComments.svelte';
+	import type { Locale } from '#lib/paraglide/runtime.js';
 	import type {
 		CommentsResponse,
 		FanartFavoritesResponse,
 		FanartsResponse,
 		UsersResponse
-	} from '$lib/pocketbase-types';
-	import { PUBLIC_POCKETBASE_URL } from '$lib/pocketbase/url';
+	} from '#lib/pocketbase-types.js';
+	import { PUBLIC_POCKETBASE_URL } from '#lib/pocketbase/url.js';
 	import type { AuthRecord } from 'pocketbase';
-	import { m } from '$lib/paraglide/messages';
-	import type { Source } from '$lib/components/getSourceSlug';
-	import { canModerate } from '$lib/components/canModerate';
+	import { m } from '#lib/paraglide/messages.js';
+	import type { Source } from '#lib/components/getSourceSlug.js';
+	import { canModerate } from '#lib/components/canModerate.js';
 
 	let {
 		fanart,

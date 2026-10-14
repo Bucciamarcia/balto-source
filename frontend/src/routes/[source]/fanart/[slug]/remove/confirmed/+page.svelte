@@ -1,5 +1,5 @@
 <script>
-	import { m } from '$lib/paraglide/messages';
+	import { m } from '#lib/paraglide/messages.js';
 </script>
 
 <svelte:head><title>{m.fa_removed_ok_title()}</title></svelte:head>

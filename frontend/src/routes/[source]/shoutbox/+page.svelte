@@ -4,11 +4,11 @@
 	import { onMount } from 'svelte';
 	import PocketBase from 'pocketbase';
 	import type { PageData } from './$types';
-	import type { ChatMessagesResponse, UsersResponse } from '$lib/pocketbase-types';
-	import { PUBLIC_POCKETBASE_URL } from '$lib/pocketbase/url';
+	import type { ChatMessagesResponse, UsersResponse } from '#lib/pocketbase-types.js';
+	import { PUBLIC_POCKETBASE_URL } from '#lib/pocketbase/url.js';
 	import ChatBubble from './ChatBubble.svelte';
-	import FormError from '$lib/components/formError.svelte';
-	import { m } from '$lib/paraglide/messages';
+	import FormError from '#lib/components/formError.svelte';
+	import { m } from '#lib/paraglide/messages.js';
 
 	let { data }: { data: PageData } = $props();
 

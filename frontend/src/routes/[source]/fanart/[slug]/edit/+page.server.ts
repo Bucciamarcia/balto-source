@@ -1,9 +1,9 @@
-import type { FanartsResponse, UsersResponse } from '$lib/pocketbase-types';
+import type { FanartsResponse, UsersResponse } from '#lib/pocketbase-types.js';
 import { error, fail, redirect, type Actions } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
-import { getLocale } from '$lib/paraglide/runtime';
-import { getSourceSlug } from '$lib/components/getSourceSlug';
-import { canModerate } from '$lib/components/canModerate';
+import { getLocale } from '#lib/paraglide/runtime.js';
+import { getSourceSlug } from '#lib/components/getSourceSlug.js';
+import { canModerate } from '#lib/components/canModerate.js';
 
 export const load: PageServerLoad = async ({ locals, params }) => {
 	const id = params.slug;

@@ -1,12 +1,12 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import FormError from '$lib/components/formError.svelte';
-	import type { Locale } from '$lib/paraglide/runtime';
-	import type { CommentsResponse, UsersResponse } from '$lib/pocketbase-types';
+	import FormError from '#lib/components/formError.svelte';
+	import type { Locale } from '#lib/paraglide/runtime.js';
+	import type { CommentsResponse, UsersResponse } from '#lib/pocketbase-types.js';
 	import SingleCommentDisplay from './SingleCommentDisplay.svelte';
 	import TipTapEditor from './TipTapEditor.svelte';
-	import { m } from '$lib/paraglide/messages';
-	import type { Source } from '$lib/components/getSourceSlug';
+	import { m } from '#lib/paraglide/messages.js';
+	import type { Source } from '#lib/components/getSourceSlug.js';
 
 	let {
 		comments,

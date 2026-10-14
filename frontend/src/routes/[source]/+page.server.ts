@@ -1,11 +1,15 @@
 import { type Actions } from '@sveltejs/kit';
-import type { CommentsResponse, HomepageNewsResponse, UsersResponse } from '$lib/pocketbase-types';
-import { PUBLIC_POCKETBASE_URL } from '$lib/pocketbase/url';
+import type {
+	CommentsResponse,
+	HomepageNewsResponse,
+	UsersResponse
+} from '#lib/pocketbase-types.js';
+import { PUBLIC_POCKETBASE_URL } from '#lib/pocketbase/url.js';
 import PocketBase from 'pocketbase';
-import { getLocale } from '$lib/paraglide/runtime';
+import { getLocale } from '#lib/paraglide/runtime.js';
 import type { PageServerLoad } from './$types';
-import { getSourceId } from '$lib/components/getSourceId';
-import { getSourceSlug } from '$lib/components/getSourceSlug';
+import { getSourceId } from '#lib/components/getSourceId.js';
+import { getSourceSlug } from '#lib/components/getSourceSlug.js';
 
 export const load: PageServerLoad = async ({ locals, cookies, params }) => {
 	const sourceName = getSourceSlug(params.source);

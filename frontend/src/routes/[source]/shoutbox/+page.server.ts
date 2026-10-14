@@ -1,10 +1,10 @@
-import type { ChatMessagesResponse, UsersResponse } from '$lib/pocketbase-types';
+import type { ChatMessagesResponse, UsersResponse } from '#lib/pocketbase-types.js';
 import { fail } from '@sveltejs/kit';
 import type { PageServerLoad, Actions } from './$types';
-import { moderateText } from '$lib/components/moderateAi';
-import { getLocale } from '$lib/paraglide/runtime';
-import { getSourceId } from '$lib/components/getSourceId';
-import { getSourceSlug } from '$lib/components/getSourceSlug';
+import { moderateText } from '#lib/components/moderateAi.js';
+import { getLocale } from '#lib/paraglide/runtime.js';
+import { getSourceId } from '#lib/components/getSourceId.js';
+import { getSourceSlug } from '#lib/components/getSourceSlug.js';
 
 export const load: PageServerLoad = async ({ locals, params }) => {
 	const lang = getLocale();

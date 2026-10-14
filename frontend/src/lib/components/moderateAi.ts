@@ -1,5 +1,5 @@
 import { dev } from '$app/env';
-import { PUBLIC_POCKETBASE_URL } from '$lib/pocketbase/url';
+import { PUBLIC_POCKETBASE_URL } from '#lib/pocketbase/url.js';
 import { TYPESAFE_API_KEY } from '$app/env/private';
 import { choice, TypeSafeClient } from '@typesafe-ai/sdk';
 

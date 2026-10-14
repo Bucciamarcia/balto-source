@@ -1,4 +1,4 @@
-import { BODY_SIZE_LIMIT } from '$lib/limits';
+import { BODY_SIZE_LIMIT } from '#lib/limits.js';
 
 // Runs before the adapter's server module is imported, which is the only window
 // in which BODY_SIZE_LIMIT can still be read. Keeping it here means the limit

@@ -1,8 +1,8 @@
-import type { CharactersResponse, UsersResponse } from '$lib/pocketbase-types';
+import type { CharactersResponse, UsersResponse } from '#lib/pocketbase-types.js';
 import { fail, redirect, type Actions } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
-import { getLocale } from '$lib/paraglide/runtime';
-import { getSourceSlug } from '$lib/components/getSourceSlug';
+import { getLocale } from '#lib/paraglide/runtime.js';
+import { getSourceSlug } from '#lib/components/getSourceSlug.js';
 
 export const load: PageServerLoad = async ({ locals, params }) => {
 	const id = params.slug;

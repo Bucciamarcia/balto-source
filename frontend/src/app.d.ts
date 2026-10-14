@@ -1,6 +1,6 @@
 // See https://svelte.dev/docs/kit/types#app.d.ts
 // for information about these interfaces
-import type { UsersResponse } from '$lib/pocketbase-types';
+import type { UsersResponse } from '#lib/pocketbase-types.js';
 import Pocketbase, { type AuthRecord } from 'pocketbase';
 declare global {
 	namespace App {

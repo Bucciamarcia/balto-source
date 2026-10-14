@@ -1,4 +1,4 @@
-import type { FanartFavoritesResponse } from '$lib/pocketbase-types';
+import type { FanartFavoritesResponse } from '#lib/pocketbase-types.js';
 import Pocketbase from 'pocketbase';
 
 export async function getFanartFavorites(fanart: string, pb: Pocketbase): Promise<string[]> {

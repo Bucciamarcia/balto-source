@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { m } from '$lib/paraglide/messages';
-	import baltoSectionImage from '$lib/assets/balto-1-menu-image.avif';
-	import type { Locale } from '$lib/paraglide/runtime';
+	import { m } from '#lib/paraglide/messages.js';
+	import baltoSectionImage from '#lib/assets/balto-1-menu-image.avif';
+	import type { Locale } from '#lib/paraglide/runtime.js';
 	import type { Source } from '../getSourceSlug';
 	let { language, source }: Props = $props();
 	interface Props {
@@ -14,7 +14,7 @@
 
 <div class="pl-10">
 	<div
-		class="container h-full w-full min-w-[240px] rounded-md border-2 border-solid border-[#70abbb] bg-[url('$lib/assets/side-menu-bg-gradient.avif')] bg-contain bg-center pr-5 pb-5 pl-5"
+		class="container h-full w-full min-w-[240px] rounded-md border-2 border-solid border-[#70abbb] bg-[url('#lib/assets/side-menu-bg-gradient.avif')] bg-contain bg-center pr-5 pb-5 pl-5"
 	>
 		<div>
 			<h2 class="menuTitle">Search</h2>

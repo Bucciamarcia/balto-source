@@ -1,11 +1,11 @@
 import { error, fail, redirect, type Actions } from '@sveltejs/kit';
 import type { PageServerLoad } from '../$types';
-import type { FanfictionsResponse } from '$lib/pocketbase-types';
+import type { FanfictionsResponse } from '#lib/pocketbase-types.js';
 import mammoth from 'mammoth';
 import sanitize from 'sanitize-html';
-import { getLocale } from '$lib/paraglide/runtime';
-import { getSourceSlug } from '$lib/components/getSourceSlug';
-import { canModerate } from '$lib/components/canModerate';
+import { getLocale } from '#lib/paraglide/runtime.js';
+import { getSourceSlug } from '#lib/components/getSourceSlug.js';
+import { canModerate } from '#lib/components/canModerate.js';
 
 export const load: PageServerLoad = async ({ params, locals }) => {
 	const id = params.slug;

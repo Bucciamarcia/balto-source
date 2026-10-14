@@ -1,10 +1,10 @@
 <script lang="ts">
-	import { buildAvatarUrl } from '$lib/components/buildAvatarUrl';
-	import FormattedDate from '$lib/components/FormattedDate.svelte';
-	import type { Locale } from '$lib/paraglide/runtime';
-	import type { CommentsResponse, UsersResponse } from '$lib/pocketbase-types';
-	import { m } from '$lib/paraglide/messages';
-	import type { Source } from '$lib/components/getSourceSlug';
+	import { buildAvatarUrl } from '#lib/components/buildAvatarUrl.js';
+	import FormattedDate from '#lib/components/FormattedDate.svelte';
+	import type { Locale } from '#lib/paraglide/runtime.js';
+	import type { CommentsResponse, UsersResponse } from '#lib/pocketbase-types.js';
+	import { m } from '#lib/paraglide/messages.js';
+	import type { Source } from '#lib/components/getSourceSlug.js';
 
 	let {
 		comment,

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import TipTapEditor from '$lib/components/layout/comments/TipTapEditor.svelte';
-	import { m } from '$lib/paraglide/messages';
+	import TipTapEditor from '#lib/components/layout/comments/TipTapEditor.svelte';
+	import { m } from '#lib/paraglide/messages.js';
 	import type { CharacterSex } from '../../../upload/proxy+page.server';
 	let { data } = $props();
 	let characterSex: CharacterSex = $derived(data.character.sex);

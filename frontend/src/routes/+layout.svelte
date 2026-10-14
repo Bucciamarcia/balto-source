@@ -2,16 +2,16 @@
 	import type { Path } from '$app/types';
 	import { resolve } from '$app/paths';
 	import { page } from '$app/state';
-	import { locales, localizeHref } from '$lib/paraglide/runtime';
+	import { locales, localizeHref } from '#lib/paraglide/runtime.js';
 	import './layout.css';
 	import { enhance } from '$app/forms';
-	import SideMenu from '$lib/components/layout/SideMenu.svelte';
-	import HamburgerMenu from '$lib/components/layout/HamburgerMenu.svelte';
-	import HeadBanner from '$lib/components/layout/head-banner.svelte';
-	import HeadMenu from '$lib/components/layout/head-menu/HeadMenu.svelte';
-	import Footer from '$lib/components/layout/footer.svelte';
-	import titleIcon from '$lib/assets/placeholderTitleIcon.png';
-	import { m } from '$lib/paraglide/messages.js';
+	import SideMenu from '#lib/components/layout/SideMenu.svelte';
+	import HamburgerMenu from '#lib/components/layout/HamburgerMenu.svelte';
+	import HeadBanner from '#lib/components/layout/head-banner.svelte';
+	import HeadMenu from '#lib/components/layout/head-menu/HeadMenu.svelte';
+	import Footer from '#lib/components/layout/footer.svelte';
+	import titleIcon from '#lib/assets/placeholderTitleIcon.png';
+	import { m } from '#lib/paraglide/messages.js';
 
 	let { children, data } = $props();
 	let newEmailVerificationYes: boolean = $state(false);
@@ -108,6 +108,6 @@
 
 <style>
 	.mainbg {
-		background-image: url('$lib/assets/main-background-image.avif');
+		background-image: url('../lib/assets/main-background-image.avif');
 	}
 </style>

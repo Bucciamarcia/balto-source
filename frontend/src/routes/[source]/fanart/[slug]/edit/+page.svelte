@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import { m } from '$lib/paraglide/messages';
+	import { m } from '#lib/paraglide/messages.js';
 	let { data } = $props();
 	let title = $derived(data.fanart.title);
 	let description = $derived(data.fanart.description);

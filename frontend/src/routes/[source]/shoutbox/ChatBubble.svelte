@@ -1,10 +1,10 @@
 <script lang="ts">
-	import { buildAvatarUrl } from '$lib/components/buildAvatarUrl';
-	import FormattedDate from '$lib/components/FormattedDate.svelte';
-	import type { Source } from '$lib/components/getSourceSlug';
-	import { m } from '$lib/paraglide/messages';
-	import type { Locale } from '$lib/paraglide/runtime';
-	import type { ChatMessagesResponse, UsersResponse } from '$lib/pocketbase-types';
+	import { buildAvatarUrl } from '#lib/components/buildAvatarUrl.js';
+	import FormattedDate from '#lib/components/FormattedDate.svelte';
+	import type { Source } from '#lib/components/getSourceSlug.js';
+	import { m } from '#lib/paraglide/messages.js';
+	import type { Locale } from '#lib/paraglide/runtime.js';
+	import type { ChatMessagesResponse, UsersResponse } from '#lib/pocketbase-types.js';
 
 	type Message = ChatMessagesResponse<{ author: UsersResponse }>;
 	let {

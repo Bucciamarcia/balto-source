@@ -1,8 +1,8 @@
 <script lang="ts">
-	import SideMenu from '$lib/components/layout/SideMenu.svelte';
-	import HamburgerMenuIcon from '$lib/assets/Hamburger-Menu-Icon.avif';
-	import CloseIcon from '$lib/assets/X-Close-Icon.avif';
-	import { getLocale } from '$lib/paraglide/runtime';
+	import SideMenu from '#lib/components/layout/SideMenu.svelte';
+	import HamburgerMenuIcon from '#lib/assets/Hamburger-Menu-Icon.avif';
+	import CloseIcon from '#lib/assets/X-Close-Icon.avif';
+	import { getLocale } from '#lib/paraglide/runtime.js';
 	import type { Source } from '../getSourceSlug';
 
 	let isOpen: boolean = $state(false);

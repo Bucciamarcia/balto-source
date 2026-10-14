@@ -67,5 +67,9 @@
 		"svelte-turnstile": "^0.11.0",
 		"tsmathlib": "^0.2.1",
 		"vector-math": "^1.1.1"
+	},
+	"imports": {
+		"#lib": "./src/lib/index.js",
+		"#lib/*": "./src/lib/*"
 	}
 }

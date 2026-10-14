@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import type { Source } from '$lib/components/getSourceSlug';
-	import { localizeHref } from '$lib/paraglide/runtime';
+	import type { Source } from '#lib/components/getSourceSlug.js';
+	import { localizeHref } from '#lib/paraglide/runtime.js';
 
 	interface Props {
 		label: string;

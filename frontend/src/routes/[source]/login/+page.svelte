@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import FormError from '$lib/components/formError.svelte';
-	import { m } from '$lib/paraglide/messages.js';
+	import FormError from '#lib/components/formError.svelte';
+	import { m } from '#lib/paraglide/messages.js';
 
 	let email: string = $state('');
 	let password: string = $state('');
