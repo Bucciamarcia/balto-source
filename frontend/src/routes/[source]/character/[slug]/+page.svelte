@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import { canModerate } from '$lib/components/canModerate.js';
 	import ShowComments from '$lib/components/layout/comments/ShowComments.svelte';
 	import { m } from '$lib/paraglide/messages';
 	import { getLocale } from '$lib/paraglide/runtime';
@@ -37,7 +38,7 @@
 		alt={m.ch_avatar_alt({ name: data.character.name })}
 	/>
 </a>
-{#if data.character.owner === data.user?.id}
+{#if data.character.owner === data.user?.id || canModerate(data.user)}
 	<div class="mx-3 mt-5 place-self-center">
 		<a href="/{data.language}/{data.source}/character/{data.character.id}/edit"
 			><button class="btn btn-primary">{m.ch_edit_btn()}</button></a
