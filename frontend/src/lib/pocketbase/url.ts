@@ -1,4 +1,4 @@
-import { dev } from '$app/environment';
+import { dev } from '$app/env';
 
 export const PUBLIC_POCKETBASE_URL = dev
 	? 'http://127.0.0.1:8090'
