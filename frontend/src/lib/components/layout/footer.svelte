@@ -2,8 +2,8 @@
 	import { m } from '$lib/paraglide/messages';
 </script>
 
-<footer class="p-10 flex justify-center items-center w-full">
-<div class="text-center">
-	{@html m.footer()}
-</div>
+<footer class="flex w-full items-center justify-center p-10">
+	<div class="text-center">
+		{@html m.footer()}
+	</div>
 </footer>

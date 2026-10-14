@@ -6,7 +6,9 @@ import svelte from 'eslint-plugin-svelte';
 import { defineConfig } from 'eslint/config';
 import globals from 'globals';
 import ts from 'typescript-eslint';
-import svelteConfig from './svelte.config.js';
+import { loadConfig } from '@sveltejs/load-config';
+
+const svelteConfig = (await loadConfig('./', { traverse: false }))?.config;
 
 const gitignorePath = path.resolve(import.meta.dirname, '.gitignore');
 
@@ -23,18 +25,23 @@ export default defineConfig(
 			// typescript-eslint strongly recommend that you do not use the no-undef lint rule on TypeScript projects.
 			// see: https://typescript-eslint.io/troubleshooting/faqs/eslint/#i-get-errors-from-the-no-undef-rule-about-global-variables-not-being-defined-even-though-there-are-no-typescript-errors
 			'no-undef': 'off',
-			'no-restricted-imports': ['error', {
-				paths: [
-					{
-						name: '$env/static/private',
-						message: 'Use $env/dynamic/private — static vars are not available during the CI build step, only at server runtime.'
-					},
-					{
-						name: '$env/static/public',
-						message: 'Use $env/dynamic/public — static vars are not available during the CI build step, only at server runtime.'
-					}
-				]
-			}]
+			'no-restricted-imports': [
+				'error',
+				{
+					paths: [
+						{
+							name: '$env/static/private',
+							message:
+								'Use $env/dynamic/private — static vars are not available during the CI build step, only at server runtime.'
+						},
+						{
+							name: '$env/static/public',
+							message:
+								'Use $env/dynamic/public — static vars are not available during the CI build step, only at server runtime.'
+						}
+					]
+				}
+			]
 		}
 	},
 	{

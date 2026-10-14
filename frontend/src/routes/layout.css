@@ -3,11 +3,11 @@
 @plugin '@tailwindcss/typography';
 
 @plugin 'daisyui' {
-	themes: glacialblue --default
+	themes: glacialblue --default;
 }
 
-@plugin "daisyui/theme" {
-	name: "glacialblue";
+@plugin 'daisyui/theme' {
+	name: 'glacialblue';
 	default: true;
 	prefersdark: false;
 	color-scheme: light;
@@ -46,20 +46,20 @@
 }
 
 @theme {
-	--font-sans: "Inter", sans-serif;
+	--font-sans: 'Inter', sans-serif;
 }
 
 @layer base {
 	h1 {
-		@apply font-sans text-4xl font-bold text-base-100 mb-7 mt-5;
+		@apply mt-5 mb-7 font-sans text-4xl font-bold text-base-100;
 	}
 
 	h2 {
-		@apply font-sans text-2xl font-bold mb-5 mt-4;
+		@apply mt-4 mb-5 font-sans text-2xl font-bold;
 	}
 
 	h3 {
-		@apply font-sans text-xl font-bold mb-4 mt-3;
+		@apply mt-3 mb-4 font-sans text-xl font-bold;
 	}
 
 	body {

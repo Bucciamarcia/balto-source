@@ -1,7 +1,7 @@
 // Deliberately free of `$app/*` imports: `instrumentation.server.ts` pulls this
 // in before the SvelteKit server module is loaded.
 
-import { m } from "./paraglide/messages";
+import { m } from './paraglide/messages';
 
 /**
  * Largest fanart file we accept, enforced in the browser and in the action.
@@ -15,8 +15,9 @@ import { m } from "./paraglide/messages";
 export const MAX_FANART_BYTES = 5 * 1024 * 1024;
 
 /** Single source for the user-facing wording, so the two layers can't drift. */
-export const FANART_TOO_LARGE_MESSAGE =
-	m.fanart_too_large({ size: MAX_FANART_BYTES / 1024 / 1024 })
+export const FANART_TOO_LARGE_MESSAGE = m.fanart_too_large({
+	size: MAX_FANART_BYTES / 1024 / 1024
+});
 
 /**
  * Value handed to adapter-node's BODY_SIZE_LIMIT (default: 512K, which is what
