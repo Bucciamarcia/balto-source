@@ -198,6 +198,7 @@ export type FanfictionsRecord = {
 	source: RecordIdString
 	title: string
 	updated: IsoAutoDateString
+	visible?: boolean
 }
 
 export type HomepageNewsRecord = {
@@ -238,6 +239,7 @@ export const UsersRoleOptions = {
 	"user": "user",
 	"moderator": "moderator",
 	"admin": "admin",
+	"banned": "banned",
 } as const
 export type UsersRoleOptions = typeof UsersRoleOptions[keyof typeof UsersRoleOptions]
 export type UsersRecord = {
