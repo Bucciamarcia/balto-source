@@ -5,6 +5,7 @@ import mammoth from 'mammoth';
 import sanitize from 'sanitize-html';
 import { getLocale } from '$lib/paraglide/runtime';
 import { getSourceSlug } from '$lib/components/getSourceSlug';
+import { canModerate } from '$lib/components/canModerate';
 
 export const load: PageServerLoad = async ({ params, locals }) => {
 	const id = params.slug;
@@ -16,7 +17,7 @@ export const load: PageServerLoad = async ({ params, locals }) => {
 	if (userId == undefined) {
 		error(401, 'Unauthorized');
 	}
-	if (fanfiction.author !== userId) {
+	if (fanfiction.author !== userId && !canModerate(locals.user)) {
 		error(403, 'You do not have permission to edit this fanfiction');
 	}
 	return { fanfiction };

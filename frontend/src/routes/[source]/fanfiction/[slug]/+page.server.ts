@@ -35,9 +35,10 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 		.getFullList<FanfictionFavoritesResponse>({
 			filter: `target="${id}"`
 		});
-	const user = locals.auth;
-	const alreadyFaved = user == null ? false : await hasUserAlreadyFaved(user.id, fanfiction.id);
+	const auth = locals.auth;
+	const alreadyFaved = auth == null ? false : await hasUserAlreadyFaved(auth.id, fanfiction.id);
 	const isVerified = locals.isVerified;
+	const user = locals.user;
 	return { fanfiction, favs, user, alreadyFaved, comments, isVerified, language: getLocale() };
 };
 
