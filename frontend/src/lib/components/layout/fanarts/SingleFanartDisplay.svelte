@@ -13,6 +13,7 @@
 	import type { AuthRecord } from 'pocketbase';
 	import { m } from '$lib/paraglide/messages';
 	import type { Source } from '$lib/components/getSourceSlug';
+	import { canModerate } from '$lib/components/canModerate';
 
 	let {
 		fanart,
@@ -22,7 +23,8 @@
 		comments,
 		isVerified,
 		locale,
-		source
+		source,
+		usersResponse
 	}: {
 		fanart: FanartsResponse<{ author: UsersResponse }>;
 		user: AuthRecord;
@@ -32,6 +34,7 @@
 		isVerified: boolean;
 		locale: Locale;
 		source: Source;
+		usersResponse: UsersResponse | undefined;
 	} = $props();
 	// svelte-ignore state_referenced_locally
 	const author: UsersResponse = fanart.expand.author;
@@ -50,7 +53,7 @@
 		<div>
 			<h1 class="mb-3 text-center">{fanart.title}</h1>
 		</div>
-		{#if fanart.author === user?.id}
+		{#if fanart.author === user?.id || canModerate(usersResponse)}
 			<div class="mx-3 mt-5 mb-4 place-self-center">
 				<a href="/{locale}/{source}/fanart/{fanart.id}/edit"
 					><button class="btn btn-primary">{m.fa_edit_btn()}</button></a

@@ -3,11 +3,12 @@ import { error, fail, redirect, type Actions } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import { getLocale } from '$lib/paraglide/runtime';
 import { getSourceSlug } from '$lib/components/getSourceSlug';
+import { canModerate } from '$lib/components/canModerate';
 
 export const load: PageServerLoad = async ({ locals, params }) => {
 	const slug = params.slug;
 	const character = await locals.pb.collection('characters').getOne<CharactersResponse>(slug);
-	if (character.owner !== locals.user?.id) {
+	if (character.owner !== locals.user?.id && !canModerate(locals.user)) {
 		error(401, 'You cannot edit this character: you are not logged in or you are not the owner');
 	}
 	return { character };
@@ -57,6 +58,6 @@ export const actions = {
 		} catch (e) {
 			return fail(400, { error: e instanceof Error ? e.message : 'Unknown error occurred' });
 		}
-		redirect(303, `${getLocale()}/${source}/character/${slug}`);
+		redirect(303, `/${getLocale()}/${source}/character/${slug}`);
 	}
 } satisfies Actions;

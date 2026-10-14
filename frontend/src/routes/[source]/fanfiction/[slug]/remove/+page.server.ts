@@ -3,6 +3,7 @@ import type { PageServerLoad } from './$types';
 import type { FanfictionsResponse } from '$lib/pocketbase-types';
 import { getLocale } from '$lib/paraglide/runtime';
 import { getSourceSlug } from '$lib/components/getSourceSlug';
+import { canModerate } from '$lib/components/canModerate';
 
 export const load: PageServerLoad = async ({ locals, params }) => {
 	const id = params.slug;
@@ -14,7 +15,7 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 	if (user == undefined) {
 		error(401, 'Not logged in');
 	}
-	if (fanfic.author !== user.id) {
+	if (fanfic.author !== user.id && !canModerate(locals.user)) {
 		error(401, 'You are not authorized to edit this');
 	}
 	return { fanfic };

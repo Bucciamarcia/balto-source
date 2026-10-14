@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import { canModerate } from '$lib/components/canModerate.js';
 	import ShowComments from '$lib/components/layout/comments/ShowComments.svelte';
 	import { m } from '$lib/paraglide/messages.js';
 
@@ -17,7 +18,7 @@
 </svelte:head>
 
 <h1 class="text-center">{fanfiction.title}</h1>
-{#if data.fanfiction.author === data.user?.id}
+{#if data.fanfiction.author === data.user?.id || canModerate(data.user)}
 	<div class="flex justify-center">
 		<a
 			href="/{data.language}/{data.source}/fanfiction/{fanfiction.id}/edit"

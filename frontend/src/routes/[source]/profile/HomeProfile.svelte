@@ -12,6 +12,7 @@
 	import { m } from '$lib/paraglide/messages';
 	import type { Locale } from '$lib/paraglide/runtime';
 	import type { Source } from '$lib/components/getSourceSlug';
+	import { canModerate } from '$lib/components/canModerate';
 
 	let {
 		user,
@@ -20,7 +21,8 @@
 		comments,
 		isVerified,
 		language,
-		source
+		source,
+		myself
 	}: {
 		user: UsersResponse;
 		isSelf: boolean;
@@ -29,6 +31,7 @@
 		isVerified: boolean;
 		language: Locale;
 		source: Source;
+		myself: UsersResponse | undefined;
 	} = $props();
 	let editMode = $state(false);
 	let newUsername: string = $state('');
@@ -79,6 +82,18 @@
 			}}
 		>
 			<input class="text-black" name="newUsername" type="text" bind:value={newUsername} />
+		</form>
+	{/if}
+	{#if canModerate(myself) && user.role !== 'banned'}
+		<form method="POST" action="?/banUser" use:enhance>
+			<input name="user" type="hidden" value={user.id} />
+			<button class="btn btn-primary">Ban user</button>
+		</form>
+	{/if}
+	{#if canModerate(myself) && user.role === 'banned'}
+		<form method="POST" action="?/unbanUser" use:enhance>
+			<input name="user" type="hidden" value={user.id} />
+			<button class="btn btn-primary">Unban user</button>
 		</form>
 	{/if}
 	{#if isSelf && isVerified}

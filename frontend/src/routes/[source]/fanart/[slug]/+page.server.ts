@@ -37,7 +37,16 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 	const user = locals.auth;
 	const alreadyFaved = user == null ? false : await hasUserAlreadyFaved(user.id, fanart.id);
 	const isVerified = locals.isVerified;
-	return { fanart, favs, user, alreadyFaved, comments, isVerified, locale };
+	return {
+		fanart,
+		favs,
+		user,
+		alreadyFaved,
+		comments,
+		isVerified,
+		locale,
+		usersResponse: locals.user
+	};
 };
 
 export const actions = {

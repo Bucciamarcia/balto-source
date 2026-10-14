@@ -13,6 +13,7 @@ import { moderateImageData, moderateText } from '$lib/components/moderateAi';
 import type { FavoriteByFanart } from '../fanart/+page.server';
 import { getFanartFavorites } from '$lib/components/getFanartFavorites';
 import { getLocale } from '$lib/paraglide/runtime';
+import { canModerate } from '$lib/components/canModerate';
 
 export const load: PageServerLoad = async ({ locals, url }) => {
 	let uid: string = '';
@@ -73,7 +74,8 @@ export const load: PageServerLoad = async ({ locals, url }) => {
 			comments,
 			isLoggedIn,
 			fanartFavorites,
-			language: getLocale()
+			language: getLocale(),
+			myself: locals.user
 		};
 	} catch (e) {
 		error(404, { message: 'Page not found' });
@@ -291,6 +293,28 @@ export const actions: Actions = {
 		} catch (e) {
 			return fail(400, { error: e instanceof Error ? e.message : 'Unknown error' });
 		}
+	},
+	banUser: async ({ locals, request }) => {
+		const data = await request.formData();
+		const user = data.get('user') as string;
+		if (!canModerate(locals.user)) {
+			fail(403, { error: 'Forbidden: you cannot ban this user' });
+		}
+		if (user === locals.user?.id) {
+			fail(403, { error: 'AchalaException: you cannot ban yourself' });
+		}
+		await locals.pb.collection('users').update(user, { role: 'banned' });
+	},
+	unbanUser: async ({ locals, request }) => {
+		const data = await request.formData();
+		const user = data.get('user') as string;
+		if (!canModerate(locals.user)) {
+			fail(403, { error: 'Forbidden: you cannot ban this user' });
+		}
+		if (user === locals.user?.id) {
+			fail(403, { error: 'AchalaException: you cannot ban yourself' });
+		}
+		await locals.pb.collection('users').update(user, { role: 'user' });
 	}
 };
 
