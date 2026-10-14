@@ -1,4 +1,4 @@
-import type { Reroute } from '@sveltejs/kit';
+import type { Reroute } from '@sveltejs/kit/hooks';
 import { deLocalizeUrl } from '$lib/paraglide/runtime';
 
 const aliases: Record<string, string> = {
