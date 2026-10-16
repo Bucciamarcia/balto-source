@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import FormError from '$lib/components/formError.svelte';
-	import { TURNSTILE_PUBLIC_KEY } from '$lib/consts.js';
-	import { m } from '$lib/paraglide/messages.js';
+	import FormError from '#lib/components/formError.svelte';
+	import { TURNSTILE_PUBLIC_KEY } from '#lib/consts.js';
+	import { m } from '#lib/paraglide/messages.js';
 	import { Turnstile } from 'svelte-turnstile';
 	let email: string = $state('');
 	let username: string = $state('');

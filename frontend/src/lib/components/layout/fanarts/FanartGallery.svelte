@@ -1,11 +1,11 @@
 <script lang="ts">
-	import FormattedDate from '$lib/components/FormattedDate.svelte';
-	import type { Locale } from '$lib/paraglide/runtime';
-	import type { FanartsResponse, UsersResponse } from '$lib/pocketbase-types';
-	import { PUBLIC_POCKETBASE_URL } from '$lib/pocketbase/url';
-	import { m } from '$lib/paraglide/messages';
+	import FormattedDate from '#lib/components/FormattedDate.svelte';
+	import type { Locale } from '#lib/paraglide/runtime.js';
+	import type { FanartsResponse, UsersResponse } from '#lib/pocketbase-types.js';
+	import { PUBLIC_POCKETBASE_URL } from '#lib/pocketbase/url.js';
+	import { m } from '#lib/paraglide/messages.js';
 	import type { FavoriteByFanart } from '../../../../routes/[source]/fanart/+page.server';
-	import type { Source } from '$lib/components/getSourceSlug';
+	import type { Source } from '#lib/components/getSourceSlug.js';
 
 	function getFanartUrl(id: string, image: string): string {
 		return `${PUBLIC_POCKETBASE_URL}/api/files/fanarts/${id}/${image}?thumb=300x200f`;

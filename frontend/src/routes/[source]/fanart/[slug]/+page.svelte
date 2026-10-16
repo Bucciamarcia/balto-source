@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { m } from '$lib/paraglide/messages';
-	import SingleFanartDisplay from '$lib/components/layout/fanarts/SingleFanartDisplay.svelte';
+	import { m } from '#lib/paraglide/messages.js';
+	import SingleFanartDisplay from '#lib/components/layout/fanarts/SingleFanartDisplay.svelte';
 
 	let { data } = $props();
 </script>

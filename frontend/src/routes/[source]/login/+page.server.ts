@@ -1,7 +1,7 @@
 import { fail, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
-import { getLocale } from '$lib/paraglide/runtime';
-import { getSourceSlug } from '$lib/components/getSourceSlug';
+import { getLocale } from '#lib/paraglide/runtime.js';
+import { getSourceSlug } from '#lib/components/getSourceSlug.js';
 
 export const actions: Actions = {
 	login: async ({ request, locals, cookies, params }) => {

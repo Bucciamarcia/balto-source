@@ -1,4 +1,4 @@
-import { getLocale } from '$lib/paraglide/runtime';
+import { getLocale } from '#lib/paraglide/runtime.js';
 import Pocketbase from 'pocketbase';
 import type { Source } from './getSourceSlug';
 

@@ -1,8 +1,8 @@
 <script lang="ts">
-	import ConfirmationSnackbar from '$lib/components/layout/confirmation-snackbar.svelte';
+	import ConfirmationSnackbar from '#lib/components/layout/confirmation-snackbar.svelte';
 	import type { PageData } from './$types';
 	import SingleNews from './SingleNews.svelte';
-	import { m } from '$lib/paraglide/messages';
+	import { m } from '#lib/paraglide/messages.js';
 
 	let { data }: { data: PageData } = $props();
 </script>

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import ShowComments from '$lib/components/layout/comments/ShowComments.svelte';
+	import ShowComments from '#lib/components/layout/comments/ShowComments.svelte';
 	import SingleNews from '../../SingleNews.svelte';
 	import type { PageData } from './$types';
 

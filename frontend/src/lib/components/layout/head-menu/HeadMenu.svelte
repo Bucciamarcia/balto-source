@@ -1,12 +1,12 @@
 <script lang="ts">
-	import { m } from '$lib/paraglide/messages';
+	import { m } from '#lib/paraglide/messages.js';
 	import BellIcon from './BellIcon.svelte';
 	import LinkElement from './LinkElement.svelte';
-	import type { NotificationsResponse, UsersResponse } from '$lib/pocketbase-types';
+	import type { NotificationsResponse, UsersResponse } from '#lib/pocketbase-types.js';
 	import Notifications from './Notifications.svelte';
 	import type { Action } from 'svelte/action';
-	import type { Locale } from '$lib/paraglide/runtime';
-	import type { Source } from '$lib/components/getSourceSlug';
+	import type { Locale } from '#lib/paraglide/runtime.js';
+	import type { Source } from '#lib/components/getSourceSlug.js';
 	let {
 		isLoggedIn,
 		isVerified,

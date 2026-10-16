@@ -1,16 +1,16 @@
 import { dev } from '$app/env';
-import { PUBLIC_POCKETBASE_URL } from '$lib/pocketbase/url';
-import { env } from '$env/dynamic/private';
+import { PUBLIC_POCKETBASE_URL } from '#lib/pocketbase/url.js';
+import { TYPESAFE_API_KEY } from '$app/env/private';
 import { choice, TypeSafeClient } from '@typesafe-ai/sdk';
 
 export async function moderateText(t: string | null): Promise<ModerateResult> {
 	if (t === '' || t == null) {
 		return 'allow';
 	}
-	const k = env.TYPESAFE_API_KEY;
-	const client = new TypeSafeClient({
-		apiKey: k
-	});
+
+	const k = TYPESAFE_API_KEY;
+	const client = new TypeSafeClient({ apiKey: k });
+
 	const response = await client.systemOne({
 		state: t,
 		questions: {
@@ -35,9 +35,7 @@ export async function moderateImageUrl(url: string): Promise<ModerateResult> {
 	const response = await fetch(`${PUBLIC_POCKETBASE_URL}/moderate_image_url`, {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
-		body: JSON.stringify({
-			url: url
-		})
+		body: JSON.stringify({ url })
 	});
 	if (!response.ok) {
 		throw new Error(await response.text());
@@ -64,10 +62,7 @@ export async function moderateImageData(file: File | null | undefined): Promise<
 	const response = await fetch(`${PUBLIC_POCKETBASE_URL}/moderate_image_bytes`, {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
-		body: JSON.stringify({
-			imageType: imageType,
-			imageData: await imageData
-		})
+		body: JSON.stringify({ imageType, imageData: await imageData })
 	});
 	if (!response.ok) {
 		throw new Error(await response.text());

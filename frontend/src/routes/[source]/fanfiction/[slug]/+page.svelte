@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import { canModerate } from '$lib/components/canModerate.js';
-	import ShowComments from '$lib/components/layout/comments/ShowComments.svelte';
-	import { m } from '$lib/paraglide/messages.js';
+	import { canModerate } from '#lib/components/canModerate.js';
+	import ShowComments from '#lib/components/layout/comments/ShowComments.svelte';
+	import { m } from '#lib/paraglide/messages.js';
 
 	let { data } = $props();
 	let fanfiction = $derived(data.fanfiction);

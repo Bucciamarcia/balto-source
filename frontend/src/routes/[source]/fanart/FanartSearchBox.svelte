@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { m } from '$lib/paraglide/messages';
+	import { m } from '#lib/paraglide/messages.js';
 	import { enhance } from '$app/forms';
 
 	let { action = '?/default' }: { action?: string } = $props();

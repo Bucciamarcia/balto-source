@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import FormError from '$lib/components/formError.svelte';
-	import { m } from '$lib/paraglide/messages';
+	import FormError from '#lib/components/formError.svelte';
+	import { m } from '#lib/paraglide/messages.js';
 
 	let { data } = $props();
 	let error: string = $state('');

@@ -1,10 +1,10 @@
-import { getSourceId } from '$lib/components/getSourceId';
-import { getSourceSlug } from '$lib/components/getSourceSlug';
+import { getSourceId } from '#lib/components/getSourceId.js';
+import { getSourceSlug } from '#lib/components/getSourceSlug.js';
 import type {
 	CharacterFavoritesResponse,
 	CharactersResponse,
 	UsersResponse
-} from '$lib/pocketbase-types';
+} from '#lib/pocketbase-types.js';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ locals, params }) => {

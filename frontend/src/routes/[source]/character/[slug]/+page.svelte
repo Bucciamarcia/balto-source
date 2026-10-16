@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import { canModerate } from '$lib/components/canModerate.js';
-	import ShowComments from '$lib/components/layout/comments/ShowComments.svelte';
-	import { m } from '$lib/paraglide/messages';
-	import { getLocale } from '$lib/paraglide/runtime';
-	import { PUBLIC_POCKETBASE_URL } from '$lib/pocketbase/url';
+	import { canModerate } from '#lib/components/canModerate.js';
+	import ShowComments from '#lib/components/layout/comments/ShowComments.svelte';
+	import { m } from '#lib/paraglide/messages.js';
+	import { getLocale } from '#lib/paraglide/runtime.js';
+	import { PUBLIC_POCKETBASE_URL } from '#lib/pocketbase/url.js';
 	import SexIcon from './SexIcon.svelte';
 
 	let { data } = $props();

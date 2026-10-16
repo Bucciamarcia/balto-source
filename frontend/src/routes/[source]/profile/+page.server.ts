@@ -3,17 +3,17 @@ import {
 	type FanartsResponse,
 	type NotificationsResponse,
 	type UsersResponse
-} from '$lib/pocketbase-types';
+} from '#lib/pocketbase-types.js';
 import { error, fail, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
-import { PUBLIC_POCKETBASE_URL } from '$lib/pocketbase/url';
+import { PUBLIC_POCKETBASE_URL } from '#lib/pocketbase/url.js';
 import type Client from 'pocketbase';
 import sanitizeHtml from 'sanitize-html';
-import { moderateImageData, moderateText } from '$lib/components/moderateAi';
+import { moderateImageData, moderateText } from '#lib/components/moderateAi.js';
 import type { FavoriteByFanart } from '../fanart/+page.server';
-import { getFanartFavorites } from '$lib/components/getFanartFavorites';
-import { getLocale } from '$lib/paraglide/runtime';
-import { canModerate } from '$lib/components/canModerate';
+import { getFanartFavorites } from '#lib/components/getFanartFavorites.js';
+import { getLocale } from '#lib/paraglide/runtime.js';
+import { canModerate } from '#lib/components/canModerate.js';
 
 export const load: PageServerLoad = async ({ locals, url }) => {
 	let uid: string = '';
@@ -26,7 +26,7 @@ export const load: PageServerLoad = async ({ locals, url }) => {
 		uid = localsId;
 	}
 	if (uid === '') {
-		error(401, { message: 'You are not logged in.' });
+		error(401, 'You are not logged in.');
 	}
 	const pb = locals.pb;
 	let comments: CommentsResponse<{ author: UsersResponse }>[];
@@ -78,7 +78,7 @@ export const load: PageServerLoad = async ({ locals, url }) => {
 			myself: locals.user
 		};
 	} catch (e) {
-		error(404, { message: 'Page not found' });
+		error(404, 'Page not found');
 	}
 };
 

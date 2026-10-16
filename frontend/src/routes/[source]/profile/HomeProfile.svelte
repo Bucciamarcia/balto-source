@@ -1,18 +1,18 @@
 <script lang="ts">
 	import EditButtonSvg from './EditButtonSvg.svelte';
 	import { enhance } from '$app/forms';
-	import FormError from '$lib/components/formError.svelte';
+	import FormError from '#lib/components/formError.svelte';
 	import ProfileButton from './ProfileButton.svelte';
 	import ChangeEmailDialog from './ChangeEmailDialog.svelte';
 	import ChangePassDialog from './ChangePassDialog.svelte';
 	import AvatarRow from './AvatarRow.svelte';
-	import TipTapEditor from '$lib/components/layout/comments/TipTapEditor.svelte';
-	import ShowComments from '$lib/components/layout/comments/ShowComments.svelte';
-	import type { CommentsResponse, UsersResponse } from '$lib/pocketbase-types';
-	import { m } from '$lib/paraglide/messages';
-	import type { Locale } from '$lib/paraglide/runtime';
-	import type { Source } from '$lib/components/getSourceSlug';
-	import { canModerate } from '$lib/components/canModerate';
+	import TipTapEditor from '#lib/components/layout/comments/TipTapEditor.svelte';
+	import ShowComments from '#lib/components/layout/comments/ShowComments.svelte';
+	import type { CommentsResponse, UsersResponse } from '#lib/pocketbase-types.js';
+	import { m } from '#lib/paraglide/messages.js';
+	import type { Locale } from '#lib/paraglide/runtime.js';
+	import type { Source } from '#lib/components/getSourceSlug.js';
+	import { canModerate } from '#lib/components/canModerate.js';
 
 	let {
 		user,
@@ -68,7 +68,7 @@
 			use:enhance={() => {
 				isLoading = true;
 				return async ({ result, update }) => {
-					await update();
+					await update({ navigate: false });
 					isLoading = false;
 
 					if (result.type === 'failure') {
@@ -85,13 +85,25 @@
 		</form>
 	{/if}
 	{#if canModerate(myself) && user.role !== 'banned'}
-		<form method="POST" action="?/banUser" use:enhance>
+		<form
+			method="POST"
+			action="?/banUser"
+			use:enhance={() =>
+				async ({ update }) =>
+					update({ navigate: false })}
+		>
 			<input name="user" type="hidden" value={user.id} />
 			<button class="btn btn-primary">Ban user</button>
 		</form>
 	{/if}
 	{#if canModerate(myself) && user.role === 'banned'}
-		<form method="POST" action="?/unbanUser" use:enhance>
+		<form
+			method="POST"
+			action="?/unbanUser"
+			use:enhance={() =>
+				async ({ update }) =>
+					update({ navigate: false })}
+		>
 			<input name="user" type="hidden" value={user.id} />
 			<button class="btn btn-primary">Unban user</button>
 		</form>
@@ -144,7 +156,7 @@
 		use:enhance={() => {
 			isLoading = true;
 			return async ({ result, update }) => {
-				await update();
+				await update({ navigate: false });
 				isLoading = false;
 
 				if (result.type === 'failure') {

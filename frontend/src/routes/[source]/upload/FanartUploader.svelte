@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import FormError from '$lib/components/formError.svelte';
-	import { FANART_TOO_LARGE_MESSAGE, MAX_FANART_BYTES } from '$lib/limits';
-	import { m } from '$lib/paraglide/messages';
+	import FormError from '#lib/components/formError.svelte';
+	import { FANART_TOO_LARGE_MESSAGE, MAX_FANART_BYTES } from '#lib/limits.js';
+	import { m } from '#lib/paraglide/messages.js';
 	let files: FileList | undefined = $state();
 	let previewUrl: string | null = $state(null);
 	let errorMessage: string = $state('');

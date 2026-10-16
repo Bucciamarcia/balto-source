@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { m } from '$lib/paraglide/messages';
-	import { buildAvatarUrl } from '$lib/components/buildAvatarUrl';
-	import type { NotificationsResponse, UsersResponse } from '$lib/pocketbase-types';
-	import { localizeHref } from '$lib/paraglide/runtime';
-	import { type Source } from '$lib/components/getSourceSlug';
+	import { m } from '#lib/paraglide/messages.js';
+	import { buildAvatarUrl } from '#lib/components/buildAvatarUrl.js';
+	import type { NotificationsResponse, UsersResponse } from '#lib/pocketbase-types.js';
+	import { localizeHref } from '#lib/paraglide/runtime.js';
+	import { type Source } from '#lib/components/getSourceSlug.js';
 
 	let {
 		notifications,

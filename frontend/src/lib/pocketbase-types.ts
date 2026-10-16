@@ -1,379 +1,397 @@
 /**
-* This file was @generated using pocketbase-typegen
-*/
+ * This file was @generated using pocketbase-typegen
+ */
 
-import type PocketBase from 'pocketbase'
-import type { RecordService } from 'pocketbase'
+import type PocketBase from 'pocketbase';
+import type { RecordService } from 'pocketbase';
 
 export const Collections = {
-	Authorigins: "_authOrigins",
-	Externalauths: "_externalAuths",
-	Mfas: "_mfas",
-	Otps: "_otps",
-	Superusers: "_superusers",
-	CharacterFavorites: "character_favorites",
-	Characters: "characters",
-	ChatMessages: "chat_messages",
-	Comments: "comments",
-	FanartFavorites: "fanart_favorites",
-	Fanarts: "fanarts",
-	FanfictionFavorites: "fanfiction_favorites",
-	Fanfictions: "fanfictions",
-	HomepageNews: "homepage_news",
-	Notifications: "notifications",
-	Sources: "sources",
-	Users: "users",
-} as const
-export type Collections = typeof Collections[keyof typeof Collections]
+	Authorigins: '_authOrigins',
+	Externalauths: '_externalAuths',
+	Mfas: '_mfas',
+	Otps: '_otps',
+	Superusers: '_superusers',
+	CharacterFavorites: 'character_favorites',
+	Characters: 'characters',
+	ChatMessages: 'chat_messages',
+	Comments: 'comments',
+	FanartFavorites: 'fanart_favorites',
+	Fanarts: 'fanarts',
+	FanfictionFavorites: 'fanfiction_favorites',
+	Fanfictions: 'fanfictions',
+	HomepageNews: 'homepage_news',
+	Notifications: 'notifications',
+	Sources: 'sources',
+	Users: 'users'
+} as const;
+export type Collections = (typeof Collections)[keyof typeof Collections];
 
 // Alias types for improved usability
-export type IsoDateString = string
-export type IsoAutoDateString = string & { readonly autodate: unique symbol }
-export type RecordIdString = string
-export type FileNameString = string & { readonly filename: unique symbol }
-export type HTMLString = string
+export type IsoDateString = string;
+export type IsoAutoDateString = string & { readonly autodate: unique symbol };
+export type RecordIdString = string;
+export type FileNameString = string & { readonly filename: unique symbol };
+export type HTMLString = string;
 
 type ExpandType<T> = unknown extends T
 	? T extends unknown
 		? { expand?: unknown }
 		: { expand: T }
-	: { expand: T }
+	: { expand: T };
 
 // System fields
 export type BaseSystemFields<T = unknown> = {
-	id: RecordIdString
-	collectionId: string
-	collectionName: Collections
-} & ExpandType<T>
+	id: RecordIdString;
+	collectionId: string;
+	collectionName: Collections;
+} & ExpandType<T>;
 
 export type AuthSystemFields<T = unknown> = {
-	email: string
-	emailVisibility: boolean
-	username: string
-	verified: boolean
-} & BaseSystemFields<T>
+	email: string;
+	emailVisibility: boolean;
+	username: string;
+	verified: boolean;
+} & BaseSystemFields<T>;
 
 // Record types for each collection
 
 export type AuthoriginsRecord = {
-	collectionRef: string
-	created: IsoAutoDateString
-	fingerprint: string
-	id: string
-	recordRef: string
-	updated: IsoAutoDateString
-}
+	collectionRef: string;
+	created: IsoAutoDateString;
+	fingerprint: string;
+	id: string;
+	recordRef: string;
+	updated: IsoAutoDateString;
+};
 
 export type ExternalauthsRecord = {
-	collectionRef: string
-	created: IsoAutoDateString
-	id: string
-	provider: string
-	providerId: string
-	recordRef: string
-	updated: IsoAutoDateString
-}
+	collectionRef: string;
+	created: IsoAutoDateString;
+	id: string;
+	provider: string;
+	providerId: string;
+	recordRef: string;
+	updated: IsoAutoDateString;
+};
 
 export type MfasRecord = {
-	collectionRef: string
-	created: IsoAutoDateString
-	id: string
-	method: string
-	recordRef: string
-	updated: IsoAutoDateString
-}
+	collectionRef: string;
+	created: IsoAutoDateString;
+	id: string;
+	method: string;
+	recordRef: string;
+	updated: IsoAutoDateString;
+};
 
 export type OtpsRecord = {
-	collectionRef: string
-	created: IsoAutoDateString
-	id: string
-	password: string
-	recordRef: string
-	sentTo?: string
-	updated: IsoAutoDateString
-}
+	collectionRef: string;
+	created: IsoAutoDateString;
+	id: string;
+	password: string;
+	recordRef: string;
+	sentTo?: string;
+	updated: IsoAutoDateString;
+};
 
 export type SuperusersRecord = {
-	created: IsoAutoDateString
-	email: string
-	emailVisibility?: boolean
-	id: string
-	password: string
-	tokenKey: string
-	updated: IsoAutoDateString
-	verified?: boolean
-}
+	created: IsoAutoDateString;
+	email: string;
+	emailVisibility?: boolean;
+	id: string;
+	password: string;
+	tokenKey: string;
+	updated: IsoAutoDateString;
+	verified?: boolean;
+};
 
 export type CharacterFavoritesRecord = {
-	created: IsoAutoDateString
-	id: string
-	source: RecordIdString
-	target: RecordIdString
-	updated: IsoAutoDateString
-}
+	created: IsoAutoDateString;
+	id: string;
+	source: RecordIdString;
+	target: RecordIdString;
+	updated: IsoAutoDateString;
+};
 
 export const CharactersSexOptions = {
-	"male": "male",
-	"female": "female",
-	"other": "other",
-} as const
-export type CharactersSexOptions = typeof CharactersSexOptions[keyof typeof CharactersSexOptions]
+	male: 'male',
+	female: 'female',
+	other: 'other'
+} as const;
+export type CharactersSexOptions = (typeof CharactersSexOptions)[keyof typeof CharactersSexOptions];
 export type CharactersRecord = {
-	bio?: string
-	created: IsoAutoDateString
-	id: string
-	name: string
-	official?: boolean
-	owner?: RecordIdString
-	profile_picture: FileNameString
-	ref_sheet?: FileNameString
-	sex?: CharactersSexOptions
-	source: RecordIdString
-	updated: IsoAutoDateString
-	visible?: boolean
-}
+	bio?: string;
+	created: IsoAutoDateString;
+	id: string;
+	name: string;
+	official?: boolean;
+	owner?: RecordIdString;
+	profile_picture: FileNameString;
+	ref_sheet?: FileNameString;
+	sex?: CharactersSexOptions;
+	source: RecordIdString;
+	updated: IsoAutoDateString;
+	visible?: boolean;
+};
 
 export type ChatMessagesRecord = {
-	author?: RecordIdString
-	body?: string
-	created: IsoAutoDateString
-	id: string
-	source: RecordIdString
-	updated: IsoAutoDateString
-}
+	author?: RecordIdString;
+	body?: string;
+	created: IsoAutoDateString;
+	id: string;
+	source: RecordIdString;
+	updated: IsoAutoDateString;
+};
 
 export const CommentsTypeOptions = {
-	"news": "news",
-	"profile": "profile",
-	"fanart": "fanart",
-	"fanfiction": "fanfiction",
-	"character": "character",
-} as const
-export type CommentsTypeOptions = typeof CommentsTypeOptions[keyof typeof CommentsTypeOptions]
+	news: 'news',
+	profile: 'profile',
+	fanart: 'fanart',
+	fanfiction: 'fanfiction',
+	character: 'character'
+} as const;
+export type CommentsTypeOptions = (typeof CommentsTypeOptions)[keyof typeof CommentsTypeOptions];
 export type CommentsRecord = {
-	author: RecordIdString
-	content: string
-	created: IsoAutoDateString
-	id: string
-	parent?: string
-	target_id: string
-	type: CommentsTypeOptions
-	updated: IsoAutoDateString
-}
+	author: RecordIdString;
+	content: string;
+	created: IsoAutoDateString;
+	id: string;
+	parent?: string;
+	target_id: string;
+	type: CommentsTypeOptions;
+	updated: IsoAutoDateString;
+};
 
 export type FanartFavoritesRecord = {
-	created: IsoAutoDateString
-	id: string
-	source?: RecordIdString
-	target?: RecordIdString
-	updated: IsoAutoDateString
-}
+	created: IsoAutoDateString;
+	id: string;
+	source?: RecordIdString;
+	target?: RecordIdString;
+	updated: IsoAutoDateString;
+};
 
 export type FanartsRecord = {
-	author: RecordIdString
-	created: IsoAutoDateString
-	description?: string
-	id: string
-	image: FileNameString
-	source: RecordIdString
-	title?: string
-	updated: IsoAutoDateString
-	visible?: boolean
-}
+	author: RecordIdString;
+	created: IsoAutoDateString;
+	description?: string;
+	id: string;
+	image: FileNameString;
+	source: RecordIdString;
+	title?: string;
+	updated: IsoAutoDateString;
+	visible?: boolean;
+};
 
 export type FanfictionFavoritesRecord = {
-	created: IsoAutoDateString
-	id: string
-	source?: RecordIdString
-	target?: RecordIdString
-	updated: IsoAutoDateString
-}
+	created: IsoAutoDateString;
+	id: string;
+	source?: RecordIdString;
+	target?: RecordIdString;
+	updated: IsoAutoDateString;
+};
 
 export type FanfictionsRecord = {
-	author: RecordIdString
-	content: string
-	created: IsoAutoDateString
-	description: string
-	id: string
-	source: RecordIdString
-	title: string
-	updated: IsoAutoDateString
-	visible?: boolean
-}
+	author: RecordIdString;
+	content: string;
+	created: IsoAutoDateString;
+	description: string;
+	id: string;
+	source: RecordIdString;
+	title: string;
+	updated: IsoAutoDateString;
+	visible?: boolean;
+};
 
 export type HomepageNewsRecord = {
-	author: RecordIdString
-	body: string
-	created: IsoAutoDateString
-	id: string
-	source: RecordIdString
-	title: string
-	updated: IsoAutoDateString
-}
+	author: RecordIdString;
+	body: string;
+	created: IsoAutoDateString;
+	id: string;
+	source: RecordIdString;
+	title: string;
+	updated: IsoAutoDateString;
+};
 
 export type NotificationsRecord = {
-	content?: string
-	created: IsoAutoDateString
-	for_user?: RecordIdString
-	id: string
-	is_read?: boolean
-	source_user?: RecordIdString
-	updated: IsoAutoDateString
-	url?: string
-}
+	content?: string;
+	created: IsoAutoDateString;
+	for_user?: RecordIdString;
+	id: string;
+	is_read?: boolean;
+	source_user?: RecordIdString;
+	updated: IsoAutoDateString;
+	url?: string;
+};
 
 export const SourcesLanguageOptions = {
-	"en": "en",
-	"fr": "fr",
-} as const
-export type SourcesLanguageOptions = typeof SourcesLanguageOptions[keyof typeof SourcesLanguageOptions]
+	en: 'en',
+	fr: 'fr'
+} as const;
+export type SourcesLanguageOptions =
+	(typeof SourcesLanguageOptions)[keyof typeof SourcesLanguageOptions];
 export type SourcesRecord = {
-	created: IsoAutoDateString
-	id: string
-	language: SourcesLanguageOptions
-	name: string
-	updated: IsoAutoDateString
-}
+	created: IsoAutoDateString;
+	id: string;
+	language: SourcesLanguageOptions;
+	name: string;
+	updated: IsoAutoDateString;
+};
 
 export const UsersRoleOptions = {
-	"user": "user",
-	"moderator": "moderator",
-	"admin": "admin",
-	"banned": "banned",
-} as const
-export type UsersRoleOptions = typeof UsersRoleOptions[keyof typeof UsersRoleOptions]
+	user: 'user',
+	moderator: 'moderator',
+	admin: 'admin',
+	banned: 'banned'
+} as const;
+export type UsersRoleOptions = (typeof UsersRoleOptions)[keyof typeof UsersRoleOptions];
 export type UsersRecord = {
-	avatar?: FileNameString
-	bio?: string
-	created: IsoAutoDateString
-	email: string
-	emailVisibility?: boolean
-	id: string
-	password: string
-	role: UsersRoleOptions
-	tokenKey: string
-	updated: IsoAutoDateString
-	username: string
-	verified?: boolean
-}
+	avatar?: FileNameString;
+	bio?: string;
+	created: IsoAutoDateString;
+	email: string;
+	emailVisibility?: boolean;
+	id: string;
+	password: string;
+	role: UsersRoleOptions;
+	tokenKey: string;
+	updated: IsoAutoDateString;
+	username: string;
+	verified?: boolean;
+};
 
 // Response types include system fields and match responses from the PocketBase API
-export type AuthoriginsResponse<Texpand = unknown> = Required<AuthoriginsRecord> & BaseSystemFields<Texpand>
-export type ExternalauthsResponse<Texpand = unknown> = Required<ExternalauthsRecord> & BaseSystemFields<Texpand>
-export type MfasResponse<Texpand = unknown> = Required<MfasRecord> & BaseSystemFields<Texpand>
-export type OtpsResponse<Texpand = unknown> = Required<OtpsRecord> & BaseSystemFields<Texpand>
-export type SuperusersResponse<Texpand = unknown> = Required<SuperusersRecord> & AuthSystemFields<Texpand>
-export type CharacterFavoritesResponse<Texpand = unknown> = Required<CharacterFavoritesRecord> & BaseSystemFields<Texpand>
-export type CharactersResponse<Texpand = unknown> = Required<CharactersRecord> & BaseSystemFields<Texpand>
-export type ChatMessagesResponse<Texpand = unknown> = Required<ChatMessagesRecord> & BaseSystemFields<Texpand>
-export type CommentsResponse<Texpand = unknown> = Required<CommentsRecord> & BaseSystemFields<Texpand>
-export type FanartFavoritesResponse<Texpand = unknown> = Required<FanartFavoritesRecord> & BaseSystemFields<Texpand>
-export type FanartsResponse<Texpand = unknown> = Required<FanartsRecord> & BaseSystemFields<Texpand>
-export type FanfictionFavoritesResponse<Texpand = unknown> = Required<FanfictionFavoritesRecord> & BaseSystemFields<Texpand>
-export type FanfictionsResponse<Texpand = unknown> = Required<FanfictionsRecord> & BaseSystemFields<Texpand>
-export type HomepageNewsResponse<Texpand = unknown> = Required<HomepageNewsRecord> & BaseSystemFields<Texpand>
-export type NotificationsResponse<Texpand = unknown> = Required<NotificationsRecord> & BaseSystemFields<Texpand>
-export type SourcesResponse<Texpand = unknown> = Required<SourcesRecord> & BaseSystemFields<Texpand>
-export type UsersResponse<Texpand = unknown> = Required<UsersRecord> & AuthSystemFields<Texpand>
+export type AuthoriginsResponse<Texpand = unknown> = Required<AuthoriginsRecord> &
+	BaseSystemFields<Texpand>;
+export type ExternalauthsResponse<Texpand = unknown> = Required<ExternalauthsRecord> &
+	BaseSystemFields<Texpand>;
+export type MfasResponse<Texpand = unknown> = Required<MfasRecord> & BaseSystemFields<Texpand>;
+export type OtpsResponse<Texpand = unknown> = Required<OtpsRecord> & BaseSystemFields<Texpand>;
+export type SuperusersResponse<Texpand = unknown> = Required<SuperusersRecord> &
+	AuthSystemFields<Texpand>;
+export type CharacterFavoritesResponse<Texpand = unknown> = Required<CharacterFavoritesRecord> &
+	BaseSystemFields<Texpand>;
+export type CharactersResponse<Texpand = unknown> = Required<CharactersRecord> &
+	BaseSystemFields<Texpand>;
+export type ChatMessagesResponse<Texpand = unknown> = Required<ChatMessagesRecord> &
+	BaseSystemFields<Texpand>;
+export type CommentsResponse<Texpand = unknown> = Required<CommentsRecord> &
+	BaseSystemFields<Texpand>;
+export type FanartFavoritesResponse<Texpand = unknown> = Required<FanartFavoritesRecord> &
+	BaseSystemFields<Texpand>;
+export type FanartsResponse<Texpand = unknown> = Required<FanartsRecord> &
+	BaseSystemFields<Texpand>;
+export type FanfictionFavoritesResponse<Texpand = unknown> = Required<FanfictionFavoritesRecord> &
+	BaseSystemFields<Texpand>;
+export type FanfictionsResponse<Texpand = unknown> = Required<FanfictionsRecord> &
+	BaseSystemFields<Texpand>;
+export type HomepageNewsResponse<Texpand = unknown> = Required<HomepageNewsRecord> &
+	BaseSystemFields<Texpand>;
+export type NotificationsResponse<Texpand = unknown> = Required<NotificationsRecord> &
+	BaseSystemFields<Texpand>;
+export type SourcesResponse<Texpand = unknown> = Required<SourcesRecord> &
+	BaseSystemFields<Texpand>;
+export type UsersResponse<Texpand = unknown> = Required<UsersRecord> & AuthSystemFields<Texpand>;
 
 // Types containing all Records and Responses, useful for creating typing helper functions
 
 export type CollectionRecords = {
-	_authOrigins: AuthoriginsRecord
-	_externalAuths: ExternalauthsRecord
-	_mfas: MfasRecord
-	_otps: OtpsRecord
-	_superusers: SuperusersRecord
-	character_favorites: CharacterFavoritesRecord
-	characters: CharactersRecord
-	chat_messages: ChatMessagesRecord
-	comments: CommentsRecord
-	fanart_favorites: FanartFavoritesRecord
-	fanarts: FanartsRecord
-	fanfiction_favorites: FanfictionFavoritesRecord
-	fanfictions: FanfictionsRecord
-	homepage_news: HomepageNewsRecord
-	notifications: NotificationsRecord
-	sources: SourcesRecord
-	users: UsersRecord
-}
+	_authOrigins: AuthoriginsRecord;
+	_externalAuths: ExternalauthsRecord;
+	_mfas: MfasRecord;
+	_otps: OtpsRecord;
+	_superusers: SuperusersRecord;
+	character_favorites: CharacterFavoritesRecord;
+	characters: CharactersRecord;
+	chat_messages: ChatMessagesRecord;
+	comments: CommentsRecord;
+	fanart_favorites: FanartFavoritesRecord;
+	fanarts: FanartsRecord;
+	fanfiction_favorites: FanfictionFavoritesRecord;
+	fanfictions: FanfictionsRecord;
+	homepage_news: HomepageNewsRecord;
+	notifications: NotificationsRecord;
+	sources: SourcesRecord;
+	users: UsersRecord;
+};
 
 export type CollectionResponses = {
-	_authOrigins: AuthoriginsResponse
-	_externalAuths: ExternalauthsResponse
-	_mfas: MfasResponse
-	_otps: OtpsResponse
-	_superusers: SuperusersResponse
-	character_favorites: CharacterFavoritesResponse
-	characters: CharactersResponse
-	chat_messages: ChatMessagesResponse
-	comments: CommentsResponse
-	fanart_favorites: FanartFavoritesResponse
-	fanarts: FanartsResponse
-	fanfiction_favorites: FanfictionFavoritesResponse
-	fanfictions: FanfictionsResponse
-	homepage_news: HomepageNewsResponse
-	notifications: NotificationsResponse
-	sources: SourcesResponse
-	users: UsersResponse
-}
+	_authOrigins: AuthoriginsResponse;
+	_externalAuths: ExternalauthsResponse;
+	_mfas: MfasResponse;
+	_otps: OtpsResponse;
+	_superusers: SuperusersResponse;
+	character_favorites: CharacterFavoritesResponse;
+	characters: CharactersResponse;
+	chat_messages: ChatMessagesResponse;
+	comments: CommentsResponse;
+	fanart_favorites: FanartFavoritesResponse;
+	fanarts: FanartsResponse;
+	fanfiction_favorites: FanfictionFavoritesResponse;
+	fanfictions: FanfictionsResponse;
+	homepage_news: HomepageNewsResponse;
+	notifications: NotificationsResponse;
+	sources: SourcesResponse;
+	users: UsersResponse;
+};
 
 // Utility types for create/update operations
 
-type ProcessCreateAndUpdateFields<T> = Omit<{
-	// Omit AutoDate fields
-	[K in keyof T as Extract<T[K], IsoAutoDateString> extends never ? K : never]: 
-		// Convert FileNameString to File
-		T[K] extends infer U ? 
-			U extends (FileNameString | FileNameString[]) ? 
-				U extends any[] ? File[] : File 
-			: U
-		: never
-}, 'id'>
+type ProcessCreateAndUpdateFields<T> = Omit<
+	{
+		// Omit AutoDate fields
+		[K in keyof T as Extract<T[K], IsoAutoDateString> extends never
+			? K
+			: never]: T[K] extends infer U // Convert FileNameString to File
+			? U extends FileNameString | FileNameString[]
+				? U extends any[]
+					? File[]
+					: File
+				: U
+			: never;
+	},
+	'id'
+>;
 
 // Create type for Auth collections
 export type CreateAuth<T> = {
-	id?: RecordIdString
-	email: string
-	emailVisibility?: boolean
-	password: string
-	passwordConfirm: string
-	verified?: boolean
-} & ProcessCreateAndUpdateFields<T>
+	id?: RecordIdString;
+	email: string;
+	emailVisibility?: boolean;
+	password: string;
+	passwordConfirm: string;
+	verified?: boolean;
+} & ProcessCreateAndUpdateFields<T>;
 
 // Create type for Base collections
 export type CreateBase<T> = {
-	id?: RecordIdString
-} & ProcessCreateAndUpdateFields<T>
+	id?: RecordIdString;
+} & ProcessCreateAndUpdateFields<T>;
 
 // Update type for Auth collections
 export type UpdateAuth<T> = Partial<
 	Omit<ProcessCreateAndUpdateFields<T>, keyof AuthSystemFields>
 > & {
-	email?: string
-	emailVisibility?: boolean
-	oldPassword?: string
-	password?: string
-	passwordConfirm?: string
-	verified?: boolean
-}
+	email?: string;
+	emailVisibility?: boolean;
+	oldPassword?: string;
+	password?: string;
+	passwordConfirm?: string;
+	verified?: boolean;
+};
 
 // Update type for Base collections
-export type UpdateBase<T> = Partial<
-	Omit<ProcessCreateAndUpdateFields<T>, keyof BaseSystemFields>
->
+export type UpdateBase<T> = Partial<Omit<ProcessCreateAndUpdateFields<T>, keyof BaseSystemFields>>;
 
 // Get the correct create type for any collection
 export type Create<T extends keyof CollectionResponses> =
 	CollectionResponses[T] extends AuthSystemFields
 		? CreateAuth<CollectionRecords[T]>
-		: CreateBase<CollectionRecords[T]>
+		: CreateBase<CollectionRecords[T]>;
 
 // Get the correct update type for any collection
 export type Update<T extends keyof CollectionResponses> =
 	CollectionResponses[T] extends AuthSystemFields
 		? UpdateAuth<CollectionRecords[T]>
-		: UpdateBase<CollectionRecords[T]>
+		: UpdateBase<CollectionRecords[T]>;
 
 // Type for usage with type asserted PocketBase instance
 // https://github.com/pocketbase/js-sdk#specify-typescript-definitions
@@ -381,5 +399,5 @@ export type Update<T extends keyof CollectionResponses> =
 export type TypedPocketBase = {
 	collection<T extends keyof CollectionResponses>(
 		idOrName: T
-	): RecordService<CollectionResponses[T]>
-} & PocketBase
+	): RecordService<CollectionResponses[T]>;
+} & PocketBase;

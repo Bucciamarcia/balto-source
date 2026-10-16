@@ -1,9 +1,8 @@
-import { sequence } from '@sveltejs/kit/hooks';
-import { getTextDirection } from '$lib/paraglide/runtime';
-import { paraglideMiddleware } from '$lib/paraglide/server';
+import { sequence, type Handle } from '@sveltejs/kit/hooks';
+import { getTextDirection } from '#lib/paraglide/runtime.js';
+import { paraglideMiddleware } from '#lib/paraglide/server.js';
 import PocketBase from 'pocketbase';
-import type { Handle } from '@sveltejs/kit';
-import { PUBLIC_POCKETBASE_URL } from '$lib/pocketbase/url';
+import { PUBLIC_POCKETBASE_URL } from '#lib/pocketbase/url.js';
 
 const originalHandle: Handle = async ({ event, resolve }) => {
 	event.locals.pb = new PocketBase(PUBLIC_POCKETBASE_URL);
@@ -39,14 +38,15 @@ const originalHandle: Handle = async ({ event, resolve }) => {
 
 const handleParaglide: Handle = ({ event, resolve }) =>
 	paraglideMiddleware(event.request, ({ request, locale }) => {
-		event.request = request;
-
-		return resolve(event, {
-			transformPageChunk: ({ html }) =>
-				html
-					.replace('%paraglide.lang%', locale)
-					.replace('%paraglide.dir%', getTextDirection(locale))
-		});
+		return resolve(
+			{ ...event, request },
+			{
+				transformPageChunk: ({ html }) =>
+					html
+						.replace('%paraglide.lang%', locale)
+						.replace('%paraglide.dir%', getTextDirection(locale))
+			}
+		);
 	});
 
 export const handle = sequence(originalHandle, handleParaglide);

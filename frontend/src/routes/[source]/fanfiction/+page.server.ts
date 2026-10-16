@@ -2,13 +2,13 @@ import type {
 	FanfictionFavoritesResponse,
 	FanfictionsResponse,
 	UsersResponse
-} from '$lib/pocketbase-types';
+} from '#lib/pocketbase-types.js';
 import Pocketbase from 'pocketbase';
 import { fail, type Actions } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
-import { getLocale } from '$lib/paraglide/runtime';
-import { getSourceId } from '$lib/components/getSourceId';
-import { getSourceSlug } from '$lib/components/getSourceSlug';
+import { getLocale } from '#lib/paraglide/runtime.js';
+import { getSourceId } from '#lib/components/getSourceId.js';
+import { getSourceSlug } from '#lib/components/getSourceSlug.js';
 
 export const load: PageServerLoad = async ({ locals, params }) => {
 	const sourceName = getSourceSlug(params.source);

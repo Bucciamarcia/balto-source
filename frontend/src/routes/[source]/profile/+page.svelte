@@ -1,6 +1,6 @@
 <script lang="ts">
-	import FanartGallery from '$lib/components/layout/fanarts/FanartGallery.svelte';
-	import { m } from '$lib/paraglide/messages.js';
+	import FanartGallery from '#lib/components/layout/fanarts/FanartGallery.svelte';
+	import { m } from '#lib/paraglide/messages.js';
 	import HomeProfile from './HomeProfile.svelte';
 
 	let { data } = $props();

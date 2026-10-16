@@ -3,12 +3,12 @@ import type {
 	FanfictionFavoritesResponse,
 	FanfictionsResponse,
 	UsersResponse
-} from '$lib/pocketbase-types';
+} from '#lib/pocketbase-types.js';
 import { fail } from '@sveltejs/kit';
 import type { PageServerLoad, Actions } from './$types';
 import sanitizeHtml from 'sanitize-html';
-import { moderateText } from '$lib/components/moderateAi';
-import { getLocale } from '$lib/paraglide/runtime';
+import { moderateText } from '#lib/components/moderateAi.js';
+import { getLocale } from '#lib/paraglide/runtime.js';
 
 export const load: PageServerLoad = async ({ locals, params }) => {
 	async function hasUserAlreadyFaved(userId: string, fanfictionId: string): Promise<boolean> {

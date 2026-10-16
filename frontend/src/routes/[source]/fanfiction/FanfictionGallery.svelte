@@ -1,9 +1,9 @@
 <script lang="ts">
-	import FormattedDate from '$lib/components/FormattedDate.svelte';
-	import type { Source } from '$lib/components/getSourceSlug';
-	import { m } from '$lib/paraglide/messages';
-	import type { Locale } from '$lib/paraglide/runtime';
-	import type { FanfictionsResponse, UsersResponse } from '$lib/pocketbase-types';
+	import FormattedDate from '#lib/components/FormattedDate.svelte';
+	import type { Source } from '#lib/components/getSourceSlug.js';
+	import { m } from '#lib/paraglide/messages.js';
+	import type { Locale } from '#lib/paraglide/runtime.js';
+	import type { FanfictionsResponse, UsersResponse } from '#lib/pocketbase-types.js';
 	import type { FavoriteByFanfiction } from './+page.server';
 
 	let {

@@ -1,10 +1,10 @@
 <script lang="ts">
-	import FormattedDate from '$lib/components/FormattedDate.svelte';
-	import type { Source } from '$lib/components/getSourceSlug';
-	import { m } from '$lib/paraglide/messages';
-	import { getLocale } from '$lib/paraglide/runtime';
-	import type { CharactersResponse, UsersResponse } from '$lib/pocketbase-types';
-	import { PUBLIC_POCKETBASE_URL } from '$lib/pocketbase/url';
+	import FormattedDate from '#lib/components/FormattedDate.svelte';
+	import type { Source } from '#lib/components/getSourceSlug.js';
+	import { m } from '#lib/paraglide/messages.js';
+	import { getLocale } from '#lib/paraglide/runtime.js';
+	import type { CharactersResponse, UsersResponse } from '#lib/pocketbase-types.js';
+	import { PUBLIC_POCKETBASE_URL } from '#lib/pocketbase/url.js';
 
 	let {
 		character,

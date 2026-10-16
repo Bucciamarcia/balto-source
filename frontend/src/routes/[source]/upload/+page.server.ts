@@ -2,18 +2,22 @@ import { error, fail, type Actions } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import sanitizeHtml from 'sanitize-html';
 import mammoth from 'mammoth';
-import { moderateImageData, moderateText, type ModerateResult } from '$lib/components/moderateAi';
-import { FANART_TOO_LARGE_MESSAGE, MAX_FANART_BYTES } from '$lib/limits';
-import { m } from '$lib/paraglide/messages';
-import { getSourceId } from '$lib/components/getSourceId';
-import { getSourceSlug } from '$lib/components/getSourceSlug';
+import {
+	moderateImageData,
+	moderateText,
+	type ModerateResult
+} from '#lib/components/moderateAi.js';
+import { FANART_TOO_LARGE_MESSAGE, MAX_FANART_BYTES } from '#lib/limits.js';
+import { m } from '#lib/paraglide/messages.js';
+import { getSourceId } from '#lib/components/getSourceId.js';
+import { getSourceSlug } from '#lib/components/getSourceSlug.js';
 
 export type CharacterSex = 'male' | 'female' | 'other';
 
 export const load: PageServerLoad = async ({ locals }) => {
 	const user = locals.auth;
 	if (user == null) {
-		error(401, { message: 'You are not logged in.' });
+		error(401, 'You are not logged in.');
 	}
 };
 

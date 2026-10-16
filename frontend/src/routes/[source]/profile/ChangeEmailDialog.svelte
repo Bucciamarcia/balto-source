@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import FormError from '$lib/components/formError.svelte';
-	import { m } from '$lib/paraglide/messages';
+	import FormError from '#lib/components/formError.svelte';
+	import { m } from '#lib/paraglide/messages.js';
 
 	let showConfirm: boolean = $state(false);
 	let errorMessage: string = $state('');
@@ -42,7 +42,7 @@
 				} else if (result.type === 'failure') {
 					errorMessage = (result.data?.error as string) ?? m.p_error_mail();
 				}
-				await update();
+				await update({ navigate: false });
 			};
 		}}
 	>

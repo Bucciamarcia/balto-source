@@ -1,10 +1,10 @@
-import type { FanartsResponse, UsersResponse } from '$lib/pocketbase-types';
+import type { FanartsResponse, UsersResponse } from '#lib/pocketbase-types.js';
 import Pocketbase from 'pocketbase';
 import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
-import { getFanartFavorites } from '$lib/components/getFanartFavorites';
-import { getSourceId } from '$lib/components/getSourceId';
-import { getSourceSlug } from '$lib/components/getSourceSlug';
+import { getFanartFavorites } from '#lib/components/getFanartFavorites.js';
+import { getSourceId } from '#lib/components/getSourceId.js';
+import { getSourceSlug } from '#lib/components/getSourceSlug.js';
 export const load: PageServerLoad = async ({ locals, params }) => {
 	const sourceName = getSourceSlug(params.source);
 	const source = await getSourceId(locals.pb, sourceName);

@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import { buildAvatarUrl } from '$lib/components/buildAvatarUrl';
-	import FormError from '$lib/components/formError.svelte';
-	import { m } from '$lib/paraglide/messages';
-	import type { UsersResponse } from '$lib/pocketbase-types';
+	import { buildAvatarUrl } from '#lib/components/buildAvatarUrl.js';
+	import FormError from '#lib/components/formError.svelte';
+	import { m } from '#lib/paraglide/messages.js';
+	import type { UsersResponse } from '#lib/pocketbase-types.js';
 	let {
 		user,
 		isSelf,
@@ -32,7 +32,7 @@
 					isLoading = true;
 					errorMessage = '';
 					return async ({ result, update }) => {
-						await update();
+						await update({ navigate: false });
 						isLoading = false;
 						if (result.type === 'failure') {
 							errorMessage = (result.data?.error as string) ?? m.p_error_unknown();

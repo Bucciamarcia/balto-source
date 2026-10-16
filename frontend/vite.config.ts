@@ -1,3 +1,4 @@
+import adapter from '@sveltejs/adapter-node';
 import { paraglideVitePlugin } from '@inlang/paraglide-js';
 import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'vitest/config';
@@ -7,19 +8,32 @@ import { sveltekit } from '@sveltejs/kit/vite';
 export default defineConfig({
 	plugins: [
 		tailwindcss(),
-		sveltekit(),
+		sveltekit({
+			compilerOptions: {
+				// Force runes mode for the project, except for libraries. Can be removed in svelte 6.
+				runes: ({ filename }) =>
+					filename.split(/[/\\]/).includes('node_modules') ? undefined : true
+			},
+			adapter: adapter(),
+			// Public origin behind the Caddy reverse proxy; replaces adapter-node's ORIGIN env var.
+			paths: { origin: 'https://baltosource.org' },
+			// Required for src/instrumentation.server.ts to be bundled. This flag only
+			// permits the file; tracing spans stay off behind experimental.tracing.server.
+			experimental: {}
+		}),
+
 		paraglideVitePlugin({
 			project: './project.inlang',
 			outdir: './src/lib/paraglide',
 			emitTsDeclarations: true,
-			strategy: ["url", "baseLocale"],
+			strategy: ['url', 'baseLocale'],
 			urlPatterns: [
 				{
-					pattern: "/:path(.*)?",
+					pattern: '/:path(.*)?',
 					localized: [
-						["en", "/en/:path(.*)?"],
-						["fr", "/fr/:path(.*)?"],
-					],
+						['en', '/en/:path(.*)?'],
+						['fr', '/fr/:path(.*)?']
+					]
 				}
 			]
 		})
