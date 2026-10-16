@@ -42,7 +42,7 @@
 				} else if (result.type === 'failure') {
 					errorMessage = (result.data?.error as string) ?? m.p_error_mail();
 				}
-				await update();
+				await update({ navigate: false });
 			};
 		}}
 	>

@@ -17,7 +17,7 @@ export type CharacterSex = 'male' | 'female' | 'other';
 export const load: PageServerLoad = async ({ locals }) => {
 	const user = locals.auth;
 	if (user == null) {
-		error(401, { message: 'You are not logged in.' });
+		error(401, 'You are not logged in.');
 	}
 };
 

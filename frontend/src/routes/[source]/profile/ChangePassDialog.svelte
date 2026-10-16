@@ -40,7 +40,7 @@
 				} else if (result.type === 'failure') {
 					errorMessage = (result.data?.error as string) ?? m.pass_change_error();
 				}
-				await update();
+				await update({ navigate: false });
 			};
 		}}
 	>

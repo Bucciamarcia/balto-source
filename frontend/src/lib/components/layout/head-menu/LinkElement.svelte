@@ -21,7 +21,7 @@
 		action={localizeHref(`/${source}/profile?/logout`)}
 		use:enhance={() => {
 			return async ({ update }) => {
-				await update();
+				await update({ navigate: false });
 			};
 		}}
 	>

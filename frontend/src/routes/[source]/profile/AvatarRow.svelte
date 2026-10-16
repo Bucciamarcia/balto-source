@@ -32,7 +32,7 @@
 					isLoading = true;
 					errorMessage = '';
 					return async ({ result, update }) => {
-						await update();
+						await update({ navigate: false });
 						isLoading = false;
 						if (result.type === 'failure') {
 							errorMessage = (result.data?.error as string) ?? m.p_error_unknown();

@@ -15,6 +15,8 @@ export default defineConfig({
 					filename.split(/[/\\]/).includes('node_modules') ? undefined : true
 			},
 			adapter: adapter(),
+			// Public origin behind the Caddy reverse proxy; replaces adapter-node's ORIGIN env var.
+			paths: { origin: 'https://baltosource.org' },
 			// Required for src/instrumentation.server.ts to be bundled. This flag only
 			// permits the file; tracing spans stay off behind experimental.tracing.server.
 			experimental: {}

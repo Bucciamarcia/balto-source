@@ -68,7 +68,7 @@
 			use:enhance={() => {
 				isLoading = true;
 				return async ({ result, update }) => {
-					await update();
+					await update({ navigate: false });
 					isLoading = false;
 
 					if (result.type === 'failure') {
@@ -85,13 +85,25 @@
 		</form>
 	{/if}
 	{#if canModerate(myself) && user.role !== 'banned'}
-		<form method="POST" action="?/banUser" use:enhance>
+		<form
+			method="POST"
+			action="?/banUser"
+			use:enhance={() =>
+				async ({ update }) =>
+					update({ navigate: false })}
+		>
 			<input name="user" type="hidden" value={user.id} />
 			<button class="btn btn-primary">Ban user</button>
 		</form>
 	{/if}
 	{#if canModerate(myself) && user.role === 'banned'}
-		<form method="POST" action="?/unbanUser" use:enhance>
+		<form
+			method="POST"
+			action="?/unbanUser"
+			use:enhance={() =>
+				async ({ update }) =>
+					update({ navigate: false })}
+		>
 			<input name="user" type="hidden" value={user.id} />
 			<button class="btn btn-primary">Unban user</button>
 		</form>
@@ -144,7 +156,7 @@
 		use:enhance={() => {
 			isLoading = true;
 			return async ({ result, update }) => {
-				await update();
+				await update({ navigate: false });
 				isLoading = false;
 
 				if (result.type === 'failure') {

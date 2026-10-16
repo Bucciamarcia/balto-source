@@ -54,7 +54,7 @@
 			errorMessage = '';
 			isLoading = true;
 			return async ({ result, update }) => {
-				await update();
+				await update({ navigate: false });
 				isLoading = false;
 
 				if (result.type === 'failure') {
@@ -114,7 +114,7 @@
 					use:enhance={() => {
 						isLoading = true;
 						return async ({ result, update }) => {
-							await update();
+							await update({ navigate: false });
 							isLoading = false;
 
 							if (result.type === 'failure') {

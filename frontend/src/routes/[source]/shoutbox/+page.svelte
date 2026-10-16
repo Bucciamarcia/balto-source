@@ -88,7 +88,7 @@
 		return async ({ result, update }) => {
 			await update({
 				reset: false,
-				invalidateAll: false
+				refreshAll: false
 			});
 			isLoading = false;
 			if (result.type === 'failure') {

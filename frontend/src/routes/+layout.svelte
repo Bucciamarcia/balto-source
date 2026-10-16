@@ -47,7 +47,7 @@
 					newEmailVerificationYes = false;
 
 					return async ({ result, update }) => {
-						await update();
+						await update({ navigate: false });
 
 						if (result.type === 'success') {
 							newEmailVerificationYes = true;
@@ -102,7 +102,7 @@
 
 <div style="display:none">
 	{#each locales as locale (locale)}
-		<a href={resolve(localizeHref(page.url.pathname, { locale }) as Path)}>{locale}</a>
+		<a href={resolve(localizeHref(page.url.pathname, { locale }).slice(1) as Path)}>{locale}</a>
 	{/each}
 </div>
 

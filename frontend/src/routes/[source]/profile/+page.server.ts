@@ -26,7 +26,7 @@ export const load: PageServerLoad = async ({ locals, url }) => {
 		uid = localsId;
 	}
 	if (uid === '') {
-		error(401, { message: 'You are not logged in.' });
+		error(401, 'You are not logged in.');
 	}
 	const pb = locals.pb;
 	let comments: CommentsResponse<{ author: UsersResponse }>[];
@@ -78,7 +78,7 @@ export const load: PageServerLoad = async ({ locals, url }) => {
 			myself: locals.user
 		};
 	} catch (e) {
-		error(404, { message: 'Page not found' });
+		error(404, 'Page not found');
 	}
 };
 
