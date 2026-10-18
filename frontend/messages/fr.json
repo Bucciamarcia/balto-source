@@ -201,5 +201,8 @@
 	"ff_remove_btn_cancel": "Annuler et revenir en arrière",
 	"ff_remove_btn_confirm": "Confirmer et supprimer la fan fiction",
 	"ff_removed_ok_title": "Fan fiction supprimée",
-	"ff_removed_ok_head": "Cette fan fiction a été supprimée"
+	"ff_removed_ok_head": "Cette fan fiction a été supprimée",
+	"fa_comments_word": "comments",
+	"ff_comments_word": "comments",
+	"fc_comments_word": "comments"
 }

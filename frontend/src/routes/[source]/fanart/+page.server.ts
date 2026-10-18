@@ -5,6 +5,7 @@ import type { Actions, PageServerLoad } from './$types';
 import { getFanartFavorites } from '#lib/components/getFanartFavorites.js';
 import { getSourceId } from '#lib/components/getSourceId.js';
 import { getSourceSlug } from '#lib/components/getSourceSlug.js';
+import { getComments } from '#lib/components/getComments.js';
 export const load: PageServerLoad = async ({ locals, params }) => {
 	const sourceName = getSourceSlug(params.source);
 	const source = await getSourceId(locals.pb, sourceName);
@@ -25,12 +26,23 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 			favorites: await getFanartFavorites(fanart.id, locals.pb)
 		}))
 	);
-	return { fanarts, favorites };
+	const comments: CommentsByFanart[] = await Promise.all(
+		fanarts.map(async (fanart) => ({
+			fanart: fanart.id,
+			comments: await getComments(fanart.id, locals.pb)
+		}))
+	);
+	return { fanarts, favorites, comments };
 };
 
 export type FavoriteByFanart = {
 	fanart: string;
 	favorites: string[];
+};
+
+export type CommentsByFanart = {
+	fanart: string;
+	comments: string[];
 };
 
 export const actions = {

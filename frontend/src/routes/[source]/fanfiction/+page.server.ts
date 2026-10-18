@@ -9,6 +9,7 @@ import type { PageServerLoad } from './$types';
 import { getLocale } from '#lib/paraglide/runtime.js';
 import { getSourceId } from '#lib/components/getSourceId.js';
 import { getSourceSlug } from '#lib/components/getSourceSlug.js';
+import { getComments } from '#lib/components/getComments.js';
 
 export const load: PageServerLoad = async ({ locals, params }) => {
 	const sourceName = getSourceSlug(params.source);
@@ -26,7 +27,13 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 			favorites: await getFavorites(fanfic.id, locals.pb)
 		}))
 	);
-	return { fanfictions, favorites, language };
+	const comments: CommentsByFanfiction[] = await Promise.all(
+		fanfictions.map(async (fanfic) => ({
+			fanfiction: fanfic.id,
+			comments: await getComments(fanfic.id, locals.pb)
+		}))
+	);
+	return { fanfictions, favorites, language, comments };
 };
 
 export const actions = {
@@ -75,6 +82,10 @@ async function findUsersByFilter(filter: string, pb: Pocketbase): Promise<UsersR
 export type FavoriteByFanfiction = {
 	fanfiction: string;
 	favorites: string[];
+};
+export type CommentsByFanfiction = {
+	fanfiction: string;
+	comments: string[];
 };
 async function getFavorites(fanfiction: string, pb: Pocketbase): Promise<string[]> {
 	const response = await pb

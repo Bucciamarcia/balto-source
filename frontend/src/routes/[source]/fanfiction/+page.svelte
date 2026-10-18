@@ -15,6 +15,7 @@
 <FanfictionGallery
 	fanfictions={filteredFanfiction == null ? data.fanfictions : filteredFanfiction}
 	fanfictionsFavorites={data.favorites}
+	fanfictionsComments={data.comments}
 	language={data.language}
 	source={data.source}
 />

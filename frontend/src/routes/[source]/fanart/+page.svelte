@@ -16,4 +16,5 @@
 	fanartsFavorites={data.favorites}
 	language={data.language}
 	source={data.source}
+	fanartsComments={data.comments}
 />

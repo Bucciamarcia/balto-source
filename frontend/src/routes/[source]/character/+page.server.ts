@@ -1,3 +1,4 @@
+import { getComments } from '#lib/components/getComments.js';
 import { getSourceId } from '#lib/components/getSourceId.js';
 import { getSourceSlug } from '#lib/components/getSourceSlug.js';
 import type {
@@ -31,5 +32,16 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 			cFavs.map((cf) => cf.id)
 		);
 	}
-	return { characters, favorites };
+	const comments: CommentsByCharacter[] = await Promise.all(
+		characters.map(async (c) => ({
+			character: c.id,
+			comments: await getComments(c.id, locals.pb)
+		}))
+	);
+	return { characters, favorites, comments };
+};
+
+export type CommentsByCharacter = {
+	character: string;
+	comments: string[];
 };

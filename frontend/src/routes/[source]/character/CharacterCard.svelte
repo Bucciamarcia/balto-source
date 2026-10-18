@@ -9,11 +9,13 @@
 	let {
 		character,
 		favs,
-		source
+		source,
+		comments
 	}: {
 		character: CharactersResponse<{ owner: UsersResponse }>;
 		favs: string[];
 		source: Source;
+		comments: number;
 	} = $props();
 	const language = getLocale();
 
@@ -41,6 +43,10 @@
 	<p class="text-center">
 		{favs.length}
 		{m.ch_favs()}
+	</p>
+	<p class="text-center">
+		{comments}
+		{m.fc_comments_word()}
 	</p>
 	<p class="mt-2 text-center text-xs italic">
 		On <FormattedDate date={new Date(character.created)} showTime={false} />

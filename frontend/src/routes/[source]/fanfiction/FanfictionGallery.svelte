@@ -4,16 +4,18 @@
 	import { m } from '#lib/paraglide/messages.js';
 	import type { Locale } from '#lib/paraglide/runtime.js';
 	import type { FanfictionsResponse, UsersResponse } from '#lib/pocketbase-types.js';
-	import type { FavoriteByFanfiction } from './+page.server';
+	import type { CommentsByFanfiction, FavoriteByFanfiction } from './+page.server';
 
 	let {
 		fanfictions,
 		fanfictionsFavorites,
+		fanfictionsComments,
 		language,
 		source
 	}: {
 		fanfictions: FanfictionsResponse<{ author: UsersResponse }>[];
 		fanfictionsFavorites: FavoriteByFanfiction[];
+		fanfictionsComments: CommentsByFanfiction[];
 		language: Locale;
 		source: Source;
 	} = $props();
@@ -24,6 +26,13 @@
 			return 0;
 		}
 		return fa.favorites.length;
+	}
+	function getComments(id: string): number {
+		const c = fanfictionsComments.find((f) => f.fanfiction == id);
+		if (!c) {
+			return 0;
+		}
+		return c.comments.length;
 	}
 </script>
 
@@ -45,6 +54,10 @@
 			<p class="text-center">
 				{getFavs(fanfiction.id)}
 				{m.ff_gallery_favs()}
+			</p>
+			<p class="text-center">
+				{getComments(fanfiction.id)}
+				{m.ff_comments_word()}
 			</p>
 			<p class="mt-2 text-center text-xs italic">
 				<FormattedDate date={new Date(fanfiction.created)} showTime={false} />

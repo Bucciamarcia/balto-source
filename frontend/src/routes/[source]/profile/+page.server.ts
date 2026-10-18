@@ -14,6 +14,8 @@ import type { FavoriteByFanart } from '../fanart/+page.server';
 import { getFanartFavorites } from '#lib/components/getFanartFavorites.js';
 import { getLocale } from '#lib/paraglide/runtime.js';
 import { canModerate } from '#lib/components/canModerate.js';
+import type { CommentsByFanart } from '../fanart/proxy+page.server';
+import { getComments } from '#lib/components/getComments.js';
 
 export const load: PageServerLoad = async ({ locals, url }) => {
 	let uid: string = '';
@@ -61,6 +63,12 @@ export const load: PageServerLoad = async ({ locals, url }) => {
 			favorites: await getFanartFavorites(fanart.id, locals.pb)
 		}))
 	);
+	const fanartComments: CommentsByFanart[] = await Promise.all(
+		fanarts.map(async (fanart) => ({
+			fanart: fanart.id,
+			comments: await getComments(fanart.id, locals.pb)
+		}))
+	);
 	try {
 		const user = await locals.pb.collection('users').getOne<UsersResponse>(uid);
 		const isSelf = user.id === locals.auth?.id;
@@ -74,6 +82,7 @@ export const load: PageServerLoad = async ({ locals, url }) => {
 			comments,
 			isLoggedIn,
 			fanartFavorites,
+			fanartComments,
 			language: getLocale(),
 			myself: locals.user
 		};
