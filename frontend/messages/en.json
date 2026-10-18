@@ -202,5 +202,6 @@
 	"ff_remove_btn_confirm": "Confirm and delete fanfiction",
 	"ff_removed_ok_title": "Fanfiction removed",
 	"ff_removed_ok_head": "This fanfiction has been removed",
-	"fa_comments_word": "comments"
+	"fa_comments_word": "comments",
+	"ff_comments_word": "comments"
 }

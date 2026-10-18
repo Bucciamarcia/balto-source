@@ -51,6 +51,7 @@
 	<FanartGallery
 		fanarts={data.fanarts}
 		fanartsFavorites={data.fanartFavorites}
+		fanartsComments={data.fanartComments}
 		language={data.language}
 		source={data.source}
 	/>
