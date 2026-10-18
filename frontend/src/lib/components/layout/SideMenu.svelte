@@ -14,7 +14,7 @@
 
 <div class="pl-10">
 	<div
-		class="container h-full w-full min-w-[240px] rounded-md border-2 border-solid border-[#70abbb] bg-[url('#lib/assets/side-menu-bg-gradient.avif')] bg-contain bg-center pr-5 pb-5 pl-5"
+		class="container h-full w-full min-w-[240px] rounded-md border-2 border-solid border-[#70abbb] bg-linear-to-r from-[#233f60] to-[#396b82] pr-5 pb-5 pl-5"
 	>
 		<div>
 			<h2 class="menuTitle">Search</h2>
