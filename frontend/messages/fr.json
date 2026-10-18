@@ -204,5 +204,8 @@
 	"ff_removed_ok_head": "Cette fan fiction a été supprimée",
 	"fa_comments_word": "comments",
 	"ff_comments_word": "comments",
-	"fc_comments_word": "comments"
+	"fc_comments_word": "comments",
+	"rules_title": "Rules",
+	"rules_content": "<p>Be nice to everyone. That's about it.</p>",
+	"menu_rules": "Rules"
 }
