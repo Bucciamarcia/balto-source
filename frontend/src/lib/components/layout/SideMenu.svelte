@@ -67,6 +67,7 @@
 			<h2><strong>Fans</strong></h2>
 
 			<ul>
+				<a href="/{language}/{source}/rules"><li>{m.menu_rules()}</li></a>
 				<a href="/{language}/{source}/fanart"><li>{m.menu_fanart()}</li></a>
 				<a href="/{language}/{source}/fanfiction"><li>{m.m_fanfic()}</li></a>
 				<li>Images</li>
