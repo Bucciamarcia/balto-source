@@ -4,6 +4,15 @@
 	import CharacterCard from './CharacterCard.svelte';
 
 	let { data }: PageProps = $props();
+
+	function getCommentNumber(characterId: string): number {
+		const comments = data.comments;
+		const c = comments.find((char) => char.character === characterId);
+		if (c == undefined) {
+			return 0;
+		}
+		return c.comments.length;
+	}
 </script>
 
 <svelte:head>
@@ -13,6 +22,11 @@
 
 <div class="flex flex-wrap gap-2">
 	{#each data.characters as character}
-		<CharacterCard {character} favs={data.favorites.get(character.id) ?? []} source={data.source} />
+		<CharacterCard
+			{character}
+			favs={data.favorites.get(character.id) ?? []}
+			source={data.source}
+			comments={getCommentNumber(character.id)}
+		/>
 	{/each}
 </div>
