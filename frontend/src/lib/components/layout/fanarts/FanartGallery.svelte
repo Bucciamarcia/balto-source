@@ -4,7 +4,10 @@
 	import type { FanartsResponse, UsersResponse } from '#lib/pocketbase-types.js';
 	import { PUBLIC_POCKETBASE_URL } from '#lib/pocketbase/url.js';
 	import { m } from '#lib/paraglide/messages.js';
-	import type { FavoriteByFanart } from '../../../../routes/[source]/fanart/+page.server';
+	import type {
+		CommentsByFanart,
+		FavoriteByFanart
+	} from '../../../../routes/[source]/fanart/+page.server';
 	import type { Source } from '#lib/components/getSourceSlug.js';
 
 	function getFanartUrl(id: string, image: string): string {
@@ -14,12 +17,14 @@
 		fanarts,
 		fanartsFavorites,
 		language,
-		source
+		source,
+		fanartsComments
 	}: {
 		fanarts: FanartsResponse<{ author: UsersResponse }>[];
 		fanartsFavorites: FavoriteByFanart[];
 		language: Locale;
 		source: Source;
+		fanartsComments: CommentsByFanart[];
 	} = $props();
 
 	function getFavs(id: string): number {
@@ -28,6 +33,13 @@
 			return 0;
 		}
 		return fa.favorites.length;
+	}
+	function getComments(id: string): number {
+		const c = fanartsComments.find((f) => f.fanart == id);
+		if (!c) {
+			return 0;
+		}
+		return c.comments.length;
 	}
 </script>
 
@@ -55,6 +67,10 @@
 			<p class="text-center">
 				{getFavs(fanart.id)}
 				{m.fa_favs()}
+			</p>
+			<p class="text-center">
+				{getComments(fanart.id)}
+				{m.fa_comments_word()}
 			</p>
 			<p class="mt-2 text-center text-xs italic">
 				On <FormattedDate date={new Date(fanart.created)} showTime={false} />
