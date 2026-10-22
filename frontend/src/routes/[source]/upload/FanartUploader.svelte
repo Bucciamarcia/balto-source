@@ -10,8 +10,11 @@
 	let errorMessage: string = $state('');
 	let success: boolean = $state(false);
 	let isLoading: boolean = $state(false);
-	let selectedCharacters: CharactersResponse<{ owner: UsersResponse }>[] = $state([]);
-	let { source }: { source: string } = $props();
+	let {
+		source,
+		selectedCharacters = $bindable([])
+	}: { source: string; selectedCharacters?: CharactersResponse<{ owner: UsersResponse }>[] } =
+		$props();
 
 	let tooLarge = $derived((files?.[0]?.size ?? 0) > MAX_FANART_BYTES);
 
@@ -57,6 +60,9 @@
 		accept=".png, .jpg, .jpeg"
 		bind:files
 	/>
+	{#each selectedCharacters as c (c.id)}
+		<input type="hidden" name="characters" value={c.id} />
+	{/each}
 	{#if tooLarge}
 		<FormError message={FANART_TOO_LARGE_MESSAGE} />
 	{/if}
