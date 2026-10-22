@@ -3,6 +3,7 @@
 	import FormError from '#lib/components/formError.svelte';
 	import { FANART_TOO_LARGE_MESSAGE, MAX_FANART_BYTES } from '#lib/limits.js';
 	import { m } from '#lib/paraglide/messages.js';
+	import CharactersSelection from './CharactersSelection.svelte';
 	let files: FileList | undefined = $state();
 	let previewUrl: string | null = $state(null);
 	let errorMessage: string = $state('');
@@ -67,6 +68,9 @@
 		<div>
 			<textarea class="textarea text-black" placeholder={m.upload_fa_desc()} name="description"
 			></textarea>
+		</div>
+		<div>
+			<CharactersSelection />
 		</div>
 		<div>
 			{#if isLoading}

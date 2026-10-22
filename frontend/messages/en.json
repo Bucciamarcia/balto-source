@@ -207,5 +207,6 @@
 	"fc_comments_word": "comments",
 	"rules_title": "Rules",
 	"rules_content": "<p>Be nice to everyone. That's about it.</p>",
-	"menu_rules": "Rules"
+	"menu_rules": "Rules",
+	"ch_select_plant": "Select a character"
 }
