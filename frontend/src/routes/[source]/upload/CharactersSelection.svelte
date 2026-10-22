@@ -14,7 +14,9 @@
 	let isLoading: boolean = $state(false);
 
 	function addCharacter(c: CharactersResponse<{ owner: UsersResponse }>) {
-		selectedCharacters.push(c);
+		if (!selectedCharacters.some((sc) => sc.id === c.id)) {
+			selectedCharacters.push(c);
+		}
 	}
 	function removeCharacter(c: CharactersResponse<{ owner: UsersResponse }>) {
 		selectedCharacters = selectedCharacters.filter((cc) => cc.id !== c.id);

@@ -4,11 +4,14 @@
 	import { FANART_TOO_LARGE_MESSAGE, MAX_FANART_BYTES } from '#lib/limits.js';
 	import { m } from '#lib/paraglide/messages.js';
 	import CharactersSelection from './CharactersSelection.svelte';
+	import type { CharactersResponse, UsersResponse } from '#lib/pocketbase-types.js';
 	let files: FileList | undefined = $state();
 	let previewUrl: string | null = $state(null);
 	let errorMessage: string = $state('');
 	let success: boolean = $state(false);
 	let isLoading: boolean = $state(false);
+	let selectedCharacters: CharactersResponse<{ owner: UsersResponse }>[] = $state([]);
+	let { source }: { source: string } = $props();
 
 	let tooLarge = $derived((files?.[0]?.size ?? 0) > MAX_FANART_BYTES);
 
@@ -70,7 +73,7 @@
 			></textarea>
 		</div>
 		<div>
-			<CharactersSelection />
+			<CharactersSelection bind:selectedCharacters {source} />
 		</div>
 		<div>
 			{#if isLoading}

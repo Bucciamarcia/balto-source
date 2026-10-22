@@ -14,11 +14,12 @@ import { getSourceSlug } from '#lib/components/getSourceSlug.js';
 
 export type CharacterSex = 'male' | 'female' | 'other';
 
-export const load: PageServerLoad = async ({ locals }) => {
+export const load: PageServerLoad = async ({ locals, params }) => {
 	const user = locals.auth;
 	if (user == null) {
 		error(401, 'You are not logged in.');
 	}
+	return { source: params.source };
 };
 
 export const actions = {
