@@ -208,5 +208,7 @@
 	"rules_title": "Rules",
 	"rules_content": "<p>Be nice to everyone. That's about it.</p>",
 	"menu_rules": "Rules",
-	"ch_select_plant": "Select a character"
+	"ch_select_plant": "Select a character",
+	"ch_alt_result": "{name} by {author}",
+	"ch_add_btn_fanart": "Add"
 }

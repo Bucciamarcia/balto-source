@@ -1,15 +1,26 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import { m } from '#lib/paraglide/messages.js';
-	let { characters = $bindable([]), source }: { characters: string[]; source: string } = $props();
+	let {
+		selectedCharacters = $bindable([]),
+		source
+	}: { selectedCharacters: CharactersResponse<{ owner: UsersResponse }>[]; source: string } =
+		$props();
 	import { localizeHref } from '#lib/paraglide/runtime.js';
 	import type { CharactersResponse, UsersResponse } from '#lib/pocketbase-types.js';
+	import { PUBLIC_POCKETBASE_URL } from '#lib/pocketbase/url.js';
 	let searchResult: CharactersResponse<{ owner: UsersResponse }>[] = $state([]);
 	let errorMessage: string = $state('');
 	let isLoading: boolean = $state(false);
 
-	function addCharacter(c: string) {
-		characters.push(c);
+	function addCharacter(c: CharactersResponse<{ owner: UsersResponse }>) {
+		selectedCharacters.push(c);
+	}
+	function removeCharacter(c: CharactersResponse<{ owner: UsersResponse }>) {
+		selectedCharacters = selectedCharacters.filter((cc) => cc.id !== c.id);
+	}
+	function getImage(character: CharactersResponse<{ owner: UsersResponse }>) {
+		return `${PUBLIC_POCKETBASE_URL}/api/files/characters/${character.id}/${character.profile_picture}?thumb=300x200f`;
 	}
 </script>
 
@@ -47,9 +58,39 @@
 	</form>
 </div>
 {#if searchResult.length > 0}
-	<div class="flex flex-wrap gap-2">
+	<div class="mt-5 mb-5 flex flex-wrap gap-2">
 		{#each searchResult as character}
-			<p>{character.name}</p>
+			<div class="flex flex-col gap-2">
+				<img
+					src={getImage(character)}
+					alt={m.ch_alt_result({ name: character.name, author: character.expand.owner.username })}
+				/>
+				<button
+					type="button"
+					onclick={() => {
+						addCharacter(character);
+					}}
+					class="btn btn-primary">{m.ch_add_btn_fanart()}</button
+				>
+			</div>
+		{/each}
+	</div>
+{/if}
+{#if selectedCharacters.length > 0}
+	<div class="flex gap-1">
+		{#each selectedCharacters as selected}
+			<div class="badge badge-primary">
+				<div>{selected.name}</div>
+				<div>
+					<button
+						type="button"
+						class="cursor-pointer"
+						onclick={() => {
+							removeCharacter(selected);
+						}}>X</button
+					>
+				</div>
+			</div>
 		{/each}
 	</div>
 {/if}
