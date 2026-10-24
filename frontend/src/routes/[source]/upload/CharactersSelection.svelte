@@ -63,6 +63,7 @@
 	<div class="mt-5 mb-5 flex flex-wrap gap-2">
 		{#each searchResult as character}
 			<div class="flex flex-col gap-2">
+				<p class="text-center">{character.name}</p>
 				<img
 					src={getImage(character)}
 					alt={m.ch_alt_result({ name: character.name, author: character.expand.owner.username })}
