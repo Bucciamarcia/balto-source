@@ -1,4 +1,5 @@
 import type {
+	CharactersResponse,
 	CommentsResponse,
 	FanartFavoritesResponse,
 	FanartsResponse,
@@ -24,7 +25,9 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 	const locale = getLocale();
 	const fanart = await locals.pb
 		.collection('fanarts')
-		.getOne<FanartsResponse<{ author: UsersResponse }>>(id, { expand: 'author' });
+		.getOne<
+			FanartsResponse<{ author: UsersResponse; characters: CharactersResponse[] }>
+		>(id, { expand: 'author,characters' });
 	const comments = await locals.pb
 		.collection('comments')
 		.getFullList<CommentsResponse<{ author: UsersResponse }>>({
