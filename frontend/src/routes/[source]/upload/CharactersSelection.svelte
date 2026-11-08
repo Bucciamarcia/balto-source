@@ -4,8 +4,10 @@
 	let {
 		selectedCharacters = $bindable([]),
 		source
-	}: { selectedCharacters: CharactersResponse<{ owner: UsersResponse }>[]; source: string } =
-		$props();
+	}: {
+		selectedCharacters: CharactersResponse<{ owner: UsersResponse }>[];
+		source: string;
+	} = $props();
 	import { localizeHref } from '#lib/paraglide/runtime.js';
 	import type { CharactersResponse, UsersResponse } from '#lib/pocketbase-types.js';
 	import { PUBLIC_POCKETBASE_URL } from '#lib/pocketbase/url.js';
@@ -15,7 +17,7 @@
 
 	function addCharacter(c: CharactersResponse<{ owner: UsersResponse }>) {
 		if (!selectedCharacters.some((sc) => sc.id === c.id)) {
-			selectedCharacters.push(c);
+			selectedCharacters = [...selectedCharacters, c];
 		}
 	}
 	function removeCharacter(c: CharactersResponse<{ owner: UsersResponse }>) {
