@@ -324,6 +324,14 @@ export const actions: Actions = {
 			fail(403, { error: 'AchalaException: you cannot ban yourself' });
 		}
 		await locals.pb.collection('users').update(user, { role: 'user' });
+	},
+	toggleSnow: async ({ cookies }) => {
+		const snow = cookies.get('snow');
+		if (snow === 'true') {
+			cookies.set('snow', 'false');
+		} else {
+			cookies.set('snow', 'true');
+		}
 	}
 };
 
