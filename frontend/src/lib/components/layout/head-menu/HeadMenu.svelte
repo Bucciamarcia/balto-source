@@ -1,12 +1,14 @@
 <script lang="ts">
 	import { m } from '#lib/paraglide/messages.js';
+	import { enhance } from '$app/forms';
 	import BellIcon from './BellIcon.svelte';
 	import LinkElement from './LinkElement.svelte';
 	import type { NotificationsResponse, UsersResponse } from '#lib/pocketbase-types.js';
 	import Notifications from './Notifications.svelte';
 	import type { Action } from 'svelte/action';
-	import type { Locale } from '#lib/paraglide/runtime.js';
+	import { type Locale, localizeHref } from '#lib/paraglide/runtime.js';
 	import type { Source } from '#lib/components/getSourceSlug.js';
+	import { isInSeason } from '#lib/components/christmas/isInSeason.js';
 	let {
 		isLoggedIn,
 		isVerified,
@@ -40,6 +42,7 @@
 		};
 	};
 	let isOpen: boolean = $state(false);
+	const isChristmasSeason: boolean = isInSeason();
 </script>
 
 <div class="mt-4 flex gap-4 place-self-center">
@@ -77,6 +80,11 @@
 			logOut={false}
 			{source}
 		/>
+		{#if isChristmasSeason}
+			<form method="POST" action={localizeHref(`/${source}/profile?/toggleSnow`)} use:enhance>
+				<button type="submit" class="btn btn-primary">Toggle snow</button>
+			</form>
+		{/if}
 		<LinkElement
 			label={m.menu_logout()}
 			destination="/{language}/{source}/"
