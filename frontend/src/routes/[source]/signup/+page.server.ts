@@ -1,8 +1,8 @@
 import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
-import { PUBLIC_POCKETBASE_URL } from '#lib/pocketbase/url.js';
 import { moderateText } from '#lib/components/moderateAi.js';
 import { verifyTurnstile } from '#lib/verifyTurnstile.js';
+import { POCKETBASE_INTERNAL_URL } from '#lib/server/pocketbaseUrl.ts';
 
 export const load: PageServerLoad = async ({ locals }) => {
 	return {
@@ -42,7 +42,7 @@ export const actions: Actions = {
 
 		// Write to the db
 		try {
-			const response = await fetch(`${PUBLIC_POCKETBASE_URL}/create_user`, {
+			const response = await fetch(`${POCKETBASE_INTERNAL_URL}/create_user`, {
 				method: 'POST',
 				headers: {},
 				body: JSON.stringify({

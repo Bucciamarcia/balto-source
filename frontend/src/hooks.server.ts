@@ -2,10 +2,10 @@ import { sequence, type Handle } from '@sveltejs/kit/hooks';
 import { getTextDirection } from '#lib/paraglide/runtime.js';
 import { paraglideMiddleware } from '#lib/paraglide/server.js';
 import PocketBase from 'pocketbase';
-import { PUBLIC_POCKETBASE_URL } from '#lib/pocketbase/url.js';
+import { POCKETBASE_INTERNAL_URL } from '#lib/server/pocketbaseUrl.ts';
 
 const originalHandle: Handle = async ({ event, resolve }) => {
-	event.locals.pb = new PocketBase(PUBLIC_POCKETBASE_URL);
+	event.locals.pb = new PocketBase(POCKETBASE_INTERNAL_URL);
 	event.locals.pb.authStore.loadFromCookie(event.request.headers.get('cookie') || '');
 	event.locals.auth = event.locals.pb.authStore.record;
 
