@@ -1,7 +1,7 @@
 import { dev } from '$app/env';
-import { PUBLIC_POCKETBASE_URL } from '#lib/pocketbase/url.js';
 import { TYPESAFE_API_KEY } from '$app/env/private';
 import { choice, TypeSafeClient } from '@typesafe-ai/sdk';
+import { POCKETBASE_INTERNAL_URL } from '#lib/server/pocketbaseUrl.ts';
 
 export async function moderateText(t: string | null): Promise<ModerateResult> {
 	if (t === '' || t == null) {
@@ -32,7 +32,7 @@ export async function moderateImageUrl(url: string): Promise<ModerateResult> {
 		console.log('Skipping in dev mode');
 		return 'allow';
 	}
-	const response = await fetch(`${PUBLIC_POCKETBASE_URL}/moderate_image_url`, {
+	const response = await fetch(`${POCKETBASE_INTERNAL_URL}/moderate_image_url`, {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
 		body: JSON.stringify({ url })
@@ -59,7 +59,7 @@ export async function moderateImageData(file: File | null | undefined): Promise<
 	}
 	const imageType = file.type;
 	const imageData = fileToBase64(file);
-	const response = await fetch(`${PUBLIC_POCKETBASE_URL}/moderate_image_bytes`, {
+	const response = await fetch(`${POCKETBASE_INTERNAL_URL}/moderate_image_bytes`, {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
 		body: JSON.stringify({ imageType, imageData: await imageData })

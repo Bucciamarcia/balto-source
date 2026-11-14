@@ -6,7 +6,6 @@ import {
 } from '#lib/pocketbase-types.js';
 import { error, fail, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
-import { PUBLIC_POCKETBASE_URL } from '#lib/pocketbase/url.js';
 import type Client from 'pocketbase';
 import sanitizeHtml from 'sanitize-html';
 import { moderateImageData, moderateText } from '#lib/components/moderateAi.js';
@@ -16,6 +15,7 @@ import { getLocale } from '#lib/paraglide/runtime.js';
 import { canModerate } from '#lib/components/canModerate.js';
 import type { CommentsByFanart } from '../fanart/proxy+page.server';
 import { getComments } from '#lib/components/getComments.js';
+import { POCKETBASE_INTERNAL_URL } from '#lib/server/pocketbaseUrl.ts';
 
 export const load: PageServerLoad = async ({ locals, url }) => {
 	let uid: string = '';
@@ -336,7 +336,7 @@ export const actions: Actions = {
 };
 
 async function changeUsername(username: string, id: string, token: string): Promise<void> {
-	const response = await fetch(`${PUBLIC_POCKETBASE_URL}/change_user`, {
+	const response = await fetch(`${POCKETBASE_INTERNAL_URL}/change_user`, {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
 		body: JSON.stringify({

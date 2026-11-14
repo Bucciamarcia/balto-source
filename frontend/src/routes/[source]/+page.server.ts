@@ -4,12 +4,12 @@ import type {
 	HomepageNewsResponse,
 	UsersResponse
 } from '#lib/pocketbase-types.js';
-import { PUBLIC_POCKETBASE_URL } from '#lib/pocketbase/url.js';
 import PocketBase from 'pocketbase';
 import { getLocale } from '#lib/paraglide/runtime.js';
 import type { PageServerLoad } from './$types';
 import { getSourceId } from '#lib/components/getSourceId.js';
 import { getSourceSlug } from '#lib/components/getSourceSlug.js';
+import { POCKETBASE_INTERNAL_URL } from '#lib/server/pocketbaseUrl.ts';
 
 export const load: PageServerLoad = async ({ locals, cookies, params }) => {
 	const sourceName = getSourceSlug(params.source);
@@ -43,7 +43,7 @@ export const actions: Actions = {
 		const email = data.get('email') as string;
 		const password = data.get('password') as string;
 		const uid = data.get('uid') as string;
-		const pb = new PocketBase(PUBLIC_POCKETBASE_URL);
+		const pb = new PocketBase(POCKETBASE_INTERNAL_URL);
 		await pb.collection('_superusers').authWithPassword(email, password);
 		const impersonateClient = await pb.collection('users').impersonate(uid, 3600);
 		locals.pb.authStore.save(impersonateClient.authStore.token, impersonateClient.authStore.record);
