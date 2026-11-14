@@ -82,7 +82,7 @@
 	</div>
 {/if}
 {#if selectedCharacters.length > 0}
-	<div class="flex gap-1">
+	<div class="mt-2 flex gap-2">
 		{#each selectedCharacters as selected}
 			<div class="badge badge-primary">
 				<div>{selected.name}</div>
