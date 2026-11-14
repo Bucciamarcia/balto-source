@@ -4,6 +4,8 @@
 	import FanartUploader from './FanartUploader.svelte';
 	import FanfictionUploader from './FanfictionUploader.svelte';
 
+	let { data } = $props();
+
 	let selected: string = $state('fanart');
 </script>
 
@@ -31,7 +33,7 @@
 	</button>
 </div>
 {#if selected === 'fanart'}
-	<FanartUploader />
+	<FanartUploader source={data.source} />
 {:else if selected === 'fanfiction'}
 	<FanfictionUploader />
 {:else if selected === 'character'}

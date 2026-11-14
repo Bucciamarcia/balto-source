@@ -1,4 +1,4 @@
-import type { FanartsResponse, UsersResponse } from '#lib/pocketbase-types.js';
+import type { CharactersResponse, FanartsResponse, UsersResponse } from '#lib/pocketbase-types.js';
 import { error, fail, redirect, type Actions } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import { getLocale } from '#lib/paraglide/runtime.js';
@@ -12,7 +12,9 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 	}
 	const fanart = await locals.pb
 		.collection('fanarts')
-		.getOne<FanartsResponse<{ author: UsersResponse }>>(id);
+		.getOne<
+			FanartsResponse<{ characters: CharactersResponse<{ owner: UsersResponse }>[] }>
+		>(id, { expand: 'characters.owner' });
 	const userId = locals.user?.id;
 	if (userId !== fanart.author && !canModerate(locals.user)) {
 		error(403, 'You are not authorized to view this page');
@@ -45,6 +47,7 @@ export const actions = {
 		const data = await request.formData();
 		const title = data.get('title') as string;
 		const description = data.get('description') as string;
+		const characters = data.getAll('characters') as string[];
 		const id = params.slug;
 		if (id == undefined) {
 			redirect(303, `/${locale}/${source}/`);
@@ -52,7 +55,8 @@ export const actions = {
 		try {
 			await locals.pb.collection('fanarts').update(id, {
 				title: title,
-				description: description
+				description: description,
+				characters: characters
 			});
 		} catch (e) {
 			return fail(400, { error: e instanceof Error ? e.message : 'Unknown error' });

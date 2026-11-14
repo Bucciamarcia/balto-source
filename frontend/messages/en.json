@@ -207,5 +207,9 @@
 	"fc_comments_word": "comments",
 	"rules_title": "Rules",
 	"rules_content": "<p>Be nice to everyone. That's about it.</p>",
-	"menu_rules": "Rules"
+	"menu_rules": "Rules",
+	"ch_select_plant": "Search a character by name",
+	"ch_alt_result": "{name} by {author}",
+	"ch_add_btn_fanart": "Add",
+	"ch_in_fa": "Characters used"
 }

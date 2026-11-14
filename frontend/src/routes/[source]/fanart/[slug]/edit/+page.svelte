@@ -1,7 +1,9 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import { m } from '#lib/paraglide/messages.js';
+	import CharactersSelection from '../../../upload/CharactersSelection.svelte';
 	let { data } = $props();
+	let selectedCharacter = $derived(data.fanart.expand?.characters ?? []);
 	let title = $derived(data.fanart.title);
 	let description = $derived(data.fanart.description);
 </script>
@@ -9,6 +11,9 @@
 <svelte:head><title>{m.fa_edit_title({ name: data.fanart.title })}</title></svelte:head>
 <h1 class="text-center">{m.fa_edit_head({ name: data.fanart.title })}</h1>
 <form method="POST" use:enhance class="flex flex-col items-center">
+	{#each selectedCharacter as c (c.id)}
+		<input type="hidden" name="characters" value={c.id} />
+	{/each}
 	<fieldset class="fieldset">
 		<legend class="fieldset-legend text-white">Title</legend>
 		<input
@@ -36,3 +41,4 @@
 		>
 	</div>
 </form>
+<CharactersSelection bind:selectedCharacters={selectedCharacter} source={data.source} />

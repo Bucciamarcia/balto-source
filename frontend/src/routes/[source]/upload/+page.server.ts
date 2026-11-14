@@ -14,11 +14,12 @@ import { getSourceSlug } from '#lib/components/getSourceSlug.js';
 
 export type CharacterSex = 'male' | 'female' | 'other';
 
-export const load: PageServerLoad = async ({ locals }) => {
+export const load: PageServerLoad = async ({ locals, params }) => {
 	const user = locals.auth;
 	if (user == null) {
 		error(401, 'You are not logged in.');
 	}
+	return { source: params.source };
 };
 
 export const actions = {
@@ -102,6 +103,7 @@ export const actions = {
 		const fanart = data.get('fanart') as File;
 		const title = data.get('title') as string;
 		const description = data.get('description') as string;
+		const characters = data.getAll('characters') as string[];
 		const clean = sanitizeHtml(description);
 		const user = locals.auth;
 		if (fanart.size === 0) {
@@ -142,7 +144,8 @@ export const actions = {
 				title: title,
 				description: clean,
 				source: await getSourceId(locals.pb, sourceName),
-				visible: true
+				visible: true,
+				characters: characters
 			});
 		} catch (e) {
 			return fail(500, { error: e instanceof Error ? e.message : 'Unknown error' });

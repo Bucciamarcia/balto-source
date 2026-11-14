@@ -4,6 +4,7 @@
 	import ShowComments from '#lib/components/layout/comments/ShowComments.svelte';
 	import type { Locale } from '#lib/paraglide/runtime.js';
 	import type {
+		CharactersResponse,
 		CommentsResponse,
 		FanartFavoritesResponse,
 		FanartsResponse,
@@ -14,6 +15,7 @@
 	import { m } from '#lib/paraglide/messages.js';
 	import type { Source } from '#lib/components/getSourceSlug.js';
 	import { canModerate } from '#lib/components/canModerate.js';
+	import CharacterBox from '../characters/CharacterBox.svelte';
 
 	let {
 		fanart,
@@ -26,7 +28,7 @@
 		source,
 		usersResponse
 	}: {
-		fanart: FanartsResponse<{ author: UsersResponse }>;
+		fanart: FanartsResponse<{ author: UsersResponse; characters: CharactersResponse[] }>;
 		user: AuthRecord;
 		favs: FanartFavoritesResponse[];
 		alreadyFaved: boolean;
@@ -125,6 +127,12 @@
 				</form>
 			{/if}
 		{/if}
+		<h2>{m.ch_in_fa()}</h2>
+		<div class="flex flex-row gap-4">
+			{#each fanart.expand.characters as character}
+				<CharacterBox {character} {source} />
+			{/each}
+		</div>
 		<ShowComments
 			{isLoggedIn}
 			targetId={fanart.id}
