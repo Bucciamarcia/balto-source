@@ -81,7 +81,14 @@
 			{source}
 		/>
 		{#if isChristmasSeason}
-			<form method="POST" action={localizeHref(`/${source}/profile?/toggleSnow`)} use:enhance>
+			<form
+				method="POST"
+				action={localizeHref(`/${source}/profile?/toggleSnow`)}
+				use:enhance={() =>
+					async ({ update }) => {
+						await update({ navigate: false });
+					}}
+			>
 				<button type="submit" class="btn btn-primary">Toggle snow</button>
 			</form>
 		{/if}
