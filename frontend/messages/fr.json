@@ -202,10 +202,10 @@
 	"ff_remove_btn_confirm": "Confirmer et supprimer la fan fiction",
 	"ff_removed_ok_title": "Fan fiction supprimée",
 	"ff_removed_ok_head": "Cette fan fiction a été supprimée",
-	"fa_comments_word": "comments",
-	"ff_comments_word": "comments",
-	"fc_comments_word": "comments",
-	"rules_title": "Rules",
-	"rules_content": "<p>Be nice to everyone. That's about it.</p>",
-	"menu_rules": "Rules"
+	"fa_comments_word": "Commentaires",
+	"ff_comments_word": "Commentaires",
+	"fc_comments_word": "Commentaires",
+	"rules_title": "Règlement",
+	"rules_content": "<p>Soyez courtois et bienveillants les uns avec les autres. Le site est ouvert à tous, enfants compris. Nous vous conseillons de ne pas partager vos données à caractère personnel. Le site décline toute responsabilité si cette règle n'est pas respectée. Tout contenu sexuel, politique, religieux et tout propos insultant sous quelle que forme que ce soit sont formellement proscrits. Toute forme de discrimination, quelle qu'elle soit (racisme, propos anti-LGBT+, etc.) est strictement interdite et résultera en un bannissement immédiat sans préavis. Evitez le langage sms et l'abus de majuscules. Voler n'est pas autorisé : vous ne pouvez poster que du contenu créé par vous-mêmes sur les galeries. L'utilisation de l'Intelligence Artificielle est strictement interdite.</p>",
+	"menu_rules": "Règlement"
 }
