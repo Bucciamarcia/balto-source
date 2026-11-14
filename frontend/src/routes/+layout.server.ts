@@ -4,7 +4,7 @@ import type { LayoutServerLoad } from './$types';
 import { getLocale } from '#lib/paraglide/runtime.js';
 import { getSourceSlug } from '#lib/components/getSourceSlug.js';
 
-export const load: LayoutServerLoad = async ({ locals, params }) => {
+export const load: LayoutServerLoad = async ({ locals, params, cookies }) => {
 	const auth = locals.auth;
 	const isLoggedIn = auth != null;
 	const user = locals.user;
@@ -21,12 +21,16 @@ export const load: LayoutServerLoad = async ({ locals, params }) => {
 	const newNotificationsCount = newNotifications.length;
 	const language = getLocale();
 	const source = getSourceSlug(params.source);
+	// Snow is on by default; only an explicit non-'true' cookie value turns it off.
+	const snow = cookies.get('snow');
+	const snowCookie = snow === undefined || snow === 'true';
 	return {
 		user,
 		isLoggedIn,
 		newNotificationsCount,
 		latestNotifications,
 		language,
-		source
+		source,
+		snowCookie
 	};
 };
