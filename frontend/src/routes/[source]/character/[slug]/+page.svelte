@@ -6,8 +6,10 @@
 	import { getLocale } from '#lib/paraglide/runtime.js';
 	import { PUBLIC_POCKETBASE_URL } from '#lib/pocketbase/url.js';
 	import SexIcon from './SexIcon.svelte';
+	import UsersList from '#lib/components/layout/head-menu/UsersList.svelte';
 
 	let { data } = $props();
+	let showModal: boolean = $state(false);
 
 	function getAvatarThumb() {
 		return `${PUBLIC_POCKETBASE_URL}/api/files/characters/${data.character.id}/${data.character.profile_picture}?thumb=300x200f`;
@@ -63,7 +65,10 @@
 <a href={getRefFull()} target="_blank">
 	<img class="mx-auto" src={getRefThumb()} alt={m.ch_ref_alt({ name: data.character.name })} />
 </a>
-<p class="text-center">{m.ch_favs_page({ favs: data.favs.length })}</p>
+<button class="mx-auto block cursor-pointer" onclick={() => (showModal = true)}>
+	{m.ch_favs_page({ favs: data.favs.length })}
+</button>
+<UsersList bind:open={showModal} title="title" />
 <div class="mt-3 place-self-center">
 	{#if data.alreadyFaved}
 		<form method="POST" action="?/removeFromFavorites" use:enhance>
