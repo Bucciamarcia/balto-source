@@ -211,5 +211,6 @@
 	"ch_select_plant": "Search a character by name",
 	"ch_alt_result": "{name} by {author}",
 	"ch_add_btn_fanart": "Add",
-	"ch_in_fa": "Characters used"
+	"ch_in_fa": "Characters used",
+	"ch_favd_pop": "People who faved this charactger"
 }
