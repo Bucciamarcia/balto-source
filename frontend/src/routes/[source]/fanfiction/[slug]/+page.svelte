@@ -39,7 +39,12 @@
 <button class="mx-auto block cursor-pointer" onclick={() => (showModal = true)}>
 	<p class="mt-5 underline">{data.favs.length} {m.ff_favs()}</p>
 </button>
-<UsersList bind:open={showModal} title={m.ff_favd_pop()} userFavs={data.userFavs} />
+<UsersList
+	bind:open={showModal}
+	title={m.ff_favd_pop()}
+	userFavs={data.userFavs}
+	source={data.source}
+/>
 {#if data.isLoggedIn}
 	{#if data.alreadyFaved}
 		<form method="POST" action="?/removeFavorite" use:enhance>

@@ -88,7 +88,7 @@
 		<button class="mx-auto block cursor-pointer" onclick={() => (showModal = true)}>
 			<p class="underline">{favs.length} {m.fanart_favs()}</p>
 		</button>
-		<UsersList bind:open={showModal} title={m.fa_favd_pop()} {userFavs} />
+		<UsersList bind:open={showModal} title={m.fa_favd_pop()} {userFavs} {source} />
 		{#if isLoggedIn}
 			{#if alreadyFaved}
 				<form
