@@ -66,9 +66,9 @@
 	<img class="mx-auto" src={getRefThumb()} alt={m.ch_ref_alt({ name: data.character.name })} />
 </a>
 <button class="mx-auto block cursor-pointer" onclick={() => (showModal = true)}>
-	{m.ch_favs_page({ favs: data.favs.length })}
+	<p class="underline">{m.ch_favs_page({ favs: data.favs.length })}</p>
 </button>
-<UsersList bind:open={showModal} title={m.ch_favd_pop()} />
+<UsersList bind:open={showModal} title={m.ch_favd_pop()} userFavs={data.userFavs} />
 <div class="mt-3 place-self-center">
 	{#if data.alreadyFaved}
 		<form method="POST" action="?/removeFromFavorites" use:enhance>

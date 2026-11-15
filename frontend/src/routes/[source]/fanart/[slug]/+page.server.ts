@@ -1,4 +1,5 @@
 import type {
+	CharacterFavoritesResponse,
 	CharactersResponse,
 	CommentsResponse,
 	FanartFavoritesResponse,
@@ -7,6 +8,7 @@ import type {
 } from '#lib/pocketbase-types.js';
 import { fail } from '@sveltejs/kit';
 import type { PageServerLoad, Actions } from './$types';
+import Pocketbase from 'pocketbase';
 import sanitizeHtml from 'sanitize-html';
 import { moderateText } from '#lib/components/moderateAi.js';
 import { getLocale } from '#lib/paraglide/runtime.js';
@@ -48,7 +50,8 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 		comments,
 		isVerified,
 		locale,
-		usersResponse: locals.user
+		usersResponse: locals.user,
+		userFavs: await getUsersFromFavs(favs, locals.pb)
 	};
 };
 
@@ -119,3 +122,10 @@ export const actions = {
 		}
 	}
 } satisfies Actions;
+
+async function getUsersFromFavs(
+	f: CharacterFavoritesResponse[],
+	pb: Pocketbase
+): Promise<UsersResponse[]> {
+	return Promise.all(f.map((fav) => pb.collection('users').getOne<UsersResponse>(fav.source)));
+}

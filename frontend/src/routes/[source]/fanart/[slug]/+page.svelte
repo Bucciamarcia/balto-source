@@ -23,4 +23,5 @@
 	isVerified={data.isVerified}
 	locale={data.locale}
 	source={data.source}
+	userFavs={data.userFavs}
 />

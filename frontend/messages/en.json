@@ -212,5 +212,7 @@
 	"ch_alt_result": "{name} by {author}",
 	"ch_add_btn_fanart": "Add",
 	"ch_in_fa": "Characters used",
-	"ch_favd_pop": "People who faved this charactger"
+	"ch_favd_pop": "People who faved this character",
+	"ch_avatar_trab": "{user}'s avatar",
+	"fa_favd_pop": "People who faved this fanart"
 }

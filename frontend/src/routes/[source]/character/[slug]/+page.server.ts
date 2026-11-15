@@ -4,6 +4,7 @@ import type {
 	CharactersResponse,
 	UsersResponse
 } from '#lib/pocketbase-types.js';
+import Pocketbase from 'pocketbase';
 import { fail, redirect, type Actions } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import { moderateText } from '#lib/components/moderateAi.js';
@@ -31,7 +32,8 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 			filter: locals.pb.filter('target_id = {:id}', { id }),
 			expand: 'author'
 		});
-	return { character, favs, alreadyFaved, comments, id };
+	const userFavs = await getUsersFromFavs(favs, locals.pb);
+	return { character, favs, alreadyFaved, comments, id, userFavs };
 };
 
 export const actions = {
@@ -98,3 +100,10 @@ export const actions = {
 		}
 	}
 } satisfies Actions;
+
+async function getUsersFromFavs(
+	f: CharacterFavoritesResponse[],
+	pb: Pocketbase
+): Promise<UsersResponse[]> {
+	return Promise.all(f.map((fav) => pb.collection('users').getOne<UsersResponse>(fav.source)));
+}
