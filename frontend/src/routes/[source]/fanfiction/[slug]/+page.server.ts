@@ -1,9 +1,11 @@
 import type {
+	CharacterFavoritesResponse,
 	CommentsResponse,
 	FanfictionFavoritesResponse,
 	FanfictionsResponse,
 	UsersResponse
 } from '#lib/pocketbase-types.js';
+import Pocketbase from 'pocketbase';
 import { fail } from '@sveltejs/kit';
 import type { PageServerLoad, Actions } from './$types';
 import sanitizeHtml from 'sanitize-html';
@@ -39,7 +41,16 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 	const alreadyFaved = auth == null ? false : await hasUserAlreadyFaved(auth.id, fanfiction.id);
 	const isVerified = locals.isVerified;
 	const user = locals.user;
-	return { fanfiction, favs, user, alreadyFaved, comments, isVerified, language: getLocale() };
+	return {
+		fanfiction,
+		favs,
+		user,
+		alreadyFaved,
+		comments,
+		isVerified,
+		language: getLocale(),
+		userFavs: await getUsersFromFavs(favs, locals.pb)
+	};
 };
 
 export const actions = {
@@ -109,3 +120,10 @@ export const actions = {
 		}
 	}
 } satisfies Actions;
+
+async function getUsersFromFavs(
+	f: CharacterFavoritesResponse[],
+	pb: Pocketbase
+): Promise<UsersResponse[]> {
+	return Promise.all(f.map((fav) => pb.collection('users').getOne<UsersResponse>(fav.source)));
+}

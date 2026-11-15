@@ -3,9 +3,11 @@
 	import { canModerate } from '#lib/components/canModerate.js';
 	import ShowComments from '#lib/components/layout/comments/ShowComments.svelte';
 	import { m } from '#lib/paraglide/messages.js';
+	import UsersList from '#lib/components/layout/head-menu/UsersList.svelte';
 
 	let { data } = $props();
 	let fanfiction = $derived(data.fanfiction);
+	let showModal: boolean = $state(false);
 </script>
 
 <svelte:head>
@@ -34,7 +36,15 @@
 </p>
 <p class="mt-5 mb-10 text-center italic">{fanfiction.description}</p>
 {@html fanfiction.content}
-<p class="mt-5">{data.favs.length} {m.ff_favs()}</p>
+<button class="mx-auto block cursor-pointer" onclick={() => (showModal = true)}>
+	<p class="mt-5 underline">{data.favs.length} {m.ff_favs()}</p>
+</button>
+<UsersList
+	bind:open={showModal}
+	title={m.ff_favd_pop()}
+	userFavs={data.userFavs}
+	source={data.source}
+/>
 {#if data.isLoggedIn}
 	{#if data.alreadyFaved}
 		<form method="POST" action="?/removeFavorite" use:enhance>

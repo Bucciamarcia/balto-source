@@ -11,11 +11,13 @@
 		UsersResponse
 	} from '#lib/pocketbase-types.js';
 	import { PUBLIC_POCKETBASE_URL } from '#lib/pocketbase/url.js';
+	let showModal: boolean = $state(false);
 	import type { AuthRecord } from 'pocketbase';
 	import { m } from '#lib/paraglide/messages.js';
 	import type { Source } from '#lib/components/getSourceSlug.js';
 	import { canModerate } from '#lib/components/canModerate.js';
 	import CharacterBox from '../characters/CharacterBox.svelte';
+	import UsersList from '#lib/components/layout/head-menu/UsersList.svelte';
 
 	let {
 		fanart,
@@ -26,7 +28,8 @@
 		isVerified,
 		locale,
 		source,
-		usersResponse
+		usersResponse,
+		userFavs
 	}: {
 		fanart: FanartsResponse<{ author: UsersResponse; characters: CharactersResponse[] }>;
 		user: AuthRecord;
@@ -37,6 +40,7 @@
 		locale: Locale;
 		source: Source;
 		usersResponse: UsersResponse | undefined;
+		userFavs: UsersResponse[];
 	} = $props();
 	// svelte-ignore state_referenced_locally
 	const author: UsersResponse = fanart.expand.author;
@@ -81,7 +85,10 @@
 		<div>
 			{@html fanart.description}
 		</div>
-		<p>{favs.length} {m.fanart_favs()}</p>
+		<button class="mx-auto block cursor-pointer" onclick={() => (showModal = true)}>
+			<p class="underline">{favs.length} {m.fanart_favs()}</p>
+		</button>
+		<UsersList bind:open={showModal} title={m.fa_favd_pop()} {userFavs} {source} />
 		{#if isLoggedIn}
 			{#if alreadyFaved}
 				<form
