@@ -1,6 +1,10 @@
 import { error, fail, redirect, type Actions } from '@sveltejs/kit';
 import type { PageServerLoad } from '../$types';
-import type { FanfictionsResponse } from '#lib/pocketbase-types.js';
+import type {
+	CharactersResponse,
+	FanfictionsResponse,
+	UsersResponse
+} from '#lib/pocketbase-types.js';
 import mammoth from 'mammoth';
 import sanitize from 'sanitize-html';
 import { getLocale } from '#lib/paraglide/runtime.js';
@@ -12,7 +16,11 @@ export const load: PageServerLoad = async ({ params, locals }) => {
 	if (id == undefined) {
 		error(404, "Fanfiction id doesn't exist");
 	}
-	const fanfiction = await locals.pb.collection('fanfictions').getOne<FanfictionsResponse>(id);
+	const fanfiction = await locals.pb
+		.collection('fanfictions')
+		.getOne<
+			FanfictionsResponse<{ characters: CharactersResponse<{ owner: UsersResponse }>[] }>
+		>(id, { expand: 'characters.owner' });
 	const userId = locals.user?.id;
 	if (userId == undefined) {
 		error(401, 'Unauthorized');
@@ -29,26 +37,34 @@ export const actions = {
 		if (id == undefined) {
 			return fail(500, { error: "couldn't find fanfiction id" });
 		}
+
 		const data = await request.formData();
 		const title = data.get('title') as string;
 		const description = data.get('description') as string;
 		const source = getSourceSlug(params.source);
 		const fanfic = data.get('fanfiction') as File;
-		const update = new FormData();
-		update.set('title', title);
-		update.set('description', description);
+		const characters = data.getAll('characters') as string[];
+
+		const update: Record<string, unknown> = {
+			title,
+			description,
+			characters
+		};
+
 		if (fanfic.size !== 0) {
 			const fanficArrayBuffer = await fanfic.arrayBuffer();
 			const fanficHtml = await mammoth.convertToHtml({
 				buffer: Buffer.from(fanficArrayBuffer)
 			});
-			update.set('content', sanitize(fanficHtml.value));
+			update.content = sanitize(fanficHtml.value);
 		}
+
 		try {
 			await locals.pb.collection('fanfictions').update(id, update);
 		} catch (e) {
 			return fail(400, { error: e instanceof Error ? e.message : 'Unknown error occurred' });
 		}
+
 		redirect(303, `/${getLocale()}/${source}/fanfiction/${id}`);
 	},
 	cancel: async ({ params }) => {

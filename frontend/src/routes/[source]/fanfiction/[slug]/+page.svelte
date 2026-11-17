@@ -4,6 +4,7 @@
 	import ShowComments from '#lib/components/layout/comments/ShowComments.svelte';
 	import { m } from '#lib/paraglide/messages.js';
 	import UsersList from '#lib/components/layout/head-menu/UsersList.svelte';
+	import CharacterBox from '#lib/components/layout/characters/CharacterBox.svelte';
 
 	let { data } = $props();
 	let fanfiction = $derived(data.fanfiction);
@@ -55,6 +56,12 @@
 			<button class="btn cursor-pointer btn-primary" type="submit">{m.ff_fav()}</button>
 		</form>
 	{/if}
+	<h2>{m.ch_in_ff()}</h2>
+	<div class="flex flex-row gap-4">
+		{#each fanfiction.expand.characters as character}
+			<CharacterBox {character} source={data.source} />
+		{/each}
+	</div>
 	<ShowComments
 		isLoggedIn={data.isLoggedIn}
 		comments={data.comments}

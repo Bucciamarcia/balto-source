@@ -165,6 +165,7 @@ export const actions = {
 		const fanfic = data.get('fanfiction') as File;
 		const title = data.get('title') as string;
 		const titleMod = await moderateText(title);
+		const characters = data.getAll('characters') as string[];
 		if (titleMod === 'remove') {
 			return fail(400, { error: 'This title is not allowed' });
 		}
@@ -196,7 +197,8 @@ export const actions = {
 				title: title,
 				description: clean,
 				source: await getSourceId(locals.pb, sourceName),
-				visible: true
+				visible: true,
+				characters: characters
 			});
 		} catch (e) {
 			return fail(500, { error: e instanceof Error ? e.message : 'Unknown error' });

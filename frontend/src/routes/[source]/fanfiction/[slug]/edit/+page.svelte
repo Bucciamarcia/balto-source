@@ -2,8 +2,10 @@
 	import { enhance } from '$app/forms';
 	import FormError from '#lib/components/formError.svelte';
 	import { m } from '#lib/paraglide/messages.js';
+	import CharactersSelection from '../../../upload/CharactersSelection.svelte';
 
 	let { data } = $props();
+	let selectedCharacter = $derived(data.fanfiction.expand?.characters ?? []);
 	let title = $derived(data.fanfiction.title);
 	let description = $derived(data.fanfiction.description);
 	let errorMessage = $state('');
@@ -28,6 +30,9 @@
 	class="flex flex-col items-center"
 	enctype="multipart/form-data"
 >
+	{#each selectedCharacter as c (c.id)}
+		<input type="hidden" name="characters" value={c.id} />
+	{/each}
 	<fieldset class="fieldset">
 		<legend class="fieldset-legend text-white">Title</legend>
 		<input
@@ -54,6 +59,7 @@
 			accept=".docx"
 		/>
 	</fieldset>
+	<CharactersSelection bind:selectedCharacters={selectedCharacter} source={data.source} />
 	<div class="mt-4 flex gap-3">
 		<button class="btn" type="submit" formaction="?/cancel">{m.ff_edit_cta_cancel()}</button>
 		<button class="btn btn-error" type="submit" formaction="?/remove"
