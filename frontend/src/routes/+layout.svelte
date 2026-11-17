@@ -7,7 +7,6 @@
 	import { enhance } from '$app/forms';
 	import SideMenu from '#lib/components/layout/SideMenu.svelte';
 	import HamburgerMenu from '#lib/components/layout/HamburgerMenu.svelte';
-	import HeadBanner from '#lib/components/layout/head-banner.svelte';
 	import HeadMenu from '#lib/components/layout/head-menu/HeadMenu.svelte';
 	import Footer from '#lib/components/layout/footer.svelte';
 	import titleIcon from '#lib/assets/placeholderTitleIcon.png';
@@ -29,7 +28,9 @@
 	<!-- Top Bar: Takes up 100% width automatically -->
 
 	<div class="mx-auto min-w-[780px] self-center p-4 pr-10 pl-10 text-white">
-		<HeadBanner />
+		<a href="/{data.language}/{data.source}" aria-label={m.img_ban_tit()}>
+			<img src={data.bannerUrl} alt={m.img_ban_alt()} />
+		</a>
 
 		<HeadMenu
 			isLoggedIn={data.isLoggedIn}

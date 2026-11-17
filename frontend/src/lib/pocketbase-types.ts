@@ -21,6 +21,7 @@ export const Collections = {
 	Fanfictions: "fanfictions",
 	HomepageNews: "homepage_news",
 	Notifications: "notifications",
+	SourceBanner: "source_banner",
 	Sources: "sources",
 	Users: "users",
 } as const
@@ -192,6 +193,7 @@ export type FanfictionFavoritesRecord = {
 
 export type FanfictionsRecord = {
 	author: RecordIdString
+	characters?: RecordIdString[]
 	content: string
 	created: IsoAutoDateString
 	description: string
@@ -221,6 +223,14 @@ export type NotificationsRecord = {
 	source_user?: RecordIdString
 	updated: IsoAutoDateString
 	url?: string
+}
+
+export type SourceBannerRecord = {
+	created: IsoAutoDateString
+	file: FileNameString
+	id: string
+	source?: RecordIdString
+	updated: IsoAutoDateString
 }
 
 export const SourcesLanguageOptions = {
@@ -274,6 +284,7 @@ export type FanfictionFavoritesResponse<Texpand = unknown> = Required<Fanfiction
 export type FanfictionsResponse<Texpand = unknown> = Required<FanfictionsRecord> & BaseSystemFields<Texpand>
 export type HomepageNewsResponse<Texpand = unknown> = Required<HomepageNewsRecord> & BaseSystemFields<Texpand>
 export type NotificationsResponse<Texpand = unknown> = Required<NotificationsRecord> & BaseSystemFields<Texpand>
+export type SourceBannerResponse<Texpand = unknown> = Required<SourceBannerRecord> & BaseSystemFields<Texpand>
 export type SourcesResponse<Texpand = unknown> = Required<SourcesRecord> & BaseSystemFields<Texpand>
 export type UsersResponse<Texpand = unknown> = Required<UsersRecord> & AuthSystemFields<Texpand>
 
@@ -295,6 +306,7 @@ export type CollectionRecords = {
 	fanfictions: FanfictionsRecord
 	homepage_news: HomepageNewsRecord
 	notifications: NotificationsRecord
+	source_banner: SourceBannerRecord
 	sources: SourcesRecord
 	users: UsersRecord
 }
@@ -315,6 +327,7 @@ export type CollectionResponses = {
 	fanfictions: FanfictionsResponse
 	homepage_news: HomepageNewsResponse
 	notifications: NotificationsResponse
+	source_banner: SourceBannerResponse
 	sources: SourcesResponse
 	users: UsersResponse
 }
