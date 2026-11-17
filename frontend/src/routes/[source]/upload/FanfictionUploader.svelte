@@ -2,7 +2,14 @@
 	import { enhance } from '$app/forms';
 	import FormError from '#lib/components/formError.svelte';
 	import { m } from '#lib/paraglide/messages.js';
+	import CharactersSelection from './CharactersSelection.svelte';
+	import type { CharactersResponse, UsersResponse } from '#lib/pocketbase-types.ts';
 
+	let {
+		source,
+		selectedCharacters = $bindable([])
+	}: { source: string; selectedCharacters?: CharactersResponse<{ owner: UsersResponse }>[] } =
+		$props();
 	let files: FileList | undefined = $state();
 	let success: boolean = $state(false);
 	let filePicked: boolean = $state(false);
@@ -71,6 +78,13 @@
 	{:else if filePicked}
 		<button class="btn mt-5" type="submit">{m.upload_ff_btn_conf()}</button>
 	{/if}
+	<div>
+		<CharactersSelection bind:selectedCharacters {source} />
+	</div>
+	{#each selectedCharacters as c (c.id)}
+		<input type="hidden" name="characters" value={c.id} />
+	{/each}
+	<button class="btn mt-5" type="submit">{m.upload_ff_btn_conf()}</button>
 </form>
 {#if success}
 	<p class="text-xl text-green-600">{m.upload_ff_conf()}</p>
