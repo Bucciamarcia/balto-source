@@ -22,6 +22,7 @@ export const Collections = {
 	HomepageNews: "homepage_news",
 	Notifications: "notifications",
 	SourceBanner: "source_banner",
+	SourceBg: "source_bg",
 	Sources: "sources",
 	Users: "users",
 } as const
@@ -229,7 +230,15 @@ export type SourceBannerRecord = {
 	created: IsoAutoDateString
 	file: FileNameString
 	id: string
-	source?: RecordIdString
+	source: RecordIdString
+	updated: IsoAutoDateString
+}
+
+export type SourceBgRecord = {
+	created: IsoAutoDateString
+	file: FileNameString
+	id: string
+	source: RecordIdString
 	updated: IsoAutoDateString
 }
 
@@ -285,6 +294,7 @@ export type FanfictionsResponse<Texpand = unknown> = Required<FanfictionsRecord>
 export type HomepageNewsResponse<Texpand = unknown> = Required<HomepageNewsRecord> & BaseSystemFields<Texpand>
 export type NotificationsResponse<Texpand = unknown> = Required<NotificationsRecord> & BaseSystemFields<Texpand>
 export type SourceBannerResponse<Texpand = unknown> = Required<SourceBannerRecord> & BaseSystemFields<Texpand>
+export type SourceBgResponse<Texpand = unknown> = Required<SourceBgRecord> & BaseSystemFields<Texpand>
 export type SourcesResponse<Texpand = unknown> = Required<SourcesRecord> & BaseSystemFields<Texpand>
 export type UsersResponse<Texpand = unknown> = Required<UsersRecord> & AuthSystemFields<Texpand>
 
@@ -307,6 +317,7 @@ export type CollectionRecords = {
 	homepage_news: HomepageNewsRecord
 	notifications: NotificationsRecord
 	source_banner: SourceBannerRecord
+	source_bg: SourceBgRecord
 	sources: SourcesRecord
 	users: UsersRecord
 }
@@ -328,6 +339,7 @@ export type CollectionResponses = {
 	homepage_news: HomepageNewsResponse
 	notifications: NotificationsResponse
 	source_banner: SourceBannerResponse
+	source_bg: SourceBgResponse
 	sources: SourcesResponse
 	users: UsersResponse
 }

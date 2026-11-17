@@ -24,7 +24,7 @@
 
 <!-- Outer Container: Stacks things vertically -->
 
-<div class="mainbg flex min-h-screen flex-col overflow-x-auto">
+<div style="background-image: url({data.bgUrl})" class="flex min-h-screen flex-col overflow-x-auto">
 	<!-- Top Bar: Takes up 100% width automatically -->
 
 	<div class="mx-auto min-w-[780px] self-center p-4 pr-10 pl-10 text-white">
@@ -149,9 +149,6 @@
 {/if}
 
 <style>
-	.mainbg {
-		background-image: url('../lib/assets/main-background-image.avif');
-	}
 	.snowflake {
 		color: #fff;
 		font-size: 1em;
