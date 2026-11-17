@@ -216,5 +216,7 @@
 	"ch_avatar_trab": "{user}'s avatar",
 	"fa_favd_pop": "People who faved this fanart",
 	"ff_favd_pop": "People who faved this fanfiction",
-	"ch_in_ff": "Characters used"
+	"ch_in_ff": "Characters used",
+	"img_ban_tit": "Home page of this source",
+	"img_ban_alt": "Main banner"
 }
