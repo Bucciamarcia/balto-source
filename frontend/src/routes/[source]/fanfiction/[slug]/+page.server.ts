@@ -1,5 +1,6 @@
 import type {
 	CharacterFavoritesResponse,
+	CharactersResponse,
 	CommentsResponse,
 	FanfictionFavoritesResponse,
 	FanfictionsResponse,
@@ -25,7 +26,9 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 	const id = params.slug;
 	const fanfiction = await locals.pb
 		.collection('fanfictions')
-		.getOne<FanfictionsResponse<{ author: UsersResponse }>>(id, { expand: 'author' });
+		.getOne<
+			FanfictionsResponse<{ author: UsersResponse; characters: CharactersResponse[] }>
+		>(id, { expand: 'author, characters' });
 	const comments = await locals.pb
 		.collection('comments')
 		.getFullList<CommentsResponse<{ author: UsersResponse }>>({
