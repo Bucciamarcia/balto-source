@@ -23,6 +23,7 @@ export const Collections = {
 	Notifications: "notifications",
 	SourceBanner: "source_banner",
 	SourceBg: "source_bg",
+	SourceCss: "source_css",
 	Sources: "sources",
 	Users: "users",
 } as const
@@ -242,6 +243,33 @@ export type SourceBgRecord = {
 	updated: IsoAutoDateString
 }
 
+export type SourceCssRecord = {
+	accent: string
+	accent_content: string
+	base_100: string
+	base_200: string
+	base_300: string
+	base_content: string
+	created: IsoAutoDateString
+	error: string
+	error_content: string
+	id: string
+	info: string
+	info_content: string
+	neutral: string
+	neutral_content: string
+	primary: string
+	primary_content: string
+	secondary: string
+	secondary_content: string
+	source: RecordIdString
+	success: string
+	success_content: string
+	updated: IsoAutoDateString
+	warning: string
+	warning_content: string
+}
+
 export const SourcesLanguageOptions = {
 	"en": "en",
 	"fr": "fr",
@@ -295,6 +323,7 @@ export type HomepageNewsResponse<Texpand = unknown> = Required<HomepageNewsRecor
 export type NotificationsResponse<Texpand = unknown> = Required<NotificationsRecord> & BaseSystemFields<Texpand>
 export type SourceBannerResponse<Texpand = unknown> = Required<SourceBannerRecord> & BaseSystemFields<Texpand>
 export type SourceBgResponse<Texpand = unknown> = Required<SourceBgRecord> & BaseSystemFields<Texpand>
+export type SourceCssResponse<Texpand = unknown> = Required<SourceCssRecord> & BaseSystemFields<Texpand>
 export type SourcesResponse<Texpand = unknown> = Required<SourcesRecord> & BaseSystemFields<Texpand>
 export type UsersResponse<Texpand = unknown> = Required<UsersRecord> & AuthSystemFields<Texpand>
 
@@ -318,6 +347,7 @@ export type CollectionRecords = {
 	notifications: NotificationsRecord
 	source_banner: SourceBannerRecord
 	source_bg: SourceBgRecord
+	source_css: SourceCssRecord
 	sources: SourcesRecord
 	users: UsersRecord
 }
@@ -340,6 +370,7 @@ export type CollectionResponses = {
 	notifications: NotificationsResponse
 	source_banner: SourceBannerResponse
 	source_bg: SourceBgResponse
+	source_css: SourceCssResponse
 	sources: SourcesResponse
 	users: UsersResponse
 }

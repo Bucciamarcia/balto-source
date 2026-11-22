@@ -2,7 +2,8 @@ import type {
 	SourceBannerResponse,
 	NotificationsResponse,
 	UsersResponse,
-	SourceBgResponse
+	SourceBgResponse,
+	SourceCssResponse
 } from '#lib/pocketbase-types.js';
 import type { ListResult } from 'pocketbase';
 import type { LayoutServerLoad } from './$types';
@@ -44,6 +45,15 @@ export const load: LayoutServerLoad = async ({ locals, params, cookies }) => {
 		.collection('source_bg')
 		.getFirstListItem<SourceBgResponse>(locals.pb.filter('source = {:sourceId}', { sourceId }));
 	const bgUrl = `${PUBLIC_POCKETBASE_URL}/api/files/source_bg/${bgId.id}/${bgId.file}`;
+
+	// Get the theme css.
+	let theme: SourceCssResponse | null = null;
+	try {
+		theme = await locals.pb
+			.collection('source_css')
+			.getFirstListItem<SourceCssResponse>(locals.pb.filter('source = {:sourceId}', { sourceId }));
+	} catch {}
+	const themeCss = buildThemeCss(theme);
 	return {
 		user,
 		isLoggedIn,
@@ -53,6 +63,47 @@ export const load: LayoutServerLoad = async ({ locals, params, cookies }) => {
 		source,
 		snowCookie,
 		bannerUrl,
-		bgUrl
+		bgUrl,
+		themeCss
 	};
 };
+
+const THEME_COLOR_FIELDS = [
+	'base_100',
+	'base_200',
+	'base_300',
+	'base_content',
+	'primary',
+	'primary_content',
+	'secondary',
+	'secondary_content',
+	'accent',
+	'accent_content',
+	'neutral',
+	'neutral_content',
+	'info',
+	'info_content',
+	'success',
+	'success_content',
+	'warning',
+	'warning_content',
+	'error',
+	'error_content'
+] as const;
+
+// e.g. oklch(45% 0.13 235) or oklch(45% 0.13 235 / 0.5)
+const OKLCH_REGEX = /^oklch\(\s*[\d.]+%?\s+[\d.]+\s+[\d.]+(deg)?(\s*\/\s*[\d.]+%?)?\s*\)$/i;
+
+function buildThemeCss(theme: SourceCssResponse | null): string | null {
+	if (theme == null) {
+		return null;
+	}
+	const declarations: string[] = [];
+	for (const field of THEME_COLOR_FIELDS) {
+		const value = theme[field]?.trim();
+		if (value && OKLCH_REGEX.test(value)) {
+			declarations.push(`--color-${field.replaceAll('_', '-')}: ${value};`);
+		}
+	}
+	return declarations.length > 0 ? declarations.join('') : null;
+}

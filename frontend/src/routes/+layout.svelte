@@ -20,6 +20,9 @@
 <svelte:head>
 	<!-- <link href={favicon} rel="icon"/> -->
 	<link href={titleIcon} rel="icon" type="image/png" />
+	{#if data.themeCss}
+		{@html `<style>:root{${data.themeCss}}</style>`}
+	{/if}
 </svelte:head>
 
 <!-- Outer Container: Stacks things vertically -->
@@ -93,7 +96,7 @@
 		<!-- Right Column (Fills the rest) -->
 
 		<main
-			class="container m-10 min-w-[600px] rounded-md border-3 border-solid border-[#70abbb] bg-neutral/75 px-20 py-10"
+			class="container m-10 min-w-[600px] rounded-md border-3 border-solid border-accent bg-neutral/75 px-20 py-10"
 		>
 			{@render children()}
 		</main>

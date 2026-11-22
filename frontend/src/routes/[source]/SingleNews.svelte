@@ -55,9 +55,7 @@
 	{@html news.body}
 	{#if showCommentsLine}
 		<div class="mt-4 flex gap-4 place-self-center">
-			<a href="/{language}/{source}/news/{news.id}" class="text-lg font-semibold text-blue-300"
-				>{comments.length} comments</a
-			>
+			<a href="/{language}/{source}/news/{news.id}">{comments.length} comments</a>
 		</div>
 	{/if}
 </div>

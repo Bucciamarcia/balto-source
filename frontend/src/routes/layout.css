@@ -67,7 +67,7 @@
 	}
 
 	a {
-		@apply underline underline-offset-2;
+		@apply text-accent/80 underline underline-offset-2;
 	}
 
 	p {
