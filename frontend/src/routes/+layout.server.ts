@@ -88,7 +88,9 @@ const THEME_COLOR_FIELDS = [
 	'warning',
 	'warning_content',
 	'error',
-	'error_content'
+	'error_content',
+	'menu_left',
+	'menu_right'
 ] as const;
 
 // e.g. oklch(45% 0.13 235) or oklch(45% 0.13 235 / 0.5)

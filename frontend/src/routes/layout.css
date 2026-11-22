@@ -47,6 +47,8 @@
 
 @theme {
 	--font-sans: 'Inter', sans-serif;
+	--color-menu-left: oklch(36.2% 0.067 253.6);
+	--color-menu-right: oklch(50.2% 0.065 229.7);
 }
 
 @layer base {

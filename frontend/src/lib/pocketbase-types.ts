@@ -256,6 +256,8 @@ export type SourceCssRecord = {
 	id: string
 	info: string
 	info_content: string
+	menu_left: string
+	menu_right: string
 	neutral: string
 	neutral_content: string
 	primary: string
