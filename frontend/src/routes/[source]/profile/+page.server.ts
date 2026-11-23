@@ -16,6 +16,7 @@ import { canModerate } from '#lib/components/canModerate.js';
 import type { CommentsByFanart } from '../fanart/proxy+page.server';
 import { getComments } from '#lib/components/getComments.js';
 import { POCKETBASE_INTERNAL_URL } from '#lib/server/pocketbaseUrl.ts';
+import { saveMediaToBackblaze } from '#lib/server/ugc-media/saveMediaToBackblaze.ts';
 
 export const load: PageServerLoad = async ({ locals, url }) => {
 	let uid: string = '';
@@ -92,6 +93,7 @@ export const load: PageServerLoad = async ({ locals, url }) => {
 };
 
 export const actions: Actions = {
+	// Uploads the image and returns the filename
 	uploadUserImage: async ({ locals, request }) => {
 		const data = await request.formData();
 		const file = data.get('files') as File;
@@ -99,6 +101,9 @@ export const actions: Actions = {
 		if (file.size === 0) {
 			return fail(400, { error: 'You must select a file' });
 		}
+
+		const fileName = await saveMediaToBackblaze(file);
+		return { fileName };
 	},
 	resendVerificationEmail: async ({ locals, request }) => {
 		const data = await request.formData();
