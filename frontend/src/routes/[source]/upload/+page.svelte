@@ -35,7 +35,7 @@
 {#if selected === 'fanart'}
 	<FanartUploader source={data.source} />
 {:else if selected === 'fanfiction'}
-	<FanfictionUploader />
+	<FanfictionUploader source={data.source} />
 {:else if selected === 'character'}
 	<CharacterUploader />
 {/if}

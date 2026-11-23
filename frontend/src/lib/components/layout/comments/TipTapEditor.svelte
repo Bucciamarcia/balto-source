@@ -134,7 +134,14 @@
 				>
 				<button
 					type="button"
-					class:active={isActive('blockquote')}
+					class="btn join-item btn-ghost btn-xs {isActive('bulletList') ? 'btn-active' : ''}"
+					aria-label="Bullet list"
+					title="Bullet list"
+					onclick={() => run((chain) => chain.toggleOrderedList())}>. Numbered</button
+				>
+				<button
+					type="button"
+					class="btn join-item btn-ghost btn-xs {isActive('blockquote') ? 'btn-active' : ''}"
 					aria-label="Quote"
 					title="Quote"
 					onclick={() => run((chain) => chain.toggleBlockquote())}>“</button
