@@ -218,5 +218,6 @@
 	"ff_favd_pop": "People who faved this fanfiction",
 	"ch_in_ff": "Characters used",
 	"img_ban_tit": "Home page of this source",
-	"img_ban_alt": "Main banner"
+	"img_ban_alt": "Main banner",
+	"upload_image_dialog": "Upload an image. Max 5MB"
 }

@@ -1,4 +1,9 @@
 <script lang="ts">
+	import FormError from '#lib/components/formError.svelte';
+	import { m } from '#lib/paraglide/messages.js';
+	import { localizeHref } from '#lib/paraglide/runtime.js';
+	import { enhance } from '$app/forms';
+
 	interface Props {
 		open: boolean;
 	}
@@ -12,6 +17,9 @@
 		if (open && !dialog.open) dialog.showModal();
 		else if (!open && dialog.open) dialog.close();
 	});
+
+	let error = $state('');
+	let imagePath = $state('');
 </script>
 
 <dialog
@@ -24,7 +32,34 @@
 	class="modal"
 >
 	<div class="modal-box bg-neutral">
-		<p>moi</p>
+		<p>{m.upload_image_dialog()}</p>
+		<form
+			method="POST"
+			enctype="multipart/form-data"
+			action={localizeHref(`/hub/profile?/uploadUserImage`)}
+			use:enhance={() => {
+				error = '';
+				imagePath = '';
+
+				return async ({ update, result }) => {
+					await update({ navigate: false });
+					if (result.type === 'failure') {
+						error = (result.data?.error as string) ?? 'Unknown error';
+					}
+				};
+			}}
+		>
+			<input
+				type="file"
+				class="file-input mt-5"
+				accept="image/png, image/jpeg, image/avif, image/webp"
+				name="files"
+			/>
+			<button class="btn btn-success" type="submit">Add image</button>
+			{#if error !== ''}
+				<FormError message={error} />
+			{/if}
+		</form>
 		<form method="dialog" class="modal-backdrop max-w-20">
 			<button class="btn mt-5 text-error-content btn-error">Close</button>
 		</form>

@@ -92,6 +92,14 @@ export const load: PageServerLoad = async ({ locals, url }) => {
 };
 
 export const actions: Actions = {
+	uploadUserImage: async ({ locals, request }) => {
+		const data = await request.formData();
+		const file = data.get('files') as File;
+
+		if (file.size === 0) {
+			return fail(400, { error: 'You must select a file' });
+		}
+	},
 	resendVerificationEmail: async ({ locals, request }) => {
 		const data = await request.formData();
 		const email = data.get('email') as string;
