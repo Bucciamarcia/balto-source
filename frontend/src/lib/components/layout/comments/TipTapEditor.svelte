@@ -3,6 +3,7 @@
 	import { Editor } from '@tiptap/core';
 	import { StarterKit } from '@tiptap/starter-kit';
 	import { TextStyleKit } from '@tiptap/extension-text-style';
+	import UploadDialog from './UploadDialog.svelte';
 
 	let {
 		content,
@@ -15,6 +16,7 @@
 	let editorVersion = $state(0);
 	let selectedColor = $state('#ffffff');
 	let selectedFontSize = $state('16px');
+	let showModal = $state(false);
 
 	const fontSizes = [
 		{ label: 'Small', value: '14px' },
@@ -85,6 +87,8 @@
 
 	onDestroy(() => editor?.destroy());
 </script>
+
+<UploadDialog bind:open={showModal} />
 
 <section class="bio-editor" aria-label="Edit profile bio">
 	<div class="editor-heading">
@@ -193,6 +197,9 @@
 					aria-label="Redo"
 					title="Redo"
 					onclick={() => run((chain) => chain.redo())}>Redo</button
+				>
+				<button type="button" aria-label="Image" title="Image" onclick={() => (showModal = true)}
+					>Image</button
 				>
 			</div>
 		</div>
