@@ -1,4 +1,4 @@
-import { B2Client, BlobSource } from '@backblaze-labs/b2-sdk';
+import { B2Client, BlobSource, Bucket } from '@backblaze-labs/b2-sdk';
 import {
 	BACKBLAZE_MEDIA_UGC_ID,
 	BACKBLAZE_MEDIA_UGC_APPLICATIONKEY,
@@ -18,14 +18,43 @@ export async function saveMediaToBackblaze(file: File): Promise<string> {
 		applicationKey: BACKBLAZE_MEDIA_UGC_APPLICATIONKEY
 	});
 
-	await client.authorize();
-	const bucket = await client.getBucket(BACKBLAZE_MEDIA_UCG_BUCKET_NAME);
+	try {
+		await client.authorize();
+	} catch (e) {
+		throw new Error(
+			`Couldn't authenticate b2: ${e instanceof Error ? e.message : 'Unknown error'}`
+		);
+	}
+	let bucket: Bucket | null;
+	try {
+		bucket = await client.getBucket(BACKBLAZE_MEDIA_UCG_BUCKET_NAME);
+	} catch (e) {
+		throw new Error(
+			`Couldn't retriev bucket b2: ${e instanceof Error ? e.message : 'Unknown error'}`
+		);
+	}
 	if (!bucket) throw new Error('Bucket not found');
 
 	const fileName = randomUUID();
 
-	if (file.type !== 'image/avif') {
-		const fileBuffer = await file.arrayBuffer();
-		const output = await sharp(fileBuffer).avif().toBuffer();
+	const fileBuffer = Buffer.from(await file.arrayBuffer());
+	let avifFile: File;
+	try {
+		const output: Buffer<ArrayBuffer> =
+			file.type === 'image/avif'
+				? fileBuffer
+				: await sharp(fileBuffer).rotate().avif({ quality: 70, effort: 4 }).toBuffer();
+		avifFile = new File([output], `${fileName}.avif`, { type: 'image/avif' });
+	} catch (e) {
+		throw new Error(`Couldn't convert file: ${e instanceof Error ? e.message : 'Unknown error'}`);
 	}
+	try {
+		await bucket.upload({
+			fileName: avifFile.name,
+			source: new BlobSource(avifFile)
+		});
+	} catch (e) {
+		throw new Error(`Couldn't upload file: ${e instanceof Error ? e.message : 'Unknown error'}`);
+	}
+	return avifFile.name;
 }
