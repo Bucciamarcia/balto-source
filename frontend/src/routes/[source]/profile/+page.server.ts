@@ -102,7 +102,12 @@ export const actions: Actions = {
 			return fail(400, { error: 'You must select a file' });
 		}
 
-		const fileName = await saveMediaToBackblaze(file);
+		let fileName: string;
+		try {
+			fileName = await saveMediaToBackblaze(file);
+		} catch (e) {
+			return fail(400, { error: e instanceof Error ? e.message : 'Unknown error occurred' });
+		}
 		return { fileName };
 	},
 	resendVerificationEmail: async ({ locals, request }) => {
