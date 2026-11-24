@@ -10,7 +10,22 @@ export const variables = defineEnvVars({
 			return input ?? '';
 		}
 	},
-	BACKBLAZE_MEDIA_UGC_ID: {},
-	BACKBLAZE_MEDIA_UGC_APPLICATIONKEY: {},
-	BACKBLAZE_MEDIA_UCG_BUCKET_NAME: {}
+	BACKBLAZE_MEDIA_UGC_ID: {
+		schema: (input) => {
+			if (!input && !building) throw new Error('TYPESAFE_API_KEY must be set');
+			return input ?? '';
+		}
+	},
+	BACKBLAZE_MEDIA_UGC_APPLICATIONKEY: {
+		schema: (input) => {
+			if (!input && !building) throw new Error('TYPESAFE_API_KEY must be set');
+			return input ?? '';
+		}
+	},
+	BACKBLAZE_MEDIA_UCG_BUCKET_NAME: {
+		schema: (input) => {
+			if (!input && !building) throw new Error('TYPESAFE_API_KEY must be set');
+			return input ?? '';
+		}
+	}
 });
