@@ -10,7 +10,22 @@ export const variables = defineEnvVars({
 			return input ?? '';
 		}
 	},
-	BACKBLAZE_MEDIA_UGC_ID: {},
-	BACKBLAZE_MEDIA_UGC_APPLICATIONKEY: {},
-	BACKBLAZE_MEDIA_UCG_BUCKET_NAME: {}
+	BACKBLAZE_MEDIA_UGC_ID: {
+		schema: (input) => {
+			if (!input && !building) throw new Error('bb ugc id must be set');
+			return input ?? '';
+		}
+	},
+	BACKBLAZE_MEDIA_UGC_APPLICATIONKEY: {
+		schema: (input) => {
+			if (!input && !building) throw new Error('bb app key must be set');
+			return input ?? '';
+		}
+	},
+	BACKBLAZE_MEDIA_UCG_BUCKET_NAME: {
+		schema: (input) => {
+			if (!input && !building) throw new Error('bb bucket name must be set');
+			return input ?? '';
+		}
+	}
 });
