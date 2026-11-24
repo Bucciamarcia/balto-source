@@ -18,13 +18,13 @@ export const variables = defineEnvVars({
 	},
 	BACKBLAZE_MEDIA_UGC_APPLICATIONKEY: {
 		schema: (input) => {
-			if (!input && !building) throw new Error('TYPESAFE_API_KEY must be set');
+			if (!input && !building) throw new Error('bb app key must be set');
 			return input ?? '';
 		}
 	},
 	BACKBLAZE_MEDIA_UCG_BUCKET_NAME: {
 		schema: (input) => {
-			if (!input && !building) throw new Error('TYPESAFE_API_KEY must be set');
+			if (!input && !building) throw new Error('bb bucket name must be set');
 			return input ?? '';
 		}
 	}
