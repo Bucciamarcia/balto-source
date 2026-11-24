@@ -4,11 +4,10 @@
 	import { localizeHref } from '#lib/paraglide/runtime.js';
 	import { enhance } from '$app/forms';
 
-	interface Props {
-		open: boolean;
-	}
-
-	let { open = $bindable(false) }: Props = $props();
+	let {
+		open = $bindable(false),
+		onUploaded
+	}: { open: boolean; onUploaded?: (fileName: string) => void } = $props();
 
 	let dialog = $state<HTMLDialogElement>();
 
@@ -19,9 +18,9 @@
 	});
 
 	let error = $state('');
-	let imagePath = $state('');
 	const ALLOWED_FILETYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/avif'];
 	let fileTypeString = ALLOWED_FILETYPES.join(', ');
+	let isLoading: boolean = $state(false);
 </script>
 
 <dialog
@@ -41,18 +40,27 @@
 			action={localizeHref(`/hub/profile?/uploadUserImage`)}
 			use:enhance={() => {
 				error = '';
-				imagePath = '';
+				isLoading = true;
 
 				return async ({ update, result }) => {
 					await update({ navigate: false });
 					if (result.type === 'failure') {
 						error = (result.data?.error as string) ?? 'Unknown error';
 					}
+					if (result.type === 'success') {
+						onUploaded?.((result.data?.fileName as string) ?? '');
+						open = false;
+					}
+					isLoading = false;
 				};
 			}}
 		>
 			<input type="file" class="file-input mt-5" accept={fileTypeString} name="files" />
-			<button class="btn btn-success" type="submit">Add image</button>
+			{#if isLoading}
+				<span class="on-neutral loading loading-md loading-spinner"></span>
+			{:else}
+				<button class="btn btn-success" type="submit">Add image</button>
+			{/if}
 			{#if error !== ''}
 				<FormError message={error} />
 			{/if}

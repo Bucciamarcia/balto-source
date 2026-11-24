@@ -8,6 +8,7 @@ import { error, fail, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import type Client from 'pocketbase';
 import sanitizeHtml from 'sanitize-html';
+import { sanitizeComment } from '#lib/components/sanitizeComment.js';
 import { moderateImageData, moderateText } from '#lib/components/moderateAi.js';
 import type { FavoriteByFanart } from '../fanart/+page.server';
 import { getFanartFavorites } from '#lib/components/getFanartFavorites.js';
@@ -308,7 +309,7 @@ export const actions: Actions = {
 		const comment = data.get('comment') as string;
 		const targetId = data.get('targetId');
 		const parent = data.get('parent');
-		const clean = sanitizeHtml(comment);
+		const clean = sanitizeComment(comment);
 		const moderation = await moderateText(clean);
 		if (moderation === 'remove') {
 			return fail(400, { error: 'This content is not allowed' });

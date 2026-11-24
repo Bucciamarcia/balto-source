@@ -5,7 +5,7 @@ import type {
 } from '#lib/pocketbase-types.js';
 import { fail, type Actions } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
-import sanitizeHtml from 'sanitize-html';
+import { sanitizeComment } from '#lib/components/sanitizeComment.js';
 import { moderateText } from '#lib/components/moderateAi.js';
 import { getLocale } from '#lib/paraglide/runtime.js';
 
@@ -35,7 +35,7 @@ export const actions: Actions = {
 		const comment = data.get('comment') as string;
 		const targetId = data.get('targetId');
 		const parent = data.get('parent');
-		const clean = sanitizeHtml(comment);
+		const clean = sanitizeComment(comment);
 		const moderation = await moderateText(clean);
 		if (moderation === 'remove') {
 			return fail(400, { error: 'The comment has not been approved' });

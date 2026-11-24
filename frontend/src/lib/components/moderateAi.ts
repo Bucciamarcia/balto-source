@@ -14,10 +14,13 @@ export async function moderateText(t: string | null): Promise<ModerateResult> {
 	const response = await client.systemOne({
 		state: t,
 		questions: {
-			category: choice('Is this content to be allowed under a PG rating?', {
-				allow: 'This content respects a PG rating',
-				remove: 'This content is not within PG rating or is obvious spam'
-			})
+			category: choice(
+				'Is this content to be allowed by a moderator that removes anything above PG and spam? (html with images is allowed)',
+				{
+					allow: 'This content respects a PG rating and is not spam',
+					remove: 'This content is not within PG rating or is obvious spam'
+				}
+			)
 		}
 	});
 	const r = response.answers.category.choice;
