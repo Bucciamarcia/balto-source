@@ -149,8 +149,8 @@
 				<button
 					type="button"
 					class="btn join-item btn-ghost btn-xs {isActive('bulletList') ? 'btn-active' : ''}"
-					aria-label="Bullet list"
-					title="Bullet list"
+					aria-label="Numbered list"
+					title="Numbered list"
 					onclick={() => run((chain) => chain.toggleOrderedList())}>. Numbered</button
 				>
 				<button
