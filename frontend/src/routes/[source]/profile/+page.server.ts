@@ -102,6 +102,11 @@ export const actions: Actions = {
 			return fail(400, { error: 'You must select a file' });
 		}
 
+		// Max 5 MB
+		if (file.size > 5 * 1024 * 1024) {
+			return fail(400, { error: 'File too large: max 5 MB' });
+		}
+
 		let fileName: string;
 		try {
 			fileName = await saveMediaToBackblaze(file);

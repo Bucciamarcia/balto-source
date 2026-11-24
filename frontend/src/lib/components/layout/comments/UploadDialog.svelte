@@ -2,7 +2,6 @@
 	import FormError from '#lib/components/formError.svelte';
 	import { m } from '#lib/paraglide/messages.js';
 	import { localizeHref } from '#lib/paraglide/runtime.js';
-	import { ALLOWED_FILETYPES } from '#lib/server/ugc-media/saveMediaToBackblaze.ts';
 	import { enhance } from '$app/forms';
 
 	interface Props {
@@ -21,6 +20,7 @@
 
 	let error = $state('');
 	let imagePath = $state('');
+	const ALLOWED_FILETYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/avif'];
 	let fileTypeString = ALLOWED_FILETYPES.join(', ');
 </script>
 

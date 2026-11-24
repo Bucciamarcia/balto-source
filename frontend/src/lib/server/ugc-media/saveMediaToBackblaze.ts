@@ -6,8 +6,7 @@ import {
 } from '$app/env/private';
 import sharp from 'sharp';
 import { randomUUID } from 'node:crypto';
-
-export const ALLOWED_FILETYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/avif'];
+const ALLOWED_FILETYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/avif'];
 
 export async function saveMediaToBackblaze(file: File): Promise<string> {
 	if (!ALLOWED_FILETYPES.includes(file.type)) {
@@ -56,5 +55,6 @@ export async function saveMediaToBackblaze(file: File): Promise<string> {
 	} catch (e) {
 		throw new Error(`Couldn't upload file: ${e instanceof Error ? e.message : 'Unknown error'}`);
 	}
+	console.log('ok');
 	return avifFile.name;
 }
