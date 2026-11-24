@@ -12,7 +12,7 @@ export const variables = defineEnvVars({
 	},
 	BACKBLAZE_MEDIA_UGC_ID: {
 		schema: (input) => {
-			if (!input && !building) throw new Error('bb ugc id must be set');
+			if (!input && !building) throw new Error('TYPESAFE_API_KEY must be set');
 			return input ?? '';
 		}
 	},
