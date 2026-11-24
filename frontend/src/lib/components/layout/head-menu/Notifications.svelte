@@ -4,6 +4,7 @@
 	import type { NotificationsResponse, UsersResponse } from '#lib/pocketbase-types.js';
 	import { localizeHref } from '#lib/paraglide/runtime.js';
 	import { type Source } from '#lib/components/getSourceSlug.js';
+	import { enhance } from '$app/forms';
 
 	let {
 		notifications,
@@ -45,9 +46,17 @@
 	</form>
 {/each}
 {#if unreadNotifications()}
-	<form method="POST" action={localizeHref(`/${source}/profile?/markNotificationsAsRead`)}>
-		<button type="submit" class="cursor-pointer text-center text-black underline"
-			>{m.noti_read()}</button
-		>
+	<form
+		method="POST"
+		action={localizeHref(`/${source}/profile?/markNotificationsAsRead`)}
+		use:enhance={() => {
+			return async ({ update }) => {
+				await update({ navigate: false });
+			};
+		}}
+	>
+		<button type="submit" class="cursor-pointer text-center text-black underline">
+			{m.noti_read()}
+		</button>
 	</form>
 {/if}

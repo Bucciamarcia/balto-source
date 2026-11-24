@@ -8,7 +8,7 @@ import Pocketbase from 'pocketbase';
 import { fail, redirect, type Actions } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import { moderateText } from '#lib/components/moderateAi.js';
-import sanitizeHtml from 'sanitize-html';
+import { sanitizeComment } from '#lib/components/sanitizeComment.js';
 
 export const load: PageServerLoad = async ({ locals, params }) => {
 	const id = params.slug;
@@ -85,7 +85,7 @@ export const actions = {
 		}
 		const targetId = data.get('targetId');
 		const parent = data.get('parent');
-		const clean = sanitizeHtml(comment.toString());
+		const clean = sanitizeComment(comment.toString());
 		const r = {
 			target_id: targetId,
 			parent: parent,

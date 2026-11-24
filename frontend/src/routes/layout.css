@@ -71,7 +71,7 @@
 	}
 
 	p {
-		@apply mt-2;
+		@apply mt-2 text-neutral-content;
 	}
 
 	ul {

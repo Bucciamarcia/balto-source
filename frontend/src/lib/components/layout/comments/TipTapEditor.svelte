@@ -3,6 +3,8 @@
 	import { Editor } from '@tiptap/core';
 	import { StarterKit } from '@tiptap/starter-kit';
 	import { TextStyleKit } from '@tiptap/extension-text-style';
+	import UploadDialog from './UploadDialog.svelte';
+	import Image from '@tiptap/extension-image';
 
 	let {
 		content,
@@ -15,6 +17,7 @@
 	let editorVersion = $state(0);
 	let selectedColor = $state('#ffffff');
 	let selectedFontSize = $state('16px');
+	let showModal = $state(false);
 
 	const fontSizes = [
 		{ label: 'Small', value: '14px' },
@@ -64,7 +67,7 @@
 	onMount(() => {
 		editor = new Editor({
 			element,
-			extensions: [StarterKit, TextStyleKit],
+			extensions: [StarterKit, TextStyleKit, Image],
 			content,
 			editorProps: {
 				attributes: {
@@ -85,6 +88,17 @@
 
 	onDestroy(() => editor?.destroy());
 </script>
+
+<UploadDialog
+	bind:open={showModal}
+	onUploaded={(fileName) => {
+		run((chain) =>
+			chain.insertContent(
+				`<img src="https://f001.backblazeb2.com/file/animationsource-ugc-media/${fileName}" />`
+			)
+		);
+	}}
+/>
 
 <section class="bio-editor" aria-label="Edit profile bio">
 	<div class="editor-heading">
@@ -134,7 +148,14 @@
 				>
 				<button
 					type="button"
-					class:active={isActive('blockquote')}
+					class="btn join-item btn-ghost btn-xs {isActive('bulletList') ? 'btn-active' : ''}"
+					aria-label="Bullet list"
+					title="Bullet list"
+					onclick={() => run((chain) => chain.toggleOrderedList())}>. Numbered</button
+				>
+				<button
+					type="button"
+					class="btn join-item btn-ghost btn-xs {isActive('blockquote') ? 'btn-active' : ''}"
 					aria-label="Quote"
 					title="Quote"
 					onclick={() => run((chain) => chain.toggleBlockquote())}>“</button
@@ -186,6 +207,12 @@
 					aria-label="Redo"
 					title="Redo"
 					onclick={() => run((chain) => chain.redo())}>Redo</button
+				>
+				<button
+					type="button"
+					aria-label="Upload image"
+					title="upload image"
+					onclick={() => (showModal = true)}>Image</button
 				>
 			</div>
 		</div>

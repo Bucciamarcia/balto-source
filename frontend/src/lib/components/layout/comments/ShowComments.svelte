@@ -46,6 +46,9 @@
 </script>
 
 {#if isLoggedIn && isVerified}
+	{#key commentKey}
+		<TipTapEditor content="" header={m.comment_show()} bind:value={comment} />
+	{/key}
 	<form
 		method="POST"
 		action="?/addComment"
@@ -69,9 +72,6 @@
 			};
 		}}
 	>
-		{#key commentKey}
-			<TipTapEditor content="" header={m.comment_show()} bind:value={comment} />
-		{/key}
 		<input name="parent" type="hidden" value={null} />
 		<input name="comment" type="hidden" bind:value={comment} />
 		<input name="targetId" type="hidden" bind:value={targetId} />

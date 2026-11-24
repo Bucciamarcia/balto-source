@@ -9,5 +9,8 @@ export const variables = defineEnvVars({
 			if (!input && !building) throw new Error('TYPESAFE_API_KEY must be set');
 			return input ?? '';
 		}
-	}
+	},
+	BACKBLAZE_MEDIA_UGC_ID: {},
+	BACKBLAZE_MEDIA_UGC_APPLICATIONKEY: {},
+	BACKBLAZE_MEDIA_UCG_BUCKET_NAME: {}
 });

@@ -8,6 +8,7 @@ import { error, fail, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import type Client from 'pocketbase';
 import sanitizeHtml from 'sanitize-html';
+import { sanitizeComment } from '#lib/components/sanitizeComment.js';
 import { moderateImageData, moderateText } from '#lib/components/moderateAi.js';
 import type { FavoriteByFanart } from '../fanart/+page.server';
 import { getFanartFavorites } from '#lib/components/getFanartFavorites.js';
@@ -16,6 +17,7 @@ import { canModerate } from '#lib/components/canModerate.js';
 import type { CommentsByFanart } from '../fanart/proxy+page.server';
 import { getComments } from '#lib/components/getComments.js';
 import { POCKETBASE_INTERNAL_URL } from '#lib/server/pocketbaseUrl.ts';
+import { saveMediaToBackblaze } from '#lib/server/ugc-media/saveMediaToBackblaze.ts';
 
 export const load: PageServerLoad = async ({ locals, url }) => {
 	let uid: string = '';
@@ -92,6 +94,28 @@ export const load: PageServerLoad = async ({ locals, url }) => {
 };
 
 export const actions: Actions = {
+	// Uploads the image and returns the filename
+	uploadUserImage: async ({ locals, request }) => {
+		const data = await request.formData();
+		const file = data.get('files') as File;
+
+		if (file.size === 0) {
+			return fail(400, { error: 'You must select a file' });
+		}
+
+		// Max 5 MB
+		if (file.size > 5 * 1024 * 1024) {
+			return fail(400, { error: 'File too large: max 5 MB' });
+		}
+
+		let fileName: string;
+		try {
+			fileName = await saveMediaToBackblaze(file);
+		} catch (e) {
+			return fail(400, { error: e instanceof Error ? e.message : 'Unknown error occurred' });
+		}
+		return { fileName };
+	},
 	resendVerificationEmail: async ({ locals, request }) => {
 		const data = await request.formData();
 		const email = data.get('email') as string;
@@ -285,7 +309,7 @@ export const actions: Actions = {
 		const comment = data.get('comment') as string;
 		const targetId = data.get('targetId');
 		const parent = data.get('parent');
-		const clean = sanitizeHtml(comment);
+		const clean = sanitizeComment(comment);
 		const moderation = await moderateText(clean);
 		if (moderation === 'remove') {
 			return fail(400, { error: 'This content is not allowed' });

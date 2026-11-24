@@ -9,7 +9,7 @@ import type {
 import Pocketbase from 'pocketbase';
 import { fail } from '@sveltejs/kit';
 import type { PageServerLoad, Actions } from './$types';
-import sanitizeHtml from 'sanitize-html';
+import { sanitizeComment } from '#lib/components/sanitizeComment.js';
 import { moderateText } from '#lib/components/moderateAi.js';
 import { getLocale } from '#lib/paraglide/runtime.js';
 
@@ -108,7 +108,7 @@ export const actions = {
 		}
 		const targetId = data.get('targetId');
 		const parent = data.get('parent');
-		const clean = sanitizeHtml(comment.toString());
+		const clean = sanitizeComment(comment.toString());
 		const r = {
 			target_id: targetId,
 			parent: parent,
