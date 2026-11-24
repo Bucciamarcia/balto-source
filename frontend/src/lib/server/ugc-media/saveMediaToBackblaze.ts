@@ -7,7 +7,8 @@ import {
 import sharp from 'sharp';
 import { randomUUID } from 'node:crypto';
 
-const ALLOWED_FILETYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/avif'];
+export const ALLOWED_FILETYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/avif'];
+
 export async function saveMediaToBackblaze(file: File): Promise<string> {
 	if (!ALLOWED_FILETYPES.includes(file.type)) {
 		throw new Error('Invalid file type');

@@ -2,6 +2,7 @@
 	import FormError from '#lib/components/formError.svelte';
 	import { m } from '#lib/paraglide/messages.js';
 	import { localizeHref } from '#lib/paraglide/runtime.js';
+	import { ALLOWED_FILETYPES } from '#lib/server/ugc-media/saveMediaToBackblaze.ts';
 	import { enhance } from '$app/forms';
 
 	interface Props {
@@ -20,6 +21,7 @@
 
 	let error = $state('');
 	let imagePath = $state('');
+	let fileTypeString = ALLOWED_FILETYPES.join(', ');
 </script>
 
 <dialog
@@ -49,12 +51,7 @@
 				};
 			}}
 		>
-			<input
-				type="file"
-				class="file-input mt-5"
-				accept="image/png, image/jpeg, image/avif, image/webp"
-				name="files"
-			/>
+			<input type="file" class="file-input mt-5" accept={fileTypeString} name="files" />
 			<button class="btn btn-success" type="submit">Add image</button>
 			{#if error !== ''}
 				<FormError message={error} />
